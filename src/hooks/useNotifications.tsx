@@ -1,4 +1,5 @@
-import { getNotifications, markAsReads } from "@/libs/api/notification.api";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { getNotifications, markAsReads } from "src/libs/api/notification.api";
 import { useEffect, useId, useRef, useState } from "react";
 import useServerSentEvents from "./useServerSentEvents";
 
