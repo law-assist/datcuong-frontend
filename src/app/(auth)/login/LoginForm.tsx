@@ -34,7 +34,6 @@ export default function LoginForm() {
         mode: "onBlur",
     });
     const { data: session } = useSession();
-    console.log(session);
 
     if (session?.user) {
         const redirect = searchParams.get("redirect") ?? "/home";
@@ -69,11 +68,11 @@ export default function LoginForm() {
     return (
         <>
             {contextHolder}
-            <div className="mx-auto w-3/4 xl:w-2/3  bg-white my-4">
+            <div className="mx-auto w-4/5 md:w-1/2 lg:w-3/5  bg-white my-8 rounded-3xl">
                 <h2 className="bg-primary text-white text-center py-3 xl:py-6">
                     XinChaoVietNam
                 </h2>
-                <div className="border--primary-400 mx-auto border p-4 grid xl:grid-cols-2">
+                <div className="border--primary-400 mx-auto border p-4 grid lg:grid-cols-2">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className={
@@ -138,7 +137,7 @@ export default function LoginForm() {
                         <TextError error={errorMessage} />
 
                         <Link
-                            href={"/reset-password"}
+                            href={"/reset-password" as any}
                             className="text-blue-500"
                         >
                             Quên mật khẩu ?

@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getValidRole } from "src/libs/utils";
 import { cookies } from "next/headers";
-import { createSocialUser } from "../apis/auth.api";
 import { redirect } from "next/navigation";
 
 type VerifyUserPageProps = {
@@ -9,15 +9,7 @@ type VerifyUserPageProps = {
 };
 
 const VerifyUserPage = async ({ searchParams }: VerifyUserPageProps) => {
-    const role = getValidRole(searchParams?.role as string);
-    const res = await createSocialUser(
-        cookies().get("access_token")?.value as string,
-        role
-    );
-
-    if (res) {
-        redirect("/home");
-    }
+    redirect("/home");
 
     return <></>;
 };

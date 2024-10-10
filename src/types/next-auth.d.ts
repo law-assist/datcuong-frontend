@@ -3,17 +3,21 @@
 import NextAuth from "next-auth";
 
 declare module "next-auth" {
+    interface User extends DefaultUser {
+        _id: string;
+        fullName: string;
+        email: string;
+        role: string;
+        phoneNumber: string;
+        status: string;
+        field: string[];
+        avatarUrl: string;
+        accessToken: string;
+        refreshToken: string;
+    }
     interface Session {
-        user: {
-            _id: string;
-            fullName: string;
-            email: string;
-            role: string;
-            phoneNumber: string;
-            status: string;
-            field: string[];
-            avatarUrl: string;
-        };
+        user: User;
         token: string;
+        expires: Date;
     }
 }

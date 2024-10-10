@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { signIn } from "src/app/(auth)/apis/auth.api";
+import { handleRefreshToken, signIn } from "src/app/(auth)/apis/auth.api";
 import { getUserProfile } from "src/app/(auth)/apis/user.api";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
+import { signOut } from "next-auth/react";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -22,22 +23,66 @@ export const authOptions: NextAuthOptions = {
                 if (!credentials?.username || !credentials?.password)
                     return null;
                 const { username, password } = credentials;
-                const { user } = await signIn(username, password);
-                return user;
-                return await getUserProfile();
+                const { user, tokens } = await signIn(username, password);
+                if (user) {
+                    return {
+                        id: user._id,
+                        _id: user._id,
+                        fullName: user.fullName,
+                        name: user.fullName,
+                        email: user.email,
+                        image: user.avatarUrl,
+                        role: user.role,
+                        phoneNumber: user.phoneNumber,
+                        status: user.status,
+                        field: user.field,
+                        avatarUrl: user.avatarUrl,
+                        accessToken: tokens.accessToken,
+                        refreshToken: tokens.refreshToken,
+                    };
+                }
+                return null;
+                // return await getUserProfile();
             },
         }),
     ],
+    session: {
+        maxAge: 24 * 60 * 60 * 7,
+        updateAge: 60 * 60,
+    },
+    jwt: {
+        maxAge: 60 * 60,
+    },
     callbacks: {
         async jwt({ token, user }: any) {
-            if (user) token.user = user;
+            if (user) {
+                token.user = user;
+                token.accessToken = user.accessToken;
+                token.refreshToken = user.refreshToken;
+                token.expires = Date.now() + 60 * 60 * 1000;
+            }
+            const isAccessTokenExpired = Date.now() > token.expires;
+
+            if (isAccessTokenExpired) {
+                try {
+                    const refreshedTokens = await handleRefreshToken(
+                        token.refreshToken
+                    );
+
+                    token.accessToken = refreshedTokens.access_token;
+                    token.refreshToken = refreshedTokens.refresh_token;
+                    token.expires = Date.now() + 60 * 60 * 1000;
+                } catch (error) {
+                    signOut({ callbackUrl: "/" });
+                }
+            }
 
             return token;
         },
 
         async session({ token, session }: any) {
-            console.log("session", session);
             session.user = token.user;
+            session.token = token.accessToken;
             return session;
         },
     },

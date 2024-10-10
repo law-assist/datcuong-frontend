@@ -6,15 +6,19 @@ import { cookies } from "next/headers";
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://127.0.0.1:5000";
 export const signUpUser = async (signUpInfo: any): Promise<any> => {
+    console.log("signUpInfo", signUpInfo);
     try {
-        const data = await axios.post(`${API_HOST}/auth/register`, signUpInfo, {
+        const res = await axios.post(`${API_HOST}/auth/register`, signUpInfo, {
             headers: {
                 "Content-Type": "application/json",
             },
         });
-        return data.data;
+        return res.data;
     } catch (error: any) {
-        return error.response.data;
+        if (error.response) {
+            return error.response.data;
+        }
+        return null;
     }
 };
 export const signIn = async (username: string, password: string) => {
@@ -40,8 +44,14 @@ export const signIn = async (username: string, password: string) => {
             ? res.data.data.tokens.refreshToken
             : "";
 
-        await cookies().set("access_token", accessToken);
-        await cookies().set("refresh_token", refreshToken);
+        cookies().set("access_token", accessToken);
+        cookies().set("refresh_token", refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 60 * 60 * 24,
+            path: "/",
+            sameSite: "strict",
+        });
 
         return res.data.data;
     } catch (error) {
@@ -76,43 +86,53 @@ export const handleSignOut = () => {
     signOut();
 };
 
-export const handleRefreshToken = async (refreshToken: string) => {
+export const handleRefreshToken = async (token: string) => {
     "use server";
-    const res = await axios.post(
-        `${API_HOST}/v1/auth/refresh-token`,
-        { refreshToken },
-        {
+    try {
+        const res = await fetch(`${API_HOST}/auth/refresh-token`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
+        });
+        const json = await res.json();
+        if (!res.ok) {
+            throw new Error(json.message);
         }
-    );
-    const accessToken = res.data?.access_token;
-    await setCookie("access_token", accessToken);
-    return res.data;
+
+        const accessToken = json.data?.access_token;
+        await setCookie("access_token", accessToken);
+        const refreshToken = json.data?.refresh_token;
+        await setCookie("refresh_token", refreshToken);
+        return json.data;
+    } catch (error) {
+        console.log("error", error);
+    }
 };
 
 // pages/dashboard.js
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "src/app/api/auth/[...nextauth]/route";
+// import { getServerSession } from "next-auth/next";
+// import { authOptions } from "src/app/api/auth/[...nextauth]/route";
 
-export async function getServerSideProps(context: any) {
-    const session = await getServerSession(
-        context.req,
-        context.res,
-        authOptions
-    );
+// export async function getServerSideProps(context: any) {
+//     const session = await getServerSession(
+//         context.req,
+//         context.res,
+//         authOptions
+//     );
 
-    if (!session) {
-        return {
-            redirect: {
-                destination: "/api/auth/signin",
-                permanent: false,
-            },
-        };
-    }
+//     if (!session) {
+//         return {
+//             redirect: {
+//                 destination: "/api/auth/signin",
+//                 permanent: false,
+//             },
+//         };
+//     }
 
-    return {
-        props: { session },
-    };
-}
+//     return {
+//         props: { session },
+//     };
+// }

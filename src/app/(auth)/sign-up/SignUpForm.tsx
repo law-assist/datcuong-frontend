@@ -44,14 +44,13 @@ export default function SignUpForm() {
             fullName: data.name,
             email: data.email,
             password: data.password,
-            role: "user",
-            phoneNumber: "0123456789",
-            address: "Hanoi",
-            dob: "2021-01-01",
+            // role: "user",
+            // phoneNumber: "0123456789",
+            // address: "Hanoi",
+            // dob: "2021-01-01",
         };
 
         const res = await signUpUser(dataBody);
-        console.log("res", res);
         if (res.statusCode === 201) {
             api.success({
                 message: "Đăng ký tài khoản thành công",
@@ -60,10 +59,10 @@ export default function SignUpForm() {
                 showProgress: true,
             });
 
-            router.push(`login`);
+            router.push(`/login` as any);
         } else {
             api.error({
-                message: res.message,
+                message: res.message || "Đăng ký tài khoản thất bại",
                 description: "Vui lòng thử lại",
                 duration: 3,
                 showProgress: true,
@@ -75,11 +74,11 @@ export default function SignUpForm() {
     return (
         <>
             {contextHolder}
-            <div className="mx-auto w-3/4 xl:w-2/3  bg-white my-4">
+            <div className="mx-auto w-4/5 md:w-1/2 lg:w-3/5  bg-white my-4">
                 <h2 className="bg-primary text-white text-center py-3 xl:py-6">
                     XinChaoVietNam
                 </h2>
-                <div className="border--primary-400 mx-auto border p-4 grid xl:grid-cols-2">
+                <div className="border--primary-400 mx-auto border p-4 grid lg:grid-cols-2">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="border--primary-400 xl:border-r xl:border-primary xl:pr-5 flex flex-col gap-2"

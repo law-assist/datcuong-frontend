@@ -7,9 +7,8 @@ import AuthProvider from "src/components/auth/AuthProvider";
 // const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Zodinet Booking",
-    description:
-        "Zodinet Booking: Your Ultimate Platform for Booking Sport Fields",
+    title: "XinChaoVietNam",
+    description: "Thư viện tra cứu văn bản pháp luật",
 };
 
 export default function RootLayout({
