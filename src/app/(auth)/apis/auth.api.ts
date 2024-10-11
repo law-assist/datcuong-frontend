@@ -6,7 +6,6 @@ import { cookies } from "next/headers";
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://127.0.0.1:5000";
 export const signUpUser = async (signUpInfo: any): Promise<any> => {
-    console.log("signUpInfo", signUpInfo);
     try {
         const res = await axios.post(`${API_HOST}/auth/register`, signUpInfo, {
             headers: {
@@ -83,19 +82,22 @@ export const removeTokens = () => {
 
 export const handleSignOut = () => {
     removeTokens();
-    signOut();
+    signOut({ callbackUrl: "/" });
 };
 
-export const handleRefreshToken = async (token: string) => {
-    "use server";
+export const handleRefreshToken = async () => {
+    const token = cookies().get("refresh_token")?.value;
+    const auth = `Bearer ${token}`;
+    console.log("auth", auth);
     try {
         const res = await fetch(`${API_HOST}/auth/refresh-token`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: auth,
             },
             credentials: "include",
+            cache: "no-cache",
         });
         const json = await res.json();
         if (!res.ok) {
@@ -107,8 +109,9 @@ export const handleRefreshToken = async (token: string) => {
         const refreshToken = json.data?.refresh_token;
         await setCookie("refresh_token", refreshToken);
         return json.data;
-    } catch (error) {
-        console.log("error", error);
+    } catch (error: any) {
+        console.log("refresh token err", error.message);
+        return null;
     }
 };
 

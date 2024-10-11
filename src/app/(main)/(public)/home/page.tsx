@@ -8,7 +8,7 @@ async function Page() {
             redirect("/login");
         }
     }
-    redirect("/profile");
+    redirect("/search");
 
     return <h1>home</h1>;
 }

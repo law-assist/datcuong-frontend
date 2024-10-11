@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { handleRefreshToken, signIn } from "src/app/(auth)/apis/auth.api";
+import {
+    handleRefreshToken,
+    handleSignOut,
+    signIn,
+} from "src/app/(auth)/apis/auth.api";
 import { getUserProfile } from "src/app/(auth)/apis/user.api";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { cookies } from "next/headers";
 import { signOut } from "next-auth/react";
 
 export const authOptions: NextAuthOptions = {
@@ -47,7 +50,7 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     session: {
-        maxAge: 24 * 60 * 60 * 7,
+        maxAge: 24 * 60 * 60,
         updateAge: 60 * 60,
     },
     jwt: {
@@ -65,15 +68,17 @@ export const authOptions: NextAuthOptions = {
 
             if (isAccessTokenExpired) {
                 try {
-                    const refreshedTokens = await handleRefreshToken(
-                        token.refreshToken
-                    );
-
+                    const refreshedTokens = await handleRefreshToken();
+                    if (!refreshedTokens) {
+                        signOut({ callbackUrl: "/login" });
+                        return;
+                    }
                     token.accessToken = refreshedTokens.access_token;
                     token.refreshToken = refreshedTokens.refresh_token;
                     token.expires = Date.now() + 60 * 60 * 1000;
-                } catch (error) {
-                    signOut({ callbackUrl: "/" });
+                } catch (error: any) {
+                    console.log("error", error.message);
+                    signOut({ callbackUrl: "/login" });
                 }
             }
 

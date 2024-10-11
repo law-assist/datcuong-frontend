@@ -36,67 +36,6 @@ export function formatCurrency(value: number = 0) {
     });
 }
 
-export function parseTimeToMinutes(timeStr: string) {
-    const [hours, minutes, seconds] = timeStr.split(":").map(Number);
-    return hours * 60 + minutes + (seconds || 0) / 60;
-}
-
-export function generateColumns(startTime: string, endTime: string) {
-    const startMinutes = parseTimeToMinutes(startTime);
-    const endMinutes = parseTimeToMinutes(endTime);
-    const totalMinutes = endMinutes - startMinutes;
-
-    return Array.from({ length: Math.floor(totalMinutes / 30) }, (_, i) => {
-        const minutes = startMinutes + 30 * i;
-        const endMinutes = minutes + 30;
-        const hours = Math.floor(minutes / 60);
-        const mins = minutes % 60;
-        const endHours = Math.floor(endMinutes / 60);
-        const endMins = endMinutes % 60;
-        return {
-            label: `${String(hours).padStart(2, "0")}:${String(mins).padStart(
-                2,
-                "0"
-            )} - ${String(endHours).padStart(2, "0")}:${String(
-                endMins
-            ).padStart(2, "0")}`,
-            start: minutes,
-            end: endMinutes,
-        };
-    });
-}
-
-export function getCurrentWeekDates(now: Date) {
-    const monday = new Date(
-        now.setDate(
-            now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1)
-        )
-    );
-    return Array.from({ length: 7 }, (_, i) => {
-        const day = new Date(new Date(monday).setDate(monday.getDate() + i));
-        const weekdayShort = day
-            .toLocaleDateString("vi", { weekday: "short" })
-            .replace(".", "");
-        const formattedWeekday = weekdayShort.replace("Th ", "T"); // Remove space after 'Th'
-        return `${formattedWeekday} - ${day.getDate()}/${day.getMonth() + 1}`;
-    });
-}
-
-export function generateRows(startDateSchedule: Date) {
-    return Array.from({ length: 7 }, (_, i) => {
-        const day = new Date(
-            new Date(startDateSchedule).setDate(startDateSchedule.getDate() + i)
-        );
-        const weekdayShort = day
-            .toLocaleDateString("vi", { weekday: "short" })
-            .replace(".", "");
-        const formattedWeekday = weekdayShort.replace("Th ", "T"); // Remove space after 'Th'
-        return `${formattedWeekday} - ${day.getDate()}/${
-            day.getMonth() + 1
-        }/${day.getFullYear()}`;
-    });
-}
-
 export function parseDateFromString(dateStr: string) {
     if (!dateStr) {
         return new Date();
@@ -120,6 +59,7 @@ export function parseDateFromString(dateStr: string) {
 
     return date;
 }
+
 export const getTime = (date: string | null, startTime: string) => {
     if (!date) {
         return new Date();
@@ -135,20 +75,6 @@ export const getTime = (date: string | null, startTime: string) => {
 
 export const fetcher = (url: string) =>
     axiosInstance.get(url).then((res) => res.data);
-
-export const getStartOfWeek = (date: Date): Date => {
-    const result = new Date(date); // Create a copy to avoid mutating the original date
-    result.setDate(
-        result.getDate() - result.getDay() + (result.getDay() === 0 ? -6 : 1)
-    );
-    return new Date(result.setHours(0, 0, 0, 0)); // Set time to the start of the day
-};
-
-export const getEndOfWeek = (date: Date): Date => {
-    const result = new Date(getStartOfWeek(date));
-    result.setDate(result.getDate() + 6);
-    return new Date(result.setHours(23, 59, 59, 999)); // Set time to the end of the day
-};
 
 export const groupNotificationsByDay = (notifications: NotificationType[]) => {
     if (notifications?.length === 0 || !notifications) {

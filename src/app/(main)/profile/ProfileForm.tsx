@@ -27,17 +27,27 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
         setLoading(true);
         updateUserProfile(values)
             .then((res) => {
+                console.log("res", res);
                 api.success({
                     message: "Cập nhật thông tin thành công",
                     duration: 2,
                 });
             })
             .catch((error) => {
-                api.error({
-                    message: "Cập nhật thông tin thất bại",
-                    description: error.message,
-                    duration: 2,
-                });
+                console.log("error", error);
+                if (error.message === "user_not_updated") {
+                    api.warning({
+                        message: "Thông tin chưa được cập nhật",
+                        description: error.message,
+                        duration: 2,
+                    });
+                } else {
+                    api.error({
+                        message: "Cập nhật thông tin thất bại",
+                        description: error.message,
+                        duration: 2,
+                    });
+                }
                 form.resetFields();
             });
         setIsEdit(false);

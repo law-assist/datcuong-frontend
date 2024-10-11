@@ -27,7 +27,6 @@ export const getUserProfile = async () => {
 };
 
 export const updateUserProfile = async (data: User) => {
-    console.log("data", data);
     try {
         const res = await fetch(`${API_HOST}/user/update`, {
             method: "PATCH",
@@ -47,5 +46,6 @@ export const updateUserProfile = async (data: User) => {
         if (error.message) {
             throw new Error(error.message);
         }
+        return;
     }
 };

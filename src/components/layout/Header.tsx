@@ -1,15 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 //
 "use client";
-import { Input } from "antd";
-import { CaretDownOutlined } from "@ant-design/icons";
-import type { GetProps } from "antd";
+import { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { getUserProfile } from "src/app/(auth)/apis/user.api";
-import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+import type { GetProps } from "antd";
+import { CaretDownOutlined } from "@ant-design/icons";
+import { ConfigProvider, Input } from "antd";
+
+import { getUserProfile } from "src/app/(auth)/apis/user.api";
 import fb from "public/icon/facebook.svg";
+import { removeTokens } from "src/app/api/client";
+// import { handleSignOut } from "src/app/(auth)/apis/auth.api";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -17,13 +22,19 @@ const { Search } = Input;
 
 function Header() {
     const [user, setUser] = useState<User>();
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
 
-    const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
-        console.log(info?.source, value);
+    const [text, setText] = useState(searchParams.get("q") ?? "");
+
+    const onSearch: SearchProps["onSearch"] = (value, _e, info) => {
+        router.push(`/search?q=${value.trim()}` as any);
+    };
 
     const handleSignOut = () => {
-        // Call signOut to clear the session
-        signOut({ callbackUrl: "/" }); // Redirect to the home page after signing out
+        removeTokens();
+        signOut({ callbackUrl: "/" });
     };
 
     useEffect(() => {
@@ -31,6 +42,12 @@ function Header() {
             setUser(user);
         });
     }, []);
+
+    useEffect(() => {
+        if (pathname !== "/search") {
+            setText("");
+        }
+    }, [pathname]);
 
     return (
         <header>
@@ -41,12 +58,17 @@ function Header() {
                 >
                     XinchaoVietNam
                 </Link>
-                <div className="search-bar flex flex-row gap-3">
+                <div className="search-bar flex flex-row gap-3 ">
                     <div className="w-1/2">
                         <Search
-                            placeholder="input search text"
-                            onSearch={onSearch}
+                            className="grid h-10 w-1/2 items-center"
+                            placeholder="Tìm kiếm..."
                             enterButton
+                            onSearch={onSearch}
+                            value={text}
+                            defaultValue={searchParams.get("q") ?? ""}
+                            onChange={(e) => setText(e.target.value)}
+                            id="search-bar"
                         />
                     </div>
                     <div className="account flex flex-row gap-3 items-center">

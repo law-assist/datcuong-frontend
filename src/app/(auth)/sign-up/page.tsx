@@ -16,8 +16,8 @@ export default async function page() {
     redirect('/home');
   }
   return (
-    <div className="flex h-screen justify-center">
-      <SignUpForm />
-    </div>
+      <div className="flex justify-center">
+          <SignUpForm />
+      </div>
   );
 }

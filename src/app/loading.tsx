@@ -4,7 +4,7 @@ import config from "../../tailwind.config";
 
 const Loading = () => {
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-primary-200/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary-200/50">
             <ConfigProvider
                 theme={{
                     components: {

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button, Input, notification } from "antd";
+import { Button, Input, notification, Tooltip } from "antd";
 
 import TextError from "src/components/error/TextError";
 import { cn } from "src/libs/utils";
@@ -69,15 +69,15 @@ export default function LoginForm() {
         <>
             {contextHolder}
             <div className="mx-auto w-4/5 md:w-1/2 lg:w-3/5  bg-white my-8 rounded-3xl">
-                <h2 className="bg-primary text-white text-center py-3 xl:py-6">
+                <h2 className="bg-primary text-white text-center py-3 2xl:py-6">
                     XinChaoVietNam
                 </h2>
-                <div className="border--primary-400 mx-auto border p-4 grid lg:grid-cols-2">
+                <div className="border--primary-400 mx-auto border p-4 grid lg:grid-cols-3">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className={
                             (s.formContainer,
-                            "xl:border-r xl:border-primary xl:pr-5")
+                            "xl:border-r xl:border-primary xl:pr-5 lg:col-span-2")
                         }
                     >
                         <div
@@ -155,15 +155,29 @@ export default function LoginForm() {
                             Đăng nhập
                         </Button>
                     </form>
-                    <div className=" flex flex-col items-center justify-center xl:pl-5">
+                    <div className=" flex flex-col items-center justify-start xl:pl-5">
                         <span>Hoặc đăng nhập bằng</span>
                         <div className="mt-4 flex items-center">
                             <div className="mr-5 w-fit cursor-pointer rounded-full bg-primary-500 p-3">
-                                <Image src={fb} alt="" width={24} height={24} />
+                                <Tooltip title="Facebook">
+                                    <Image
+                                        src={fb}
+                                        alt="Facebook"
+                                        width={24}
+                                        height={24}
+                                    />
+                                </Tooltip>
                             </div>
 
                             <div className="w-fit cursor-pointer rounded-full bg-primary-500 p-3">
-                                <Image src={gg} alt="" width={24} height={24} />
+                                <Tooltip title="Google">
+                                    <Image
+                                        src={gg}
+                                        alt="Google"
+                                        width={24}
+                                        height={24}
+                                    />
+                                </Tooltip>
                             </div>
                         </div>
                     </div>
