@@ -11,9 +11,8 @@ import { getUserProfile } from "src/app/(auth)/apis/user.api";
 async function Page() {
     const user: User | undefined = await getUserProfile();
 
-
     return (
-        <div className=" bg-violet-100 h-full flex flex-col items-center gap-4 py-4 xl:py-8 2xl:py-10">
+        <div className=" bg-violet-100 h-full flex flex-col items-center gap-2 py-4 ">
             <span className="text-2xl font-semibold w-3/4 lg:w-2/3 xl:w-1/2">
                 Tài khoản của bạn
             </span>

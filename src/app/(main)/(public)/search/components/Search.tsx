@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-// import SearchCard from "./SearchCard";
-// import useSearchSportFields from "@/hooks/useSearchSportFields";
-import { Pagination, PaginationProps, Skeleton } from "antd";
+import { Pagination, PaginationProps } from "antd";
 import { useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "src/libs/utils";

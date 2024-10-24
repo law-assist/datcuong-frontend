@@ -79,6 +79,22 @@
     font-size: 12px;
     line-height: 16px;
   }
+
+  .pending {
+    color: #f2994a;
+  }
+
+  .rejected {
+    color: red;
+  }
+
+  .starting{
+    color: blue;
+  }
+
+  .end {
+    color: green;
+  }
 }
 /* CSS tùy chỉnh */
 ::-webkit-scrollbar {

@@ -4,7 +4,6 @@ interface SearchItemProps {
 }
 
 export const SearchItem: React.FC<SearchItemProps> = ({ law, onClick }) => {
-    console.log(law);
     return (
         <div
             className="grid grid-cols-3 gap-2 items-center py-2 px-4 hover:bg-gray-100 cursor-pointer"
@@ -19,7 +18,7 @@ export const SearchItem: React.FC<SearchItemProps> = ({ law, onClick }) => {
             <div className="flex flex-col gap-1">
                 <span className="flex flex-row gap-1">
                     <p>Cơ quan ban hành: </p>
-                    <strong>{law.department}</strong>
+                    <strong className="truncate">{law.department}</strong>
                 </span>
 
                 <span className="flex flex-row gap-1">

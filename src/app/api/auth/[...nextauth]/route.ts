@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     handleRefreshToken,
-    handleSignOut,
+    // handleSignOut,
     signIn,
 } from "src/app/(auth)/apis/auth.api";
 import { getUserProfile } from "src/app/(auth)/apis/user.api";
@@ -11,7 +11,7 @@ import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signOut } from "next-auth/react";
 
-export const authOptions: NextAuthOptions = {
+ const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -93,6 +93,7 @@ export const authOptions: NextAuthOptions = {
     },
 };
 
-const handler = NextAuth(authOptions);
-
+const handler: any = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+
+// export default NextAuth(authOptions);

@@ -51,9 +51,15 @@ export default function LoginForm() {
             password,
             redirect: false,
         });
-        setLoading(false);
         if (!res?.ok) {
             setErrorMessage("Tài khoản hoặc mật khẩu không đúng");
+            api.error({
+                message: "Tài khoản hoặc mật khẩu không đúng",
+                placement: "top",
+                showProgress: true,
+                pauseOnHover: false,
+            });
+            setLoading(false);
             return;
         }
 
@@ -63,6 +69,7 @@ export default function LoginForm() {
             showProgress: true,
             pauseOnHover: false,
         });
+        setLoading(false);
     }
 
     return (

@@ -51,7 +51,7 @@ function Header() {
 
     return (
         <header>
-            <div className="flex flex-row justify-between items-center px-8 2xl:px-32 py-8 bg-primary">
+            <div className="flex flex-row justify-between items-center px-8 2xl:px-32 py-4 bg-primary">
                 <Link
                     className="logo text-white font-bold text-2xl"
                     href={"/home"}
@@ -99,6 +99,43 @@ function Header() {
                         </button>
                     </div>
                 </div>
+            </div>
+            <div className="navigation px-8 2xl:px-32 pb-4 bg-primary ">
+                <div className="border-t-2 pt-4"></div>
+                <nav className="flex flex-row justify-start gap-3 items-center ">
+                    <Link
+                        className={`text-white font-bold hover:text-yellow-600 hover:underline ${
+                            pathname === "/home" ? "text-yellow-400" : ""
+                        }`}
+                        href={"/home"}
+                    >
+                        Trang chủ
+                    </Link>
+                    <Link
+                        className={`text-white font-bold hover:text-yellow-600 hover:underline ${
+                            pathname === "/search" ? "text-yellow-400" : ""
+                        }`}
+                        href={"/search"}
+                    >
+                        Tìm kiếm văn bản
+                    </Link>
+                    <Link
+                        className={`text-white font-bold hover:text-yellow-600 hover:underline ${
+                            pathname === "/ask" ? "text-yellow-400" : ""
+                        }`}
+                        href={"/ask"}
+                    >
+                        Hỏi luật sư
+                    </Link>
+                    <Link
+                        className={`text-white font-bold hover:text-yellow-600 hover:underline ${
+                            pathname === "/about" ? "text-yellow-400" : ""
+                        }`}
+                        href={"/"}
+                    >
+                        Giới thiệu
+                    </Link>
+                </nav>
             </div>
         </header>
     );

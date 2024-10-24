@@ -57,7 +57,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
     return (
         <div className="flex-grow flex flex-col gap-4 w-3/4 lg:w-2/3 xl:w-1/2 m-auto bg-white px-8 py-4">
             {contextHolder}
-            <div className="flex flex-row justify-between w-full">
+            <div className="flex flex-row justify-between">
                 <span className="text-primary text-xl border-s-4 pl-2 border-primary">
                     Thông tin tài khoản
                 </span>
@@ -79,7 +79,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
 
             <Form
                 form={form}
-                name="user info"
+                name="user-info"
                 layout="horizontal"
                 style={{ minWidth: "100%", maxWidth: 6 }}
                 initialValues={{

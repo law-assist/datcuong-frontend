@@ -13,7 +13,7 @@ function Footer() {
                     Tìm chúng tôi trên mạng xã hội
                 </p>
                 <div className="flex flex-row gap-2 xl:gap-5">
-                    <Link href={"home"}>
+                    <Link href={"/home"}>
                         <Image
                             src={facebook}
                             alt="facebook"
@@ -21,7 +21,7 @@ function Footer() {
                             height={40}
                         />
                     </Link>
-                    <Link href={"home"}>
+                    <Link href={"/home"}>
                         <Image
                             src={youtube}
                             alt="youtube"
@@ -29,7 +29,7 @@ function Footer() {
                             height={40}
                         />
                     </Link>
-                    <Link href={"home"}>
+                    <Link href={"/home"}>
                         <Image
                             src={linkedin}
                             alt="linkedin"
