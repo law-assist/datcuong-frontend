@@ -15,7 +15,7 @@ import {
     UploadProps,
 } from "antd";
 import { useState } from "react";
-import { sendRequest } from "src/app/api/askLawyer.api";
+import { sendRequest, sendResponse } from "src/app/api/askLawyer.api";
 import { FIELD_MAPPING } from "src/constants/constant";
 import { mutate } from "swr";
 
@@ -25,7 +25,11 @@ const { Option } = Select;
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
-const AskForm = () => {
+interface ResponseFromProps {
+    id: string;
+}
+
+const ResponseFrom = ({ id }: ResponseFromProps) => {
     const [form] = Form.useForm();
     const [api, contextHolder] = notification.useNotification();
 
@@ -95,7 +99,7 @@ const AskForm = () => {
         const { fileList, ...rest } = values;
         console.log(rest);
         setLoading(true);
-        sendRequest(rest)
+        sendResponse(id, rest)
             .then((res) => {
                 if (res.message === "success") {
                     api.success({
@@ -106,6 +110,11 @@ const AskForm = () => {
                         (key) =>
                             typeof key === "string" &&
                             key.startsWith("/request/user?")
+                    );
+                    mutate(
+                        (key) =>
+                            typeof key === "string" &&
+                            key.startsWith("/request/lawyer/")
                     );
                 } else {
                     api.error({
@@ -123,93 +132,48 @@ const AskForm = () => {
     };
 
     return (
-        <Form
-            form={form}
-            name="ask-form"
-            layout="vertical"
-            onFinish={handleSubmit}
-        >
-            {contextHolder}
-            <Form.Item
-                required
-                label="Tiêu đề"
-                name="title"
-                style={{ marginBottom: 4 }}
-                rules={[
-                    {
-                        required: true,
-                        message: "Vui lòng nhập tiêu đề",
-                    },
-                    {
-                        max: 120,
-                        message: "Tiêu đề không quá 120 ký tự",
-                    },
-                ]}
+        <div className="p-2 shadow-2xl rounded border pt-2 border-gray-300">
+            <Form
+                form={form}
+                name="ask-form"
+                layout="vertical"
+                onFinish={handleSubmit}
             >
-                <Input showCount maxLength={120} placeholder="Đặt câu hỏi" />
-            </Form.Item>
-            <Form.Item
-                required
-                label="Nội dung câu hỏi"
-                name="content"
-                style={{ marginBottom: 4 }}
-                rules={[
-                    {
-                        required: true,
-                        message: "Vui lòng nhập nội dung câu hỏi",
-                    },
-                    {
-                        max: 1000,
-                        message: "Nội dung không quá 1000 ký tự",
-                    },
-                ]}
-            >
-                <TextArea
-                    showCount
-                    maxLength={1000}
-                    // onChange={onChange}
-                    placeholder="Mô tả câu hỏi"
-                    style={{ height: 200 }}
-                />
-            </Form.Item>
+                {contextHolder}
+                <Form.Item
+                    required
+                    label="Nội dung câu trả lời"
+                    name="content"
+                    style={{ marginBottom: 4 }}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Vui lòng nhập nội dung câu hỏi",
+                        },
+                        {
+                            max: 2000,
+                            message: "Nội dung không quá 1000 ký tự",
+                        },
+                    ]}
+                >
+                    <TextArea
+                        showCount
+                        maxLength={2000}
+                        // onChange={onChange}
+                        placeholder="Mô tả câu hỏi"
+                        style={{ height: 200 }}
+                    />
+                </Form.Item>
 
-            <Form.Item
-                required
-                label="Lĩnh vực cần tư vấn"
-                name="field"
-                style={{ marginBottom: 0 }}
-                rules={[
-                    {
-                        required: true,
-                        message: "Vui lòng chọn lĩnh vực cần tư vấn",
-                    },
-                ]}
-            >
-                <Select placeholder="Lĩnh vưc cần tư vấn" allowClear showSearch>
-                    {/* <Option key="" value="">
-                        Lĩnh vực cần tư vấn
-                    </Option> */}
-                    {Object.entries(FIELD_MAPPING).map(([key, value]) => (
-                        <Option key={key} value={value}>
-                            {value}
-                        </Option>
-                    ))}
-                </Select>
-            </Form.Item>
-            <p className="p-2 text-sm italic pt-0 mb-4">
-                Để chúng tôi kết nối với luật sư phù hợp với câu hỏi của bạn
-                nhé!
-            </p>
-
-            <Form.Item
-                label="Tệp tài liệu đính kèm"
-                name="fileList"
-                // style={{ marginBottom: 4 }}
-            >
-                <Upload {...props}>
-                    <Button icon={<UploadOutlined />}>Chọn tài liệu</Button>
-                </Upload>
-                {/* <Button
+                <Form.Item
+                    label="Tệp tài liệu đính kèm"
+                    name="fileList"
+                    // style={{ marginBottom: 4 }}
+                >
+                    <Upload {...props}>
+                        <Button icon={<UploadOutlined />}>Chọn tài liệu</Button>
+                    </Upload>
+                    {/* <Button
                     type="primary"
                     onClick={handleUpload}
                     disabled={fileList.length === 0}
@@ -218,15 +182,16 @@ const AskForm = () => {
                 >
                     {uploading ? "Vui lòng chờ" : "Tải lên tài liệu"}
                 </Button> */}
-            </Form.Item>
+                </Form.Item>
 
-            <Form.Item>
-                <Button type="primary" htmlType="submit">
-                    Gửi câu hỏi
-                </Button>
-            </Form.Item>
-        </Form>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                        Gửi câu trả lời
+                    </Button>
+                </Form.Item>
+            </Form>
+        </div>
     );
 };
 
-export default AskForm;
+export default ResponseFrom;

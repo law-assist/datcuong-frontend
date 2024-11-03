@@ -1,25 +1,49 @@
 //
-
+"use client";
 import Image from "next/image";
 import React from "react";
 
 // import fb from "public/icon/facebook.svg";
 
 import Profile from "./ProfileForm";
-import { getUserProfile } from "src/app/(auth)/apis/user.api";
+import useSWR from "swr";
+import { fetcher } from "src/libs/utils";
+import { redirect } from "next/navigation";
 
-async function Page() {
-    const user: User | undefined = await getUserProfile();
+function Page() {
+    // const user: User | undefined = getUserProfile();
+
+    const {
+        data: response,
+        error,
+        isLoading: swrLoading,
+    } = useSWR(`/user/user-profile`, (url: string) => fetcher(url), {
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+    });
+
+    if (error) {
+        redirect("/home");
+    }
+
+    if (swrLoading) {
+        return (
+            <div>
+                <p className="italic text-primary p-4">Vui lòng chờ ....</p>
+            </div>
+        );
+    }
 
     return (
-        <div className=" bg-violet-100 h-full flex flex-col items-center gap-2 py-4 ">
+        <div className=" bg-violet-100 h-full flex flex-col items-center gap-2 py-4 mt-2 rounded-xl">
             <span className="text-2xl font-semibold w-3/4 lg:w-2/3 xl:w-1/2">
                 Tài khoản của bạn
             </span>
 
             <div className="flex flex-row gap-4 w-3/4 lg:w-2/3 xl:w-1/2 m-auto bg-white px-8 py-4 ">
                 <Image
-                    src={user?.avatarUrl || "/icon/facebook.svg"}
+                    src={response?.avatarUrl || "/icon/facebook.svg"}
                     alt="user"
                     width={100}
                     height={100}
@@ -40,7 +64,7 @@ async function Page() {
                 </div>
             </div>
 
-            {user && <Profile user={user} />}
+            {response && <Profile user={response} />}
         </div>
     );
 }

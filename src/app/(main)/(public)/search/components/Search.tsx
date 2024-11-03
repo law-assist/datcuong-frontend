@@ -70,7 +70,11 @@ const SearchList = () => {
     };
 
     if (swrLoading) {
-        return <Loading />;
+        return (
+            <p className="italic text-primary p-4">
+                Đang tìm kiếm. Vui lòng chờ trong giây lát
+            </p>
+        );
     }
 
     if (!response) {
@@ -82,7 +86,7 @@ const SearchList = () => {
     return (
         <div>
             <div className="flex flex-col gap-3">
-                {response.data.laws.map((law: any) => (
+                {response.laws.map((law: any) => (
                     // <SearchCard key={sportField.id} sportField={sportField} />
                     <SearchItem key={law.id} law={law} />
                 ))}
@@ -90,7 +94,7 @@ const SearchList = () => {
             <div className="mt-8 px-8">
                 <Pagination
                     defaultCurrent={page ? Number(page) : 1}
-                    total={response ? response.data.total : 0}
+                    total={response ? response.total : 0}
                     showSizeChanger={false}
                     pageSize={size}
                     align="end"

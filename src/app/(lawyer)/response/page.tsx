@@ -2,16 +2,16 @@
 import React from "react";
 import { Pagination, PaginationProps } from "antd";
 
-import { AskItem } from "./AskItem";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "src/libs/utils";
+import { AskItem } from "src/app/(main)/(user)/ask/components/AskItem";
 
-// interface AskListProps {
+// interface PageProps {
 //     requests?: any;
 // }
 
-const AskList: React.FC = () => {
+const Page: React.FC = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -68,7 +68,7 @@ const AskList: React.FC = () => {
     return (
         <div className="mt-4 xl:pt-8 bg-white p-4 rounded-xl shadow-lg">
             <h4 className="text-primary border-l-4 border-primary px-4">
-                Danh sách câu hỏi của bạn
+                Danh sách tư vấn
             </h4>
             <div>
                 {response.data &&
@@ -90,4 +90,4 @@ const AskList: React.FC = () => {
     );
 };
 
-export default AskList;
+export default Page;

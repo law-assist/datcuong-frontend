@@ -82,7 +82,7 @@ export const removeTokens = () => {
 
 export const handleSignOut = () => {
     removeTokens();
-    signOut({ callbackUrl: "/" });
+    signOut({ callbackUrl: "/login" });
 };
 
 export const handleRefreshToken = async () => {

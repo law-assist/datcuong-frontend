@@ -11,7 +11,7 @@ import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signOut } from "next-auth/react";
 
- const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -30,18 +30,10 @@ import { signOut } from "next-auth/react";
                 if (user) {
                     return {
                         id: user._id,
-                        _id: user._id,
-                        fullName: user.fullName,
                         name: user.fullName,
-                        email: user.email,
                         image: user.avatarUrl,
-                        role: user.role,
-                        phoneNumber: user.phoneNumber,
-                        status: user.status,
-                        field: user.field,
-                        avatarUrl: user.avatarUrl,
-                        accessToken: tokens.accessToken,
-                        refreshToken: tokens.refreshToken,
+                        ...user,
+                        ...tokens,
                     };
                 }
                 return null;
@@ -57,12 +49,13 @@ import { signOut } from "next-auth/react";
         maxAge: 60 * 60,
     },
     callbacks: {
-        async jwt({ token, user }: any) {
+        async jwt({ token, user, session }: any) {
             if (user) {
-                token.user = user;
-                token.accessToken = user.accessToken;
-                token.refreshToken = user.refreshToken;
-                token.expires = Date.now() + 60 * 60 * 1000;
+                token = await {
+                    ...user,
+                    ...token,
+                    expires: Date.now() + 60 * 60 * 1000,
+                };
             }
             const isAccessTokenExpired = Date.now() > token.expires;
 
@@ -70,7 +63,7 @@ import { signOut } from "next-auth/react";
                 try {
                     const refreshedTokens = await handleRefreshToken();
                     if (!refreshedTokens) {
-                        signOut({ callbackUrl: "/login" });
+                        await signOut({ callbackUrl: "/login" });
                         return;
                     }
                     token.accessToken = refreshedTokens.access_token;
@@ -78,7 +71,7 @@ import { signOut } from "next-auth/react";
                     token.expires = Date.now() + 60 * 60 * 1000;
                 } catch (error: any) {
                     console.log("error", error.message);
-                    signOut({ callbackUrl: "/login" });
+                    await signOut({ callbackUrl: "/login" });
                 }
             }
 
@@ -86,8 +79,10 @@ import { signOut } from "next-auth/react";
         },
 
         async session({ token, session }: any) {
-            session.user = token.user;
-            session.token = token.accessToken;
+            session.user = await {
+                ...session.user,
+                ...token,
+            };
             return session;
         },
     },

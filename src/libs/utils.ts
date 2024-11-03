@@ -74,7 +74,7 @@ export const getTime = (date: string | null, startTime: string) => {
 };
 
 export const fetcher = (url: string) =>
-    axiosInstance.get(url).then((res) => res.data);
+    axiosInstance.get(url).then((res) => res.data.data);
 
 export const groupNotificationsByDay = (notifications: NotificationType[]) => {
     if (notifications?.length === 0 || !notifications) {
@@ -121,3 +121,24 @@ export function addTimezone(date: Date) {
     const timezoneMilliseconds = 7 * 60 * 60 * 1000;
     return new Date(date.getTime() + timezoneMilliseconds);
 }
+
+export function formatDateToString(date: Date): string {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    const period = hours >= 12 ? "CH" : "SA";
+
+    const formattedHours = (hours % 12 === 0 ? 12 : hours % 12)
+        .toString()
+        .padStart(2, "0");
+
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${formattedHours}:${formattedMinutes}-${period} ${day}/${month}/${year}`;
+}
+
+export const isUpperCase = (value: string) => value === value.toUpperCase();

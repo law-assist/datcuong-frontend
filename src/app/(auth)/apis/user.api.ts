@@ -14,7 +14,6 @@ export const getUserProfile = async () => {
                 Authorization: `Bearer ${accessToken}`,
             },
             credentials: "include",
-            cache: "no-cache",
         });
         const json = await res.json();
         if (!res.ok) {

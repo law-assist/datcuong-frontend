@@ -1,6 +1,6 @@
 import Header from "src/components/layout/Header";
+import PrivateRoute from "./PrivateRoute";
 import Footer from "src/components/layout/Footer";
-import PrivateRoute from "../PrivateRoute";
 
 type HomeLayoutProps = {
     children: React.ReactNode;

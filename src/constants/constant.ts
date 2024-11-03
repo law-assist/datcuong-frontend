@@ -119,8 +119,8 @@ export const DEPARTMENT_MAPPING: { [key: string]: string } = {
 export const REQUEST_STATUS_MAPPING: { [key: string]: string } = {
     pending: "Chờ tìm luật sư",
     starting: "Luật sư đang trả lời",
-    done: "Luật sư đã trả lời",
-    rejected: "Từ chối",
+    end: "Luật sư đã trả lời",
+    reject: "Từ chối",
 };
 
 export const DEFAULT_IMAGES = [

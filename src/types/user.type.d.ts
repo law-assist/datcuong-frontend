@@ -7,7 +7,7 @@ type User = {
     role: string;
     phoneNumber: string;
     status: string;
-    field: string[];
+    fields: string[];
     avatarUrl: string;
     accessToken: string;
     refreshToken: string;

@@ -7,6 +7,7 @@ import { Button, DatePicker, Form, Input, notification } from "antd";
 import dayjs from "dayjs";
 import { updateUserProfile } from "src/app/(auth)/apis/user.api";
 import { useRouter } from "next/navigation";
+import { mutate } from "swr";
 
 interface ProfileProps {
     user: any;
@@ -32,6 +33,11 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
                     message: "Cập nhật thông tin thành công",
                     duration: 2,
                 });
+                mutate(
+                    (key) =>
+                        typeof key === "string" &&
+                        key.startsWith("/user/user-profile")
+                );
             })
             .catch((error) => {
                 console.log("error", error);

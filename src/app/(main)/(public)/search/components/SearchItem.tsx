@@ -1,19 +1,20 @@
+import Link from "next/link";
+
 interface SearchItemProps {
     law: any;
-    onClick?: (item: any) => void;
 }
 
-export const SearchItem: React.FC<SearchItemProps> = ({ law, onClick }) => {
+export const SearchItem: React.FC<SearchItemProps> = ({ law }) => {
     return (
-        <div
-            className="grid grid-cols-3 gap-2 items-center py-2 px-4 hover:bg-gray-100 cursor-pointer"
-            onClick={() => onClick?.(law)}
+        <Link
+            href={`/vanban/${law._id}`}
+            className="flex flex-col lg:grid lg:grid-cols-3 gap-2 py-2 px-4 hover:bg-gray-100 cursor-pointer"
         >
-            <div className="flex flex-col col-span-2 gap-2">
-                <span className="hover:underline text-xl font-semibold text-primary">
+            <div className="flex flex-col lg:col-span-2 gap-2">
+                <span className="hover:underline text-xl font-semibold text-primary overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal">
                     {law.name}
                 </span>
-                <p>Xem thêm {" >>> "}</p>
+                <p className="hover:text-primary">Xem thêm {" >>> "}</p>
             </div>
             <div className="flex flex-col gap-1">
                 <span className="flex flex-row gap-1">
@@ -31,6 +32,6 @@ export const SearchItem: React.FC<SearchItemProps> = ({ law, onClick }) => {
                     <strong>{law.numberDoc}</strong>
                 </span>
             </div>
-        </div>
+        </Link>
     );
 };

@@ -1,9 +1,9 @@
-import { getReQuest } from "src/app/api/askLawyer.api";
+"use server";
 import AskForm from "./components/AskForm";
 import AskList from "./components/AskList";
 
 async function Page() {
-    const requests = await getReQuest();
+    // const requests = await getReQuest();
     return (
         <div className="py-4 xl:py-8">
             <div className="p-4 xl:px-8 bg-white">
@@ -16,7 +16,7 @@ async function Page() {
                 </p>
                 <AskForm></AskForm>
             </div>
-            <AskList requests={requests}></AskList>
+            <AskList></AskList>
         </div>
     );
 }
