@@ -138,7 +138,7 @@ export function formatDateToString(date: Date): string {
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
 
-    return `${formattedHours}:${formattedMinutes}-${period} ${day}/${month}/${year}`;
+    return `${formattedHours}:${formattedMinutes}${period} ${day}/${month}/${year}`;
 }
 
 export const isUpperCase = (value: string) => value === value.toUpperCase();

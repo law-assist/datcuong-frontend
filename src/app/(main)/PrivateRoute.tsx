@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // 'use client';
 import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 
 type PrivateRouteProps = {
@@ -9,6 +9,7 @@ type PrivateRouteProps = {
 };
 const PrivateRoute = async ({ children }: PrivateRouteProps) => {
     const session = await getServerSession();
+    console.log(session);
 
     if (!session?.user) {
         redirect("/login");

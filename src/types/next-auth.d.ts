@@ -4,7 +4,7 @@ import NextAuth from "next-auth";
 import { DefaultUser } from "next-auth";
 
 declare module "next-auth" {
-    interface User extends DefaultUser {
+    declare interface DefaultUser {
         _id: string;
         fullName: string;
         email: string;
@@ -17,7 +17,7 @@ declare module "next-auth" {
         refreshToken: string;
     }
     interface Session {
-        user: User;
+        user: DefaultUser;
         token: string;
         expires: Date;
     }

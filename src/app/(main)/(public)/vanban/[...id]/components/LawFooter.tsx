@@ -3,26 +3,31 @@ interface LawFooterProps {
 }
 
 const LawFooter: React.FC<LawFooterProps> = ({ footer }) => {
+    const length = footer.length;
     const leftItems = footer[0].value.split("  ");
-    const rightItems = footer[1].value.split("  ");
+    let rightItems = leftItems;
+    if (length === 2) {
+        rightItems = footer[1].value.split("  ");
+    }
 
     return (
         <div className="w-full body-5 grid grid-cols-2 gap-2">
             <div className="flex flex-col gap-1">
-                {leftItems.map((item: any, index: number) => {
-                    if (index === 0) {
+                {length === 2 &&
+                    leftItems.map((item: any, index: number) => {
+                        if (index === 0) {
+                            return (
+                                <strong key={index} className="body-5">
+                                    {item}
+                                </strong>
+                            );
+                        }
                         return (
-                            <strong key={index} className="body-5">
+                            <p className="body-5" key={index}>
                                 {item}
-                            </strong>
+                            </p>
                         );
-                    }
-                    return (
-                        <p className="body-5" key={index}>
-                            {item}
-                        </p>
-                    );
-                })}
+                    })}
             </div>
             <div className="flex flex-col gap-1 items-center">
                 {rightItems.map((item: any, index: number) => {

@@ -22,16 +22,14 @@ export const AskItem: React.FC<AskItemProps> = ({ request, onClick }) => {
     return (
         <Link
             href={` ${pathname}/${request._id}` as any}
-            className="flex flex-col lg:grid lg:grid-cols-3 gap-2 py-2 px-4 hover:bg-gray-100 cursor-pointer"
+            className="flex flex-col lg:grid lg:grid-cols-3 gap-2 my-2 py-2 px-4 hover:bg-blue-200 cursor-pointer border-b border-gray-200 rounded-lg"
             onClick={() => onClick?.(request)}
         >
             <div className="flex flex-col lg:col-span-2 gap-2 hover:cursor-pointer">
                 <span className="hover:underline text-xl font-semibold text-primary truncate">
                     {request.title}
                 </span>
-                <p className="overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal">
-                    {request.content}
-                </p>
+                <p className="truncate">{request.content}</p>
                 <strong>Xem thêm {" >>> "}</strong>
             </div>
             <div className="flex flex-row gap-4 text-center">

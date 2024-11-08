@@ -8,11 +8,10 @@ interface Props {
 const Dieu: React.FC<Props> = ({ content }) => {
     return (
         <div className="flex flex-col gap-2">
-            <p className="body-5 font-bold">{content.title}</p>
+            <p className="body-5 font-bold">{content.value}</p>
             {content.content.map((item: any, index: number) => {
                 const name: string = item.name;
 
-                if (index === 0) return null;
                 if (name && item.name.includes("khoan"))
                     return <Khoan key={index} content={item} />;
 

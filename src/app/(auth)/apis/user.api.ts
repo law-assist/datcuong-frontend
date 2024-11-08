@@ -27,6 +27,7 @@ export const getUserProfile = async () => {
 };
 
 export const updateUserProfile = async (data: User) => {
+    console.log(data);
     const accessToken = cookies().get("access_token")?.value;
     try {
         const res = await fetch(`${API_HOST}/user/update`, {

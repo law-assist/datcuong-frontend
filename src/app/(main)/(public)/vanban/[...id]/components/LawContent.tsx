@@ -19,6 +19,11 @@ const LawContent: React.FC<Props> = ({ content }) => {
                         return <Chuong key={index} content={item} />;
                     }
 
+                    if (name.includes("muc")) return null;
+
+                    if (name.includes("tieuMuc")) return null;
+
+
                     if (name.includes("dieu"))
                         return <Dieu key={index} content={item} />;
 
