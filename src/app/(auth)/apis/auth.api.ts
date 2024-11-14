@@ -92,6 +92,7 @@ export const handleSignOut = async () => {
 };
 
 export const handleRefreshToken = async () => {
+     "use server";
     const token = cookies().get("refresh_token")?.value;
     const auth = `Bearer ${token}`;
     console.log("auth", auth);

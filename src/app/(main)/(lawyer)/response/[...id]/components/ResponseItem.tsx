@@ -37,12 +37,10 @@ export const ResponseItem: React.FC<ResponseItemProps> = ({
                     </span>
                 </div>
             </div>
-            <div className="flex flex-row gap-4">
-                <span className="flex flex-col gap-2">
-                    <p className="line-clamp-3 hover:line-clamp-none whitespace-pre-wrap">
-                        {response.content}
-                    </p>
-                </span>
+            <div className="">
+                <p className="line-clamp-3 hover:line-clamp-none whitespace-pre-wrap">
+                    {response.content}
+                </p>
             </div>
             <div className="border-t-2 pt-2 border-gray-400"></div>
         </div>
