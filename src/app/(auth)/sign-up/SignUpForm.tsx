@@ -45,7 +45,7 @@ export default function SignUpForm() {
             email: data.email,
             password: data.password,
             // role: "user",
-            // phoneNumber: "0123456789",
+            phoneNumber: data.phone,
             // address: "Hanoi",
             // dob: "2021-01-01",
         };
@@ -59,7 +59,12 @@ export default function SignUpForm() {
                 showProgress: true,
             });
 
-            router.push(`/login` as any);
+            // wait 3s to redirect to login page
+            setTimeout(() => {
+                router.push(`/login` as any);
+            }, 2000);
+
+            // router.push(`/login` as any);
         } else {
             api.error({
                 message: res.message || "Đăng ký tài khoản thất bại",
@@ -135,7 +140,7 @@ export default function SignUpForm() {
                                 />
                                 {<Errors error={errors.email} />}
                             </div>
-                            {/* <div
+                            <div
                                 className={cn(
                                     s.inputContainers,
                                     "flex flex-col"
@@ -162,7 +167,7 @@ export default function SignUpForm() {
                                 <span className="h-3 text-red-500">
                                     {<Errors error={errors.phone} />}
                                 </span>
-                            </div> */}
+                            </div>
                             <div
                                 className={cn(
                                     s.inputContainers,

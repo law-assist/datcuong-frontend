@@ -1,7 +1,9 @@
+// "use client";
 import type { Metadata } from "next";
 import LoginForm from "./LoginForm";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "src/app/api/auth/[...nextauth]/authOptions";
 
 export const metadata: Metadata = {
     title: "XinchaoVietNam - Trang đăng nhập",
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const LoginPage = async () => {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
     if (session?.user) {
         redirect("/home");

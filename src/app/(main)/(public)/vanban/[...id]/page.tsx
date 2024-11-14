@@ -1,11 +1,10 @@
 "use client";
 
-import { PageProps } from "src/interfaces";
-
 import React, { useEffect, useState } from "react";
 import { Tabs } from "antd";
 import ContentPage from "./components/ContentPage";
 import TabPane from "antd/es/tabs/TabPane";
+import { CustomPageProps as PageProps } from "src/interfaces";
 
 type TabPosition = "left" | "right" | "top" | "bottom";
 

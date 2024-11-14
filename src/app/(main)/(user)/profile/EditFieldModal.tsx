@@ -69,31 +69,36 @@ const EditFieldModal: React.FC<EditFieldModalProps> = ({ user, onClose }) => {
             >
                 Lĩnh vực
             </Title>
-            <Select
-                mode="multiple"
-                style={{ width: "100%" }}
-                placeholder="Chọn lĩnh vực"
-                defaultValue={fields}
-                onChange={handleChange}
-                className="border-2 border-primary rounded-md"
-            >
-                {Object.entries(FIELD_MAPPING).map(([key, value]) => (
-                    <Option key={key} value={value}>
-                        {value}
-                    </Option>
-                ))}
-            </Select>
-            <div className="flex flex-row gap-3 mt-2 justify-end">
-                <Button danger onClick={onClose} disabled={loading}>
-                    Hủy bỏ
-                </Button>
-                <Button
-                    type="primary"
-                    disabled={loading}
-                    onClick={handleUpdate}
-                >
-                    Cập nhật lĩnh vưc
-                </Button>
+            <div className="flex flex-row gap-2">
+                <div className="flex-grow">
+                    <Select
+                        mode="multiple"
+                        style={{ width: "100%" }}
+                        placeholder="Chọn lĩnh vực"
+                        defaultValue={fields}
+                        onChange={handleChange}
+                        className="border-2 border-primary rounded-md"
+                    >
+                        {Object.entries(FIELD_MAPPING).map(([key, value]) => (
+                            <Option key={key} value={value}>
+                                {value}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+                <div className="flex flex-col gap-3 justify-end">
+                    <Button
+                        type="primary"
+                        disabled={loading}
+                        onClick={handleUpdate}
+                    >
+                        Cập nhật lĩnh vưc
+                    </Button>
+
+                    <Button danger onClick={onClose} disabled={loading}>
+                        Hủy bỏ
+                    </Button>
+                </div>
             </div>
         </div>
     );

@@ -44,7 +44,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
                 if (error.message === "user_not_updated") {
                     api.warning({
                         message: "Thông tin chưa được cập nhật",
-                        description: error.message,
+                        description: "Không có thông tin được thay đổi",
                         duration: 2,
                     });
                 } else {
@@ -144,13 +144,6 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
                 {isEdit && (
                     <div className="flex flex-row gap-2 justify-end">
                         <Button
-                            type="primary"
-                            htmlType="submit"
-                            disabled={loading}
-                        >
-                            Xác nhận
-                        </Button>
-                        <Button
                             type="default"
                             // htmlType="submit"
                             onClick={() => {
@@ -161,6 +154,13 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
                             danger
                         >
                             Hủy bỏ
+                        </Button>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            disabled={loading}
+                        >
+                            Xác nhận
                         </Button>
                     </div>
                 )}

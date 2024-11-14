@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // next-auth.d.ts
+"use server";
 import NextAuth from "next-auth";
-import { DefaultUser } from "next-auth";
+import { DefaultUser, DefaultSession } from "next-auth";
 
 declare module "next-auth" {
-    declare interface DefaultUser {
+    interface User extends DefaultUser {
         _id: string;
         fullName: string;
         email: string;
@@ -16,9 +17,14 @@ declare module "next-auth" {
         accessToken: string;
         refreshToken: string;
     }
-    interface Session {
-        user: DefaultUser;
+    export interface Session {
+        user: User;
         token: string;
-        expires: Date;
+        expires: ISODateString;
+    }
+
+    declare interface DefaultSession {
+        user: User;
+        expires: ISODateString;
     }
 }

@@ -3,20 +3,23 @@
 import Image from "next/image";
 import { formatDateToString } from "src/libs/utils";
 import fb from "public/icon/icon-facebook.svg";
-import { useSession } from "next-auth/react";
 
 interface ResponseItemProps {
     response: any;
+    name?: string;
+    image?: string;
 }
 
-export const ResponseItem: React.FC<ResponseItemProps> = ({ response }) => {
-    const { data: session } = useSession();
-
+export const ResponseItem: React.FC<ResponseItemProps> = ({
+    response,
+    name,
+    image,
+}) => {
     return (
         <div className="flex flex-col gap-2 py-2 px-4cursor-pointer px-4">
             <div className="flex flex-row gap-4 items-center ">
                 <Image
-                    src={session?.user.image ? session?.user.image : fb}
+                    src={image ? image : fb}
                     width={40}
                     height={40}
                     alt="Avatar"
@@ -24,9 +27,7 @@ export const ResponseItem: React.FC<ResponseItemProps> = ({ response }) => {
                 ></Image>
                 <div className="flex flex-col gap-2">
                     <span className="hover:underline text-xl font-semibold text-primary truncate">
-                        {session?.user.name
-                            ? session?.user.name
-                            : "Tài khoản người dùng"}
+                        {name ? name : "Tài khoản người dùng"}
                     </span>
                     <span className="flex flex-row gap-2">
                         <strong>Thời gian:</strong>
@@ -36,9 +37,11 @@ export const ResponseItem: React.FC<ResponseItemProps> = ({ response }) => {
                     </span>
                 </div>
             </div>
-            <div className="flex flex-row gap-4 text-center">
+            <div className="flex flex-row gap-4">
                 <span className="flex flex-col gap-2">
-                    <p>{response.content}</p>
+                    <p className="line-clamp-3 hover:line-clamp-none whitespace-pre-wrap">
+                        {response.content}
+                    </p>
                 </span>
             </div>
             <div className="border-t-2 pt-2 border-gray-400"></div>

@@ -42,6 +42,7 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({ user }) => {
         },
         {
             key: "2",
+            disabled: !(user?.role === "admin"),
             label: (
                 <Link href="/admin" className="hover:underline">
                     Quản trị viên

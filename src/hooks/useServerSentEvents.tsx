@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST;
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:5000";
 
 const useServerSentEvents = (callback: (...args: any) => unknown) => {
     const { data: session } = useSession();

@@ -2,6 +2,6 @@ export interface Params {
     id: string;
 }
 
-export interface PageProps {
+export interface CustomPageProps {
     params: Params;
 }

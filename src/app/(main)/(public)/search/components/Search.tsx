@@ -84,7 +84,7 @@ const SearchList = () => {
     console.log(response);
 
     return (
-        <div>
+        <div className="">
             <div className="flex flex-col gap-3">
                 {response.laws.map((law: any) => (
                     // <SearchCard key={sportField.id} sportField={sportField} />

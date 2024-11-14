@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { Button, Input, notification, Tooltip } from "antd";
 
 import TextError from "src/components/error/TextError";
@@ -22,6 +23,11 @@ type FormData = z.infer<typeof loginSchema>;
 export default function LoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const redirectUrl = searchParams.get("redirect") ?? "home";
+    console.log("Redirect URL:", redirectUrl);
+
+    const { data: session } = useSession();
+
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [api, contextHolder] = notification.useNotification();
@@ -33,12 +39,6 @@ export default function LoginForm() {
     } = useForm<FormData>({
         mode: "onBlur",
     });
-    const { data: session } = useSession();
-
-    if (session?.user) {
-        const redirect = searchParams.get("redirect") ?? "/home";
-        router.push(redirect as any);
-    }
 
     async function onFocus() {
         setErrorMessage("");
@@ -59,17 +59,18 @@ export default function LoginForm() {
                 showProgress: true,
                 pauseOnHover: false,
             });
-            setLoading(false);
-            return;
+        } else {
+            api.success({
+                message: "Đăng nhập thành công",
+                placement: "top",
+                showProgress: true,
+                pauseOnHover: false,
+            });
         }
 
-        api.success({
-            message: "Đăng nhập thành công",
-            placement: "top",
-            showProgress: true,
-            pauseOnHover: false,
-        });
         setLoading(false);
+        window.location.href = `/${redirectUrl}`;
+        redirect(`/${redirectUrl}`);
     }
 
     return (

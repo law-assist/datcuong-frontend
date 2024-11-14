@@ -3,7 +3,7 @@ import axios from "axios";
 // import { cookies } from "next/headers";
 import Cookies from "js-cookie";
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://127.0.0.1:3000";
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:5000";
 
 export const sendRequest = async (data: any) => {
     // const accessToken = cookies().get("access_token")?.value;
@@ -53,7 +53,9 @@ export const sendResponse = async (id: string, data: any) => {
         if (error.message) {
             console.log("error", error.message);
         }
-        return;
+        return {
+            message: "error",
+        };
     }
 };
 

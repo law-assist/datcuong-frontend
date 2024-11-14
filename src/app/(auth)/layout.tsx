@@ -13,7 +13,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             className={cn(s.auth, "min-h-screen flex flex-col justify-between")}
         >
             {/* <AuthHeader /> */}
-            {children}
+            <div className="flex flex-grow">{children}</div>
             <Footer></Footer>
         </main>
     );

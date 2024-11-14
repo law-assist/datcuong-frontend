@@ -3,7 +3,8 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import { signOut } from 'next-auth/react';
 // import { cookies } from 'next/headers';
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://locahost:5000';
+// const NODE_ENV = process.env.NODE_ENV; 
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:5000";
 const axiosInstance = axios.create({
   baseURL: `${API_HOST}`,
   headers: {

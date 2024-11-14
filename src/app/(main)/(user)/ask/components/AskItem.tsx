@@ -26,24 +26,26 @@ export const AskItem: React.FC<AskItemProps> = ({ request, onClick }) => {
             onClick={() => onClick?.(request)}
         >
             <div className="flex flex-col lg:col-span-2 gap-2 hover:cursor-pointer">
-                <span className="hover:underline text-xl font-semibold text-primary truncate">
+                <span className="hover:underline text-xl font-semibold text-primary line-clamp-2 hover:line-clamp-none">
                     {request.title}
                 </span>
-                <p className="truncate">{request.content}</p>
+                <p className="line-clamp-2 hover:line-clamp-none whitespace-pre-wrap">
+                    {request.content}
+                </p>
                 <strong>Xem thêm {" >>> "}</strong>
             </div>
             <div className="flex flex-row gap-4 text-center">
                 <span className="flex flex-col gap-2">
                     <strong>Trạng thái: </strong>
-                    <p className={`${color}`}>
+                    <p className={`${color} hover:underline`}>
                         {REQUEST_STATUS_MAPPING[request.status]}
                     </p>
                 </span>
 
                 <span className="flex flex-col gap-2">
                     <strong>Luật sư hỗ trợ: </strong>
-                    <span>
-                        {request.userResponseId ? request.userResponseId : ""}
+                    <span className="text-primary hover:underline">
+                        {request?.userResponse?.fullName ?? ""}
                     </span>
                 </span>
 

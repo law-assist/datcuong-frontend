@@ -148,11 +148,11 @@ const ResponseFrom = ({ id }: ResponseFromProps) => {
                     rules={[
                         {
                             required: true,
-                            message: "Vui lòng nhập nội dung câu hỏi",
+                            message: "Vui lòng nhập nội dung trả lời",
                         },
                         {
                             max: 2000,
-                            message: "Nội dung không quá 1000 ký tự",
+                            message: "Nội dung không quá 2000 ký tự",
                         },
                     ]}
                 >
@@ -160,8 +160,8 @@ const ResponseFrom = ({ id }: ResponseFromProps) => {
                         showCount
                         maxLength={2000}
                         // onChange={onChange}
-                        placeholder="Mô tả câu hỏi"
-                        style={{ height: 200 }}
+                        placeholder="Nội dung câu trả lời"
+                        style={{ height: 200, whiteSpace: "pre-wrap" }}
                     />
                 </Form.Item>
 

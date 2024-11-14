@@ -38,7 +38,7 @@ const Page: React.FC = () => {
         error,
         isLoading: swrLoading,
     } = useSWR(
-        `/request/user?${params.toString()}`,
+        `/request/lawyer?${params.toString()}`,
         (url: string) => fetcher(url),
         {
             revalidateIfStale: false,
@@ -66,11 +66,11 @@ const Page: React.FC = () => {
     }
 
     return (
-        <div className="mt-4 xl:pt-8 bg-white p-4 rounded-xl shadow-lg">
+        <div className="mt-4 xl:pt-8 bg-white p-4 rounded-xl shadow-lg flex flex-col">
             <h4 className="text-primary border-l-4 border-primary px-4">
                 Danh sách tư vấn
             </h4>
-            <div>
+            <div className="flex-grow overflow-y-visible-scroll">
                 {response.data &&
                     response.data.map((item: any, index: number) => (
                         <AskItem request={item} key={index}></AskItem>

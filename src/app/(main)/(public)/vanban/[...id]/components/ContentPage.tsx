@@ -1,6 +1,6 @@
 "use client";
 
-import { PageProps } from "src/interfaces";
+import { CustomPageProps } from "src/interfaces";
 import { fetcher } from "src/libs/utils";
 import useSWR from "swr";
 import LawHeader from "./LawHeader";
@@ -8,7 +8,7 @@ import LawDescription from "./LawDescription";
 import LawContent from "./LawContent";
 import LawFooter from "./LawFooter";
 
-export default function ContentPage({ params }: PageProps) {
+export default function ContentPage({ params }: CustomPageProps) {
     const { id } = params;
 
     const path: string = `/law/${id.toString()}`;

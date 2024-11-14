@@ -1,8 +1,11 @@
 type User = {
     id: string;
+    name: string;
     email: string;
-    phone: string;
+    image: string;
+
     _id: string;
+    phone: string;
     fullName: string;
     role: string;
     phoneNumber: string;

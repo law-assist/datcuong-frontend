@@ -5,5 +5,11 @@ type HomeLayoutProps = {
 };
 
 export default function MainLayout({ children }: HomeLayoutProps) {
-    return <PrivateRoute>{children}</PrivateRoute>;
+    return (
+        <PrivateRoute>
+            <div className="flex flex-grow px-8 2xl:px-32 bg-slate-100">
+                {children}
+            </div>
+        </PrivateRoute>
+    );
 }

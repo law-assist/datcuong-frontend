@@ -2,7 +2,11 @@
 import { cookies } from "next/headers";
 // import Cookies from "js-cookie";
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://127.0.0.1:3000";
+const NODE_ENV = process.env.NODE_ENV;
+const API_HOST =
+    NODE_ENV === "production"
+        ? process.env.NEXT_SERVER_API_HOST
+        : process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:5000";
 
 export const getUserProfile = async () => {
     const accessToken = cookies().get("access_token")?.value;

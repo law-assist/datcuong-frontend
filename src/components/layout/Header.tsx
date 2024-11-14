@@ -1,24 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Link from "next/link";
 import Image from "next/image";
 import fb from "public/icon/facebook.svg";
 import SearchBar from "./SearchBar";
 import HeaderNav from "./HeaderNav";
-import { handleSignOut } from "src/app/(auth)/apis/auth.api";
+
 import { getServerSession } from "next-auth";
 import HeaderDropdown from "./HeaderDropdown";
+import { authOptions } from "src/app/api/auth/[...nextauth]/authOptions";
 
 async function Header() {
-    const session = await getServerSession();
-    // const {
-    //     data: user,
-    //     error,
-    //     isLoading: swrLoading,
-    // } = useSWR(`/user/user-profile`, (url: string) => fetcher(url), {
-    //     revalidateIfStale: false,
-    //     revalidateOnFocus: false,
-    //     revalidateOnReconnect: false,
-    // });
+    const session = await getServerSession(authOptions);
 
     return (
         <header>

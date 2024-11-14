@@ -2,7 +2,7 @@
 
 // dotenv.config();
 import Cookies from 'js-cookie';
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST;
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:5000";
 
 export const uploadImage = async (file: File) => {
   const formData = new FormData();

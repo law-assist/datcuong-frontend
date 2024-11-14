@@ -48,7 +48,7 @@ function Page() {
     console.log(response);
 
     return (
-        <div className=" bg-violet-100 h-full flex flex-col items-center gap-2 py-4 mt-2 rounded-xl">
+        <div className=" bg-violet-100 flex flex-grow flex-col items-center gap-2 py-2 my-2 rounded-xl">
             <span className="text-2xl font-semibold w-3/4 lg:w-2/3 xl:w-1/2">
                 Tài khoản của bạn
             </span>
@@ -75,22 +75,23 @@ function Page() {
                             </strong>
                         </p>
                         <span className="flex flex-row gap-2 ">
-                            <strong className="text-center items-center flex">
+                            <strong className="text-center items-center flex min-w-16">
                                 Lĩnh vực tư vấn:
                             </strong>
-                            <p className="text-primary flex-grow text-center items-center flex">
+                            <p className="text-primary flex-grow text-center items-center flex line-clamp-2 hover:line-clamp-none">
                                 {response.fields && response.fields.join(", ")}
                             </p>
-                            <Button
-                                className=""
-                                type="primary"
-                                style={{ height: 24, padding: 4 }}
-                                onClick={() => setIsOpenModal(true)}
-                            >
-                                {/* <FolderAddOutlined /> */}
-                                Thêm lĩnh vực
-                                <FileAddOutlined />
-                            </Button>
+                            <div className="items-end flex">
+                                <Button
+                                    type="primary"
+                                    style={{ height: 24, padding: 4 }}
+                                    onClick={() => setIsOpenModal(true)}
+                                >
+                                    {/* <FolderAddOutlined /> */}
+                                    Thêm lĩnh vực
+                                    <FileAddOutlined />
+                                </Button>
+                            </div>
                         </span>
                         <div className="">
                             {isOpenModal && (

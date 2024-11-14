@@ -6,9 +6,9 @@ import { fetcher, formatDateToString } from "src/libs/utils";
 import useSWR from "swr";
 import ResponseFrom from "./components/ResponseFrom";
 import { ResponseItem } from "./components/ResponseItem";
-import { PageProps } from "src/interfaces";
+import { CustomPageProps } from "src/interfaces";
 
-export default function Page({ params }: PageProps) {
+const Page: React.FC<CustomPageProps> = ({ params: params }) => {
     const { id } = params;
 
     const path: string = `/request/lawyer/${id.toString()}`;
@@ -24,7 +24,7 @@ export default function Page({ params }: PageProps) {
     });
 
     if (swrLoading) {
-        return <div>Vui lòng chờ...</div>;
+        return <div className="py-4 text-primary italic">Vui lòng chờ...</div>;
     } else {
         if (!request) {
             return <div className="p-4 italic">Không tìm thấy yêu cầu</div>;
@@ -47,13 +47,17 @@ export default function Page({ params }: PageProps) {
             <ul className="flex flex-row gap-4">
                 <li>
                     <strong>Trạng thái</strong>
-                    <p className={`${color}`}>
+                    <p
+                        className={`${color} hover:underline hover:cursor-pointer`}
+                    >
                         {REQUEST_STATUS_MAPPING[request.status]}
                     </p>
                 </li>
                 <li>
                     <strong>Lĩnh vực</strong>
-                    <p>{request.field ? request.field : "Không xác định"}</p>
+                    <p className="hover:underline hover:cursor-pointer">
+                        {request.field ? request.field : "Không xác định"}
+                    </p>
                 </li>
                 <li>
                     <strong>Thời gian</strong>
@@ -64,7 +68,7 @@ export default function Page({ params }: PageProps) {
                 <h4 className="text-primary hover:underline">
                     {request.title}
                 </h4>
-                <p className="overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal">
+                <p className="overflow-hidden line-clamp-3 hover:line-clamp-none whitespace-pre-wrap">
                     {request.content}
                 </p>
                 <div className="border-t-2 pt-2 border-gray-500"></div>
@@ -73,7 +77,12 @@ export default function Page({ params }: PageProps) {
             {request.responseMessage && (
                 <div>
                     {request.responseMessage.map((item: any, index: number) => (
-                        <ResponseItem key={index} response={item} />
+                        <ResponseItem
+                            key={index}
+                            response={item}
+                            name={request?.userResponse?.fullName}
+                            image={request?.userResponse?.avatarUrl}
+                        />
                     ))}
                 </div>
             )}
@@ -81,4 +90,6 @@ export default function Page({ params }: PageProps) {
             <ResponseFrom id={id}></ResponseFrom>
         </div>
     );
-}
+};
+
+export default Page;

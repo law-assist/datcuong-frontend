@@ -1,22 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-"use client";
 import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
+import { authOptions } from "src/app/api/auth/[...nextauth]/authOptions";
 
 type PrivateRouteProps = {
     children: React.ReactNode;
 };
-const PrivateRoute = ({ children }: PrivateRouteProps) => {
-    const { data: session } = useSession();
-    console.log(session);
+const PrivateRoute = async ({ children }: PrivateRouteProps) => {
+    const session = await getServerSession(authOptions);
 
-    useEffect(() => {
-        if (session?.user.role !== "admin") {
-            redirect("/home");
-        }
-    }, [session]);
+    if (session?.user.role !== "admin") {
+        redirect("/home");
+    }
 
     return <>{children}</>;
 };

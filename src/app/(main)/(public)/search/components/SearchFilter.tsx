@@ -67,9 +67,9 @@ function SearchFilter() {
                 style={{ minWidth: "100%" }}
                 initialValues={{
                     name: q,
-                    category,
-                    field,
-                    department,
+                    category: category ? category : undefined,
+                    field: field ? field : undefined,
+                    department: department ? department : undefined,
                     year: year ? dayjs(year) : undefined,
                 }}
                 requiredMark={false}
