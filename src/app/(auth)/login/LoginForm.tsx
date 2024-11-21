@@ -59,6 +59,8 @@ export default function LoginForm() {
                 showProgress: true,
                 pauseOnHover: false,
             });
+            setLoading(false);
+            return;
         } else {
             api.success({
                 message: "Đăng nhập thành công",
@@ -66,11 +68,12 @@ export default function LoginForm() {
                 showProgress: true,
                 pauseOnHover: false,
             });
+            setLoading(false);
+
+            window.location.href = `/${redirectUrl}`;
+            // redirect(`/${redirectUrl}`);
         }
 
-        setLoading(false);
-        window.location.href = `/${redirectUrl}`;
-        redirect(`/${redirectUrl}`);
     }
 
     return (

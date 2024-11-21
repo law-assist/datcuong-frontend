@@ -17,9 +17,12 @@ const LawDescription: React.FC<LawDescriptionProps> = ({ description }) => {
                 }
                 if (index === 1) {
                     return (
-                        <span key={index} className="body-5 w-full text-center">
+                        <strong
+                            key={index}
+                            className="body-5 w-full text-center"
+                        >
                             {item.value}
-                        </span>
+                        </strong>
                     );
                 }
 

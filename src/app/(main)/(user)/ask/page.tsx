@@ -5,7 +5,7 @@ import AskList from "./components/AskList";
 async function Page() {
     // const requests = await getReQuest();
     return (
-        <div className="py-4 xl:py-8">
+        <div className="py-2 xl:py-4">
             <div className="p-4 xl:px-8 bg-white rounded-lg">
                 <h4 className="font-bold">Hỏi luật sư</h4>
                 <p className="italic pt-2 pb-4">

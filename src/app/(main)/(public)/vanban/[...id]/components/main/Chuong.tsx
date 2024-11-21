@@ -4,10 +4,12 @@ interface Props {
 
 const Chuong: React.FC<Props> = ({ content }) => {
     return (
-        <div className="flex flex-col ">
-            <strong className="body-5">{content.title}</strong>
-            <p className="text-center font-bold">{content.content[0].value}</p>
-        </div>
+        <span className="flex flex-col ">
+            <strong className="body-5">{content.value}</strong>
+            <p className="text-center font-bold body-5">
+                {content.content[0].value}
+            </p>
+        </span>
     );
 };
 

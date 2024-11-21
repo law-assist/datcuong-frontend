@@ -22,8 +22,8 @@ function HeaderNav() {
     });
 
     return (
-        <div className="navigation px-8 2xl:px-32 pb-4 bg-primary ">
-            <div className="border-t-2 pt-4 border-gray-500"></div>
+        <div className="navigation px-8 2xl:px-32 pb-2 bg-primary ">
+            <div className="border-t-2 pt-2 border-gray-500"></div>
             <nav className="flex flex-row justify-start gap-3 items-center ">
                 <Link
                     className={`text-white font-bold hover:text-yellow-600 hover:underline ${

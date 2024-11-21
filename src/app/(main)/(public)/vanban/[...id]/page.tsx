@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { Tabs } from "antd";
-import ContentPage from "./components/ContentPage";
-import TabPane from "antd/es/tabs/TabPane";
 import { CustomPageProps as PageProps } from "src/interfaces";
+import ContentPage from "./components/ContentPage";
+import DiagramPage from "./components/DiagramPage";
+import DownloadPage from "./components/DownloadPage";
 
 type TabPosition = "left" | "right" | "top" | "bottom";
 
@@ -25,46 +26,57 @@ export default function Page({ params }: PageProps) {
         // Clean up the event listener on component unmount
         return () => window.removeEventListener("resize", updateTabPosition);
     }, []);
+
+    // Define the tabs as an array of objects
+    const tabs = [
+        {
+            label: <span>Nội dung văn bản</span>,
+            key: "1",
+            children: <ContentPage params={params} />,
+        },
+        {
+            label: <span>Lược đồ</span>,
+            key: "2",
+            children: (
+                <div className="p-4">
+                    <DiagramPage params={params} />
+                </div>
+            ),
+        },
+        {
+            label: <span>Văn bản liên quan</span>,
+            key: "3",
+            children: (
+                <div className="p-4">
+                    <p className="text-gray-700">Content for Tab 3</p>
+                </div>
+            ),
+        },
+        {
+            label: <span>Tải văn bản</span>,
+            key: "5",
+            children: (
+                <div className="p-4">
+                    <DownloadPage params={params} />
+                </div>
+            ),
+        },
+    ];
+
     return (
         <div className="p-4 bg-gray-100">
             <Tabs
                 tabPosition={tabPosition}
                 defaultActiveKey="1"
                 className="bg-white shadow-md rounded-lg"
-                tabBarGutter={20} // Add space between tabs
                 tabBarStyle={{
                     color: "blue",
                 }}
                 renderTabBar={(props, DefaultTabBar) => (
                     <DefaultTabBar {...props} className="!text-blue-500" />
                 )}
-            >
-                <TabPane tab={<span>Nội dung văn bản</span>} key="1">
-                    <ContentPage params={params} />
-                </TabPane>
-                <TabPane tab={<span>Lược đồ</span>} key="2">
-                    <div className="p-4">
-                        <p className="text-gray-700">Lược đồ</p>
-                    </div>
-                </TabPane>
-                <TabPane tab={<span>Văn bản liên quan</span>} key="3">
-                    <div className="p-4">
-                        <p className="text-gray-700">Content for Tab 3</p>
-                    </div>
-                </TabPane>
-
-                <TabPane tab={<span>Xem nội dung gốc</span>} key="4">
-                    <div className="p-4">
-                        <p className="text-gray-700">Xem nội dung gốc</p>
-                    </div>
-                </TabPane>
-
-                <TabPane tab={<span>Tải văn bản</span>} key="5">
-                    <div className="p-4">
-                        <p className="text-gray-700">Tải văn bản</p>
-                    </div>
-                </TabPane>
-            </Tabs>
+                items={tabs} // Pass the tabs array as the `items` prop
+            />
         </div>
     );
 }

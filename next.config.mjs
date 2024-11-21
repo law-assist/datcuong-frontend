@@ -7,6 +7,20 @@ const nextConfig = {
     //     }
     //     return config;
     // },
+    webpack: (config, { isServer }) => {
+        config.resolve.alias = {
+            ...config.resolve.alias,
+            html2canvas: "html2canvas-pro", // Alias html2canvas to html2canvas-pro
+        };
+
+        config.module.rules.push({
+            test: /\.ttf$/,
+            type: "asset/resource", // This ensures the font files are processed correctly
+        });
+
+        return config;
+    },
+
     serverRuntimeConfig: {
         apiUrl: process.env.NEXT_SERVER_API_HOST,
     },
@@ -14,6 +28,7 @@ const nextConfig = {
         apiUrl: process.env.NEXT_PUBLIC_API_HOST,
     },
     env: {
+        // API_HOST: "http://52.221.224.155:5000",
         API_HOST: process.env.NEXT_PUBLIC_API_HOST,
     },
     experimental: {

@@ -14,7 +14,6 @@ import { Button, Modal } from "antd";
 import EditFieldModal from "./EditFieldModal";
 
 function Page() {
-    // const user: User | undefined = getUserProfile();
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
     const handleCancel = () => {

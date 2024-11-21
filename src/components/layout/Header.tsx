@@ -13,7 +13,7 @@ async function Header() {
 
     return (
         <header>
-            <div className="flex flex-row gap-2 justify-between items-center px-8 2xl:px-32 py-2 bg-primary">
+            <div className="flex flex-row gap-2 justify-between items-center px-8 2xl:px-32 pt-2 pb-1 bg-primary">
                 <Link
                     className="logo text-white font-bold text-2xl"
                     href={"/home"}

@@ -9,7 +9,7 @@ const NODE_ENV = process.env.NODE_ENV;
 const API_HOST =
     NODE_ENV === "production"
         ? process.env.NEXT_SERVER_API_HOST
-        : process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:5000";
+        : process.env.API_HOST;
 
 export const signUpUser = async (signUpInfo: any): Promise<any> => {
     try {
@@ -52,7 +52,7 @@ export const signIn = async (username: string, password: string) => {
         cookies().set("access_token", accessToken);
         cookies().set("refresh_token", refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            // secure: process.env.NODE_ENV === "production",
             maxAge: 60 * 60 * 24,
             path: "/",
             sameSite: "strict",
@@ -92,7 +92,7 @@ export const handleSignOut = async () => {
 };
 
 export const handleRefreshToken = async () => {
-     "use server";
+    "use server";
     const token = cookies().get("refresh_token")?.value;
     const auth = `Bearer ${token}`;
     console.log("auth", auth);
@@ -110,8 +110,6 @@ export const handleRefreshToken = async () => {
         if (!res.ok) {
             throw new Error(json.message);
         }
-
-        console.log("json", json);
 
         const accessToken = json.data?.accessToken;
         const refreshToken = json.data?.refreshToken;

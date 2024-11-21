@@ -3,8 +3,7 @@ interface Props {
 }
 
 const TieuMuc: React.FC<Props> = ({ content }) => {
-    console.log(content);
-    return <h1>chương</h1>;
+    return <p className="font-bold body-5">{content.value}</p>;
 };
 
 export default TieuMuc;

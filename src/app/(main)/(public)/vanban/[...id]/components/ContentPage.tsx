@@ -31,16 +31,17 @@ export default function ContentPage({ params }: CustomPageProps) {
                 <div className="p-4 italic">Không tìm thấy văn bản luật</div>
             );
         }
-        console.log(law);
     }
 
     return (
-        <div className="my-2 flex mx-auto items-center justify-center">
-            <div className="w-[520px] lg:w-[800px] max-h-screen text-[12px] p-4 bg-white flex flex-col gap-4 border-2 border-gray-500 rounded overflow-scroll">
-                <LawHeader header={law.content.header} />
-                <LawDescription description={law.content.description} />
-                <LawContent content={law.content.mainContent} />
-                <LawFooter footer={law.content.footer} />
+        <div className="my-2 flex mx-auto items-center justify-center" id={id}>
+            <div className="border-2 border-gray-400 rounded ">
+                <div className="lg:w-[800px] p-4 bg-white flex flex-col gap-4 law-content">
+                    <LawHeader header={law.content.header} />
+                    <LawDescription description={law.content.description} />
+                    <LawContent content={law.content.mainContent} />
+                    <LawFooter footer={law.content.footer} />
+                </div>
             </div>
         </div>
     );

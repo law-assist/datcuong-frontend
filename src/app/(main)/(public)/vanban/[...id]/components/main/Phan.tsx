@@ -3,8 +3,14 @@ interface Props {
 }
 
 const Phan: React.FC<Props> = ({ content }) => {
-    console.log(content);
-    return <h1>chương</h1>;
+    return (
+        <span className="flex flex-col ">
+            <strong className="body-5">{content.value}</strong>
+            <p className="text-center font-bold body-5">
+                {content.content[0].value}
+            </p>
+        </span>
+    );
 };
 
 export default Phan;

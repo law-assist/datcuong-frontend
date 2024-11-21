@@ -1,13 +1,17 @@
-"use client";
+"use server";
 import axios from "axios";
-// import { cookies } from "next/headers";
-import Cookies from "js-cookie";
+import { cookies } from "next/headers";
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:5000";
+const NODE_ENV = process.env.NODE_ENV;
+const API_HOST =
+    NODE_ENV === "production"
+        ? process.env.NEXT_SERVER_API_HOST
+        : process.env.API_HOST;
+
+console.log(API_HOST);
 
 export const sendRequest = async (data: any) => {
-    // const accessToken = cookies().get("access_token")?.value;
-    const accessToken = Cookies.get("access_token");
+    const accessToken = cookies().get("access_token")?.value;
     try {
         const res = await axios.post(
             `${API_HOST}/request`,
@@ -32,8 +36,7 @@ export const sendRequest = async (data: any) => {
 };
 
 export const sendResponse = async (id: string, data: any) => {
-    // const accessToken = cookies().get("access_token")?.value;
-    const accessToken = Cookies.get("access_token");
+    const accessToken = cookies().get("access_token")?.value;
     try {
         const res = await axios.post(
             `${API_HOST}/request/response/${id}`,
@@ -49,28 +52,6 @@ export const sendResponse = async (id: string, data: any) => {
             }
         );
         return res.data;
-    } catch (error: any) {
-        if (error.message) {
-            console.log("error", error.message);
-        }
-        return {
-            message: "error",
-        };
-    }
-};
-
-export const getReQuest = async () => {
-    // const accessToken = cookies().get("access_token")?.value;
-    const accessToken = Cookies.get("access_token");
-    try {
-        const res = await axios.get(`${API_HOST}/request/user`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-            },
-            withCredentials: true,
-        });
-        return res.data.data;
     } catch (error: any) {
         if (error.message) {
             console.log("error", error.message);
