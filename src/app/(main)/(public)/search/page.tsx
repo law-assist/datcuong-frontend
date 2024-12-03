@@ -12,13 +12,13 @@ type SearchPageProps = {
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
     return (
-        <div className="container mx-auto my-4 py-4" id="search-page">
-            <div className="grid grid-cols-4 gap-1">
-                <div className="col-span-3 bg-white py-2 rounded-3xl">
+        <div className="mx-auto py-4 flex-grow w-full" id="search-page">
+            <div className="gap-1 flex flex-col lg:flex-row">
+                <div className="flex-grow bg-white py-2 rounded-xl">
                     <SearchBreadcrumb />
                     <SearchList />
                 </div>
-                <div className="justify-self-end">
+                <div className="order-first lg:order-last justify-items-end lg:min-w-72">
                     <SearchFilter />
                 </div>
             </div>

@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
                 token = await {
                     ...user,
                     ...token,
-                    expires: Date.now() + 60 * 15 * 1000,
+                    expires: Date.now() + 60 * 55 * 1000,
                 };
             }
             const isAccessTokenExpired = Date.now() > token.expires;
@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
                     }
                     token.accessToken = refreshedTokens.access_token;
                     token.refreshToken = refreshedTokens.refresh_token;
-                    token.expires = Date.now() + 60 * 15 * 1000;
+                    token.expires = Date.now() + 60 * 55 * 1000;
                 } catch (error: any) {
                     console.log("error", error.message);
                     await handleSignOut();

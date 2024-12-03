@@ -95,6 +95,7 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({ user }) => {
                                 fontWeight: "semiBold",
                                 color: "#fff",
                             }}
+                            className="line-clamp-1"
                         >
                             {user ? user.name : "User"}
                         </p>

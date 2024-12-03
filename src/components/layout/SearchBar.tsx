@@ -13,6 +13,8 @@ function SearchBar() {
     const router = useRouter();
     const pathname = usePathname();
 
+    const q = searchParams.get("q") ?? "";
+
     const [text, setText] = useState(searchParams.get("q") ?? "");
 
     const onSearch: SearchProps["onSearch"] = (value, _e, info) => {
@@ -24,6 +26,12 @@ function SearchBar() {
             setText("");
         }
     }, [pathname]);
+
+    useEffect(() => {
+        setText(q);
+    }, [q]);
+
+
     return (
         <Search
             className="items-center"

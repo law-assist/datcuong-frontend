@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { formatDateToString } from "src/libs/utils";
-import fb from "public/icon/icon-facebook.svg";
+import fb from "public/icons/icon-facebook.svg";
 
 interface ResponseItemProps {
     response: any;

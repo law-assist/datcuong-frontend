@@ -51,7 +51,7 @@ export const signIn = async (username: string, password: string) => {
 
         cookies().set("access_token", accessToken);
         cookies().set("refresh_token", refreshToken, {
-            httpOnly: true,
+            // httpOnly: true,
             // secure: process.env.NODE_ENV === "production",
             maxAge: 60 * 60 * 24,
             path: "/",
@@ -93,10 +93,9 @@ export const handleSignOut = async () => {
 
 export const handleRefreshToken = async () => {
     "use server";
-    const token = cookies().get("refresh_token")?.value;
-    const auth = `Bearer ${token}`;
-    console.log("auth", auth);
     try {
+        const token = cookies().get("refresh_token")?.value;
+        const auth = `Bearer ${token}`;
         const res = await fetch(`${API_HOST}/auth/refresh-token`, {
             method: "GET",
             headers: {
@@ -113,12 +112,12 @@ export const handleRefreshToken = async () => {
 
         const accessToken = json.data?.accessToken;
         const refreshToken = json.data?.refreshToken;
-        cookies().set("access_token", accessToken, {
+        await cookies().set("access_token", accessToken, {
             maxAge: 60 * 60,
         });
-        cookies().set("refresh_token", refreshToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+        await cookies().set("refresh_token", refreshToken, {
+            // httpOnly: true,
+            // secure: process.env.NODE_ENV === "production",
             maxAge: 60 * 60 * 24,
             path: "/",
             sameSite: "strict",

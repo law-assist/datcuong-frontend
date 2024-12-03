@@ -7,10 +7,10 @@ function SearchBreadcrumb() {
 
     return (
         <span className="px-4 pb-2 text-2xl flex flex-row gap-2 items-center text-center">
-            <span className="text-gray-600 text-xl">
+            <span className="text-gray-600 text-lg line-clamp-1 hover:line-clamp-none">
                 Kết quả tìm kiếm cho:{" "}
             </span>
-            <h4 className="font-semibold">{q}</h4>
+            <p className="font-semibold text-sm">{q}</p>
         </span>
     );
 }

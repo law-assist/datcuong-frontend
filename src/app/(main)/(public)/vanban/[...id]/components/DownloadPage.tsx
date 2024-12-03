@@ -22,10 +22,10 @@ export default function DownloadPage({ params }: CustomPageProps) {
             doc.addFileToVFS("Roboto-Regular.ttf", Roboto);
             doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
             doc.setFont("Roboto", "normal");
-            doc.text("Xin chào, đây là văn bản tiếng Việt.", 10, 10);
+            // doc.text("hello, vietnam", 10, 10);
 
             // Save the PDF
-            doc.save("example.pdf");
+            // doc.save("example.pdf");
 
             doc.html(
                 ref.current.getElementsByClassName(
@@ -55,7 +55,7 @@ export default function DownloadPage({ params }: CustomPageProps) {
                 onClick={handleGeneratePdf}
                 className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             >
-                Download as PDF
+                Tải xuống văn bản
             </button>
             <div ref={ref}>
                 <ContentPage params={params} />

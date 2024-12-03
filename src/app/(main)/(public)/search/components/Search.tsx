@@ -77,21 +77,23 @@ const SearchList = () => {
         );
     }
 
-    if (!response) {
-        return null;
+    if (!response || error || response.laws.length === 0) {
+        return (
+            <p className="italic text-primary p-4">
+                Không tìm thấy kết quả phù hợp
+            </p>
+        );
     }
 
-    console.log(response);
-
     return (
-        <div className="">
-            <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3 flex-grow">
                 {response.laws.map((law: any) => (
                     // <SearchCard key={sportField.id} sportField={sportField} />
                     <SearchItem key={law.id} law={law} />
                 ))}
             </div>
-            <div className="mt-8 px-8">
+            <div className="mt-4 px-4">
                 <Pagination
                     defaultCurrent={page ? Number(page) : 1}
                     total={response ? response.total : 0}

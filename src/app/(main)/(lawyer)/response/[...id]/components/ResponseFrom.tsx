@@ -97,7 +97,6 @@ const ResponseFrom = ({ id }: ResponseFromProps) => {
 
     const handleSubmit = (values: any) => {
         const { fileList, ...rest } = values;
-        console.log(rest);
         setLoading(true);
         sendResponse(id, rest)
             .then((res) => {

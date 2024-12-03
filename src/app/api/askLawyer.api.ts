@@ -8,7 +8,6 @@ const API_HOST =
         ? process.env.NEXT_SERVER_API_HOST
         : process.env.API_HOST;
 
-console.log(API_HOST);
 
 export const sendRequest = async (data: any) => {
     const accessToken = cookies().get("access_token")?.value;

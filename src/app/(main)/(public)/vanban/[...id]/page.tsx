@@ -38,33 +38,33 @@ export default function Page({ params }: PageProps) {
             label: <span>Lược đồ</span>,
             key: "2",
             children: (
-                <div className="p-4">
+                <div className="p-2 md:p-4">
                     <DiagramPage params={params} />
                 </div>
             ),
         },
         {
-            label: <span>Văn bản liên quan</span>,
+            label: <span>Tải văn bản</span>,
             key: "3",
             children: (
-                <div className="p-4">
-                    <p className="text-gray-700">Content for Tab 3</p>
+                <div className="p-2 md:p-4">
+                    <DownloadPage params={params} />
                 </div>
             ),
         },
         {
-            label: <span>Tải văn bản</span>,
-            key: "5",
+            label: <span>Văn bản liên quan</span>,
+            key: "4",
             children: (
-                <div className="p-4">
-                    <DownloadPage params={params} />
+                <div className="p-2 md:p-4">
+                    <p className="text-gray-700">Content for Tab 3</p>
                 </div>
             ),
         },
     ];
 
     return (
-        <div className="p-4 bg-gray-100">
+        <div className="p-2 md:p-4 bg-gray-100 w-full mt-2 rounded-lg">
             <Tabs
                 tabPosition={tabPosition}
                 defaultActiveKey="1"
@@ -73,7 +73,10 @@ export default function Page({ params }: PageProps) {
                     color: "blue",
                 }}
                 renderTabBar={(props, DefaultTabBar) => (
-                    <DefaultTabBar {...props} className="!text-blue-500" />
+                    <DefaultTabBar
+                        {...props}
+                        className="!text-primary px-2 md:px-4 pt-2"
+                    />
                 )}
                 items={tabs} // Pass the tabs array as the `items` prop
             />

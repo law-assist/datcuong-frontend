@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: "standalone",
@@ -28,7 +29,6 @@ const nextConfig = {
         apiUrl: process.env.NEXT_PUBLIC_API_HOST,
     },
     env: {
-        // API_HOST: "http://52.221.224.155:5000",
         API_HOST: process.env.NEXT_PUBLIC_API_HOST,
     },
     experimental: {
@@ -48,6 +48,10 @@ const nextConfig = {
             },
             {
                 hostname: process.env.REMOTE_PHOTO_MOCK_DATA,
+            },
+            {
+                protocol: "https",
+                hostname: "upload.wikimedia.org",
             },
         ],
     },

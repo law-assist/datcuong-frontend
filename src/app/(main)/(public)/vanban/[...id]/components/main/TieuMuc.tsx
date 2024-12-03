@@ -1,9 +1,22 @@
+import ContentRef from "./ContentRef";
+
 interface Props {
     content: any;
+    isRef?: boolean;
 }
 
-const TieuMuc: React.FC<Props> = ({ content }) => {
-    return <p className="font-bold body-5">{content.value}</p>;
+const TieuMuc: React.FC<Props> = ({ content, isRef = true }) => {
+    return (
+        <>
+            {isRef && content.reference.length > 0 ? (
+                <ContentRef content={content} parent={content}>
+                    <p className="body-5 font-bold">{content.value}</p>
+                </ContentRef>
+            ) : (
+                <p className="body-5 font-bold">{content.value}</p>
+            )}
+        </>
+    );
 };
 
 export default TieuMuc;

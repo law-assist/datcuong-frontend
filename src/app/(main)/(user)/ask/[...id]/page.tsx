@@ -30,7 +30,6 @@ export default function Page({ params }: PageProps) {
         if (!request) {
             return <div className="p-4 italic">Không tìm thấy yêu cầu</div>;
         } else {
-            console.log(request);
         }
     }
 

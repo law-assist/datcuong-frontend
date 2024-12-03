@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 
-// import fb from "public/icon/facebook.svg";
+// import fb from "public/icons/facebook.svg";
 
 import Profile from "./ProfileForm";
 import useSWR from "swr";
@@ -44,17 +44,16 @@ function Page() {
             </div>
         );
     }
-    console.log(response);
 
     return (
-        <div className=" bg-violet-100 flex flex-grow flex-col items-center gap-2 py-2 my-2 rounded-xl">
-            <span className="text-2xl font-semibold w-3/4 lg:w-2/3 xl:w-1/2">
+        <div className=" bg-violet-100 flex flex-grow flex-col items-center gap-2 py-2 my-2 rounded-xl w-full">
+            <span className="text-2xl font-semibold w-full md:w-5/6 lg:w-2/3 xl:w-1/2">
                 Tài khoản của bạn
             </span>
 
-            <div className="flex flex-row gap-4 w-3/4 lg:w-2/3 xl:w-1/2 m-auto bg-white px-8 py-4 ">
+            <div className="flex flex-row gap-4 w-full md:w-5/6 lg:w-2/3 xl:w-1/2 m-auto bg-white  p-4 md:px-4">
                 <Image
-                    src={response?.avatarUrl || "/icon/facebook.svg"}
+                    src={response?.avatarUrl || "/icons/facebook.svg"}
                     alt="user"
                     width={100}
                     height={100}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState } from "react";
 import { Button, notification, Select, Typography } from "antd";
@@ -24,11 +25,9 @@ const EditFieldModal: React.FC<EditFieldModalProps> = ({ user, onClose }) => {
     };
 
     const handleUpdate = () => {
-        console.log(fields);
         setLoading(true);
         updateUserProfile({ ...user, fields })
             .then((res) => {
-                console.log("res", res);
                 api.success({
                     message: "Cập nhật thông tin thành công",
                     duration: 2,

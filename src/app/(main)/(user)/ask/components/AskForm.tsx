@@ -93,7 +93,6 @@ const AskForm = () => {
 
     const handleSubmit = (values: any) => {
         const { fileList, ...rest } = values;
-        console.log(rest);
         setLoading(true);
         sendRequest(rest)
             .then((res) => {

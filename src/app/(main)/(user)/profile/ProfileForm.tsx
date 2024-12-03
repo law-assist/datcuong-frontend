@@ -28,7 +28,6 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
         setLoading(true);
         updateUserProfile(values)
             .then((res) => {
-                console.log("res", res);
                 api.success({
                     message: "Cập nhật thông tin thành công",
                     duration: 2,
@@ -61,7 +60,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
     };
 
     return (
-        <div className="flex-grow flex flex-col gap-4 w-3/4 lg:w-2/3 xl:w-1/2 m-auto bg-white px-8 py-4">
+        <div className="flex-grow flex flex-col gap-4 w-full md:w-5/6 lg:w-2/3 xl:w-1/2 m-auto bg-white px-4 py-4">
             {contextHolder}
             <div className="flex flex-row justify-between">
                 <span className="text-primary text-xl border-s-4 pl-2 border-primary flex items-center">

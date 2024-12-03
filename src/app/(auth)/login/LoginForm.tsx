@@ -13,8 +13,8 @@ import TextError from "src/components/error/TextError";
 import { cn } from "src/libs/utils";
 import { loginSchema } from "src/zod-schemas/login-schema";
 
-import fb from "public/icon/icon-facebook.svg";
-import gg from "public/icon/icon-google.svg";
+import fb from "public/icons/icon-facebook.svg";
+import gg from "public/icons/icon-google.svg";
 
 import { z } from "zod";
 import s from "./login.module.scss";
@@ -24,7 +24,6 @@ export default function LoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirectUrl = searchParams.get("redirect") ?? "home";
-    console.log("Redirect URL:", redirectUrl);
 
     const { data: session } = useSession();
 
@@ -73,7 +72,6 @@ export default function LoginForm() {
             window.location.href = `/${redirectUrl}`;
             // redirect(`/${redirectUrl}`);
         }
-
     }
 
     return (

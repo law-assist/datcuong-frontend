@@ -141,4 +141,15 @@ export function formatDateToString(date: Date): string {
     return `${formattedHours}:${formattedMinutes}${period} ${day}/${month}/${year}`;
 }
 
+export function stringToDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("vi-VN");
+}
+
 export const isUpperCase = (value: string) => value === value.toUpperCase();
+
+export function toSentenceCase(text: string) {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}
+
+

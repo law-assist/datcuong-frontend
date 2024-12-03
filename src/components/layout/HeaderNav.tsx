@@ -22,7 +22,7 @@ function HeaderNav() {
     });
 
     return (
-        <div className="navigation px-8 2xl:px-32 pb-2 bg-primary ">
+        <div className="navigation px-4 lg:px-8 xl:px-32 pb-2 bg-primary ">
             <div className="border-t-2 pt-2 border-gray-500"></div>
             <nav className="flex flex-row justify-start gap-3 items-center ">
                 <Link

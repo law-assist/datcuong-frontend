@@ -3,11 +3,12 @@ interface LawFooterProps {
 }
 
 const LawFooter: React.FC<LawFooterProps> = ({ footer }) => {
+    const splitRegex = /\t| {2}/;
     const length = footer.length;
-    const leftItems = footer[0].value.split("  ");
+    const leftItems = footer[0].value.split(splitRegex);
     let rightItems = leftItems;
     if (length === 2) {
-        rightItems = footer[1].value.split("  ");
+        rightItems = footer[1].value.split(splitRegex);
     }
 
     return (

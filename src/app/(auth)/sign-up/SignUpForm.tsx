@@ -16,8 +16,8 @@ import { SignUpSchema } from "src/zod-schemas/signup-schema";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import fb from "public/icon/icon-facebook.svg";
-import gg from "public/icon/icon-google.svg";
+import fb from "public/icons/icon-facebook.svg";
+import gg from "public/icons/icon-google.svg";
 import { signUpUser } from "../apis/auth.api";
 
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;

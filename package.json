@@ -17,8 +17,10 @@
         "axios": "^1.7.7",
         "clsx": "^2.1.1",
         "cookies-next": "^4.2.1",
+        "dompurify": "^3.2.2",
         "fs": "^0.0.1-security",
         "html2canvas-pro": "^1.5.8",
+        "jquery": "^3.7.1",
         "js-cookie": "^3.0.5",
         "jspdf": "^2.5.2",
         "next": "14.2.14",
@@ -35,6 +37,7 @@
         "zod": "^3.23.8"
     },
     "devDependencies": {
+        "@types/jquery": "^3.5.32",
         "@types/js-cookie": "^3.0.6",
         "@types/next-auth": "^3.13.0",
         "@types/node": "^20",

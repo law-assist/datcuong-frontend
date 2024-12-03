@@ -9,11 +9,13 @@ type HomeLayoutProps = {
 export default function MainLayout({ children }: HomeLayoutProps) {
     return (
         <PrivateRoute>
-            <Header />
-            <main className="relative flex min-h-screen flex-col">
-                <div className="flex flex-grow">{children}</div>
+            <main className="flex flex-col min-h-screen">
+                <Header />
+                <div className="relative flex-grow flex bg-violet-100/50">
+                    {children}
+                </div>
+                <Footer />
             </main>
-            <Footer />
         </PrivateRoute>
     );
 }

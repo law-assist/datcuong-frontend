@@ -7,17 +7,22 @@ const LawHeader: React.FC<LawHeaderProps> = ({ header }) => {
         <div className="w-full body-5 flex flex-col gap-2">
             <div className="grid grid-cols-5 items-center ">
                 <div className="col-span-2 flex flex-col gap-1 items-center">
-                    <strong className="body-5">{header[0].value}</strong>
-                    <strong className="body-5"> --------</strong>
+                    <strong className="body-5 text-center">
+                        {header[0].value}
+                    </strong>
+                    <strong className="body-5 text-center"> --------</strong>
                 </div>
                 <div className="col-span-3 flex flex-col gap-1 items-center">
-                    <strong className="body-5">
+                    <strong className="body-5 text-center">
                         CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
                     </strong>
-                    <strong className="body-5">
+                    <strong className="body-5 text-center">
                         Độc lập - Tự do - Hạnh phúc
                     </strong>
-                    <strong className="body-5"> --------------- </strong>
+                    <strong className="body-5 text-center">
+                        {" "}
+                        ---------------{" "}
+                    </strong>
                 </div>
             </div>
             <div className="grid grid-cols-5">

@@ -51,7 +51,6 @@ const Page: React.FC = () => {
         return <div>Đã có lỗi xảy ra</div>;
     }
 
-    console.log(response);
 
     if (swrLoading) {
         return (
@@ -76,7 +75,7 @@ const Page: React.FC = () => {
                         <AskItem request={item} key={index}></AskItem>
                     ))}
             </div>
-            <div className="mt-8 px-8">
+            <div className="mt-8 px-4">
                 <Pagination
                     defaultCurrent={page ? Number(page) : 1}
                     total={response.total}
