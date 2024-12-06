@@ -8,7 +8,7 @@ import ResponseFrom from "./components/ResponseFrom";
 import { ResponseItem } from "./components/ResponseItem";
 import { CustomPageProps } from "src/interfaces";
 
-const Page: React.FC<CustomPageProps> = ({ params: params }) => {
+const Page: React.FC<CustomPageProps> = ({ params }) => {
     const { id } = params;
 
     const path: string = `/request/lawyer/${id.toString()}`;

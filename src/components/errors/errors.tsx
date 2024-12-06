@@ -7,9 +7,9 @@ interface ErrorsProps {
 
 const Errors: React.FC<ErrorsProps> = ({ error }) => {
   return (
-    <span className={`h-3 text-xs font-semibold text-red-400`}>
-      {error?.message}
-    </span>
+      <span className={`h-3 text-xs font-semibold text-red-400 mt-1`}>
+          {error?.message}
+      </span>
   );
 };
 

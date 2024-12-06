@@ -61,6 +61,8 @@ export default function LoginForm() {
             setLoading(false);
             return;
         } else {
+            console.log(res);
+            debugger;
             api.success({
                 message: "Đăng nhập thành công",
                 placement: "top",

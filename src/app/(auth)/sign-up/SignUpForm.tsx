@@ -198,6 +198,12 @@ export default function SignUpForm() {
                                         />
                                     )}
                                 />
+                                <span className="text-md text-gray-500 mt-1">
+                                    <span className="text-red-600"> * </span>
+                                    Mật khẩu phải chứa ít nhất 8 ký tự (ít nhất
+                                    1 chữ cái viết hoa, 1 chữ cái viết thường, 1
+                                    số)
+                                </span>
                                 {<Errors error={errors.password} />}
                             </div>
                             <div

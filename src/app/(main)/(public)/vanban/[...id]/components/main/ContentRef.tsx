@@ -34,12 +34,13 @@ const ContentRef: React.FC<Props> = ({ children, content, parent }) => {
                         footer={null} // If you don't want a footer, set it to null
                         style={{ padding: "20px" }}
                         width={"90%"} // Set the desired width here
+                        height={"80%"} // Set the desired height here
                         open={isOpenModal}
                         onOk={handleOk}
                         onCancel={handleCancel}
                         closable={false}
                         modalRender={(node) => <div className="">{node}</div>}
-                        className=""
+                        className="w-full h-full"
                     >
                         <ContentRefModal
                             onClose={handleCancel}

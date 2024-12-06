@@ -22,7 +22,7 @@ export const SignUpSchema = z
                 "Số điện thoại không hợp lệ"
             ),
         confirmPassword: z.string({
-            required_error: " Mật khẩu không được để trống",
+            required_error: " Vui lòng xác nhận mật khẩu",
         }),
         password: z
             .string({
@@ -36,6 +36,6 @@ export const SignUpSchema = z
             .max(20, { message: "Mật khẩu không được vượt quá 20 ký tự" }),
     })
     .refine((data) => data.password === data.confirmPassword, {
-        message: "Mật khẩu phải trùng khớp",
+        message: "Mật khẩu xác nhận phải trùng khớp",
         path: ["confirmPassword"],
     });

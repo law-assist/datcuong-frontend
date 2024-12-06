@@ -30,7 +30,7 @@ export default function Page({ params }: PageProps) {
     // Define the tabs as an array of objects
     const tabs = [
         {
-            label: <span>Nội dung văn bản</span>,
+            label: <span>Nội dung</span>,
             key: "1",
             children: <ContentPage params={params} />,
         },

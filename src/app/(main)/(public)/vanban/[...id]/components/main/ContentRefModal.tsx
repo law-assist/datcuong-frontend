@@ -59,10 +59,10 @@ const ContentRef: React.FC<Props> = ({ onClose, content, parent }) => {
                 }
             });
         });
-    }, []);
+    }, [content.value]);
 
     return (
-        <div className="flex flex-col gap-2 relative">
+        <div className="flex flex-col gap-2 relative h-full w-full min-h-[520px]">
             <span
                 className="closeBtn absolute right-0 top-0 w-8 h-8 text-center hover:cursor-pointer border rounded-full border-blue-500"
                 onClick={onClose}
@@ -86,7 +86,7 @@ const ContentRef: React.FC<Props> = ({ onClose, content, parent }) => {
                 Tham chiếu văn bản
             </Title>
 
-            <div className="grid grid-cols-2 ">
+            <div className="grid grid-cols-2 flex-grow">
                 <div className="border-r border-gray-900 p-4 flex flex-col items-center gap-2">
                     <span className="body-2 font-semibold !text-primary italic">
                         Nội dung văn bản đang xem
@@ -97,7 +97,7 @@ const ContentRef: React.FC<Props> = ({ onClose, content, parent }) => {
                 </div>
                 <div className="border-l border-gray-900 p-4 flex flex-col items-center gap-2">
                     <span className="body-2 font-semibold !text-primary italic">
-                        Nội dung Hướng dẫn/Thay thế/Sửa đổi/Bổ sung
+                        Nội dung Trích dẫn/Hướng dẫn/Thay thế/Sửa đổi/Bổ sung
                     </span>
                     <div></div>
                     <div>

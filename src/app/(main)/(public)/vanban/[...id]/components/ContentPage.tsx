@@ -1,6 +1,5 @@
 "use client";
 
-import { CustomPageProps } from "src/interfaces";
 import { fetcher } from "src/libs/utils";
 import useSWR from "swr";
 import LawHeader from "./LawHeader";
@@ -9,7 +8,14 @@ import LawContent from "./LawContent";
 import LawFooter from "./LawFooter";
 import LawExtend from "./LawExtend";
 
-export default function ContentPage({ params }: CustomPageProps) {
+interface CustomPageProps {
+    params: {
+        id: string;
+    };
+    isRef?: boolean;
+}
+
+export default function ContentPage({ params, isRef = true }: CustomPageProps) {
     const { id } = params;
 
     const path: string = `/law/${id.toString()}`;
@@ -40,10 +46,18 @@ export default function ContentPage({ params }: CustomPageProps) {
             id={id}
         >
             <div className=" h-screen w-full overflow-scroll">
-                <div className="p-4 bg-white flex flex-col gap-4 law-content max-w-[800px] m-auto border-2 border-gray-400 rounded">
+                <div
+                    className="canvas p-4 bg-white flex flex-col gap-4 law-content max-w-[800px] m-auto border-2 border-gray-400 rounded"
+                    style={{
+                        fontFamily: "'Roboto-Regular', sans-serif",
+                    }}
+                >
                     <LawHeader header={law.content.header} />
                     <LawDescription description={law.content.description} />
-                    <LawContent content={law.content.mainContent} />
+                    <LawContent
+                        content={law.content.mainContent}
+                        isRef={isRef}
+                    />
                     <LawFooter footer={law.content.footer} />
                     <LawExtend content={law.content.extend} />
                 </div>

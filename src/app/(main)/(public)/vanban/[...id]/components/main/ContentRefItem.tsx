@@ -15,6 +15,7 @@ import Dieu from "./Dieu";
 import Chuong from "./Chuong";
 import Phan from "./Phan";
 import Content from "./Content";
+import { CLASSIFICATION_MAPPING } from "src/constants/constant";
 
 interface Props {
     reference: any;
@@ -93,16 +94,16 @@ const ContentRefItem: React.FC<Props> = ({ reference }) => {
             </p>
         );
     } else {
-        $(document).ready(function () {
-            const lines = $("#reference").find("p");
-            lines.each(function () {
-                if ($(this).text().trim() === response.content.value.trim()) {
-                    $(this).addClass(
-                        "bg-yellow-200 p-1 -mx-1 lg:p-2 lg:-mx-2 rounded hover:underline italic"
-                    );
-                }
-            });
-        });
+        // $(document).ready(function () {
+        //     const lines = $("#reference").find("p");
+        //     lines.each(function () {
+        //         if ($(this).text().trim() === response.content.value.trim()) {
+        //             $(this).addClass(
+        //                 "bg-yellow-200 p-1 -mx-1 lg:p-2 lg:-mx-2 rounded hover:underline italic"
+        //             );
+        //         }
+        //     });
+        // });
     }
 
     // useEffect(() => {
@@ -119,12 +120,24 @@ const ContentRefItem: React.FC<Props> = ({ reference }) => {
     //     });
     // }, [response]);
 
+    let classify = "Trích đẫn";
+    if (CLASSIFICATION_MAPPING[response.classification] !== undefined) {
+        classify = CLASSIFICATION_MAPPING[response.classification];
+    }
+    console.log(classify);
+    // if (response.type === "referring") {
+    //     classify = "Tham chiếu";
+    // }
+
     return (
         <div className="rounded border border-gray-400 p-4 flex flex-col gap-2">
             <Link href={`/vanban/${response._id}` as any}>{response.name}</Link>
             <span>
                 <strong>Loại tham chiếu: </strong>
-                {response.classification && "Đang cập nhật"}
+                {/* {CLASSIFICATION_MAPPING[response.classification] !== undefined
+                    ? CLASSIFICATION_MAPPING[response.classification]
+                    : "Trích đẫn"} */}
+                {classify}
             </span>
             <div id="reference">
                 {response.ref && <RefRender reference={response.ref} />}

@@ -2,16 +2,26 @@
 import React, { useRef } from "react";
 // import html2canvas from "html2canvas-pro";
 import { jsPDF } from "jspdf";
-
-import { Roboto } from "roboto-base64";
-
+import "src/fonts/Roboto-Regular-normal"; // Ensure correct path
 import ContentPage from "./ContentPage";
 import { CustomPageProps } from "src/interfaces";
 
 export default function DownloadPage({ params }: CustomPageProps) {
     const ref = useRef<HTMLDivElement>(null);
 
+    const waitForFont = (): Promise<void> => {
+        return new Promise((resolve) => {
+            const interval = setInterval(() => {
+                if (document.fonts.check('16px "Roboto"')) {
+                    clearInterval(interval);
+                    resolve(); // No value is needed to be passed to resolve
+                }
+            }, 100);
+        });
+    };
+
     const handleGeneratePdf = async () => {
+        await waitForFont();
         if (ref.current) {
             const doc = new jsPDF({
                 orientation: "portrait",
@@ -19,33 +29,35 @@ export default function DownloadPage({ params }: CustomPageProps) {
                 unit: "px",
             });
 
-            doc.addFileToVFS("Roboto-Regular.ttf", Roboto);
-            doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
-            doc.setFont("Roboto", "normal");
-            // doc.text("hello, vietnam", 10, 10);
+            const marginLeft = 30;
+            const marginRight = 20;
+            const marginTop = 30;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const maxWidth = pageWidth - marginLeft - marginRight;
 
-            // Save the PDF
-            // doc.save("example.pdf");
+            // Register and set Roboto font
+            doc.setLanguage("vi");
+            doc.setFont("Roboto-Regular", "normal");
 
-            doc.html(
-                ref.current.getElementsByClassName(
-                    "law-content"
-                )[0] as HTMLElement,
-                {
-                    async callback(doc) {
-                        await doc.save("document");
-                    },
-                    html2canvas: {
-                        letterRendering: true,
-                        scale: 0.5,
-                    },
-                    autoPaging: "text",
-                    x: 20,
-                    y: 5,
-                    width: 800,
-                    windowWidth: 800,
-                }
-            );
+            try {
+                await doc.html(
+                    ref.current.getElementsByClassName(
+                        "law-content"
+                    )[0] as HTMLElement,
+                    {
+                        callback: (pdf) => pdf.save("document.pdf"),
+                        html2canvas: {
+                            useCORS: true, // Enable cross-origin support
+                            letterRendering: true,
+                            scale: 0.45,
+                            windowWidth: maxWidth,
+                        },
+                        margin: [marginTop, marginRight, marginTop, marginLeft],
+                    }
+                );
+            } catch (error) {
+                console.error("PDF generation error:", error);
+            }
         }
     };
 
@@ -58,49 +70,8 @@ export default function DownloadPage({ params }: CustomPageProps) {
                 Tải xuống văn bản
             </button>
             <div ref={ref}>
-                <ContentPage params={params} />
+                <ContentPage params={params} isRef={false} />
             </div>
         </div>
     );
 }
-
-// const handleDownload = async () => {
-//     if (ref.current) {
-//         const canvas = await html2canvas(ref.current, { scale: 4 });
-//         const imgData = canvas.toDataURL("image/png");
-//         const pdf = new jsPDF("p", "mm", "a4");
-//         const pdfWidth = pdf.internal.pageSize.getWidth(); // 210mm
-//         const pdfHeight = pdf.internal.pageSize.getHeight(); // 297mm
-
-//         console.log("PDF Width:", pdfWidth);
-//         console.log("PDF Height:", pdfHeight);
-
-//         const canvasWidth = canvas.width;
-//         const canvasHeight = canvas.height;
-
-//         console.log("Canvas Width:", canvasWidth);
-//         console.log("Canvas Height:", canvasHeight);
-
-//         const scaleX = pdfWidth / canvasWidth; // Scale factor for width
-//         const scaleY = pdfHeight / canvasHeight; // Scale factor for height
-//         console.log("Scale X:", scaleX);
-//         console.log("Scale Y:", scaleY);
-
-//         // Use the smaller of the two scale factors to ensure content fits inside the page
-//         const scaleFactor = Math.min(scaleX, scaleY);
-
-//         const scaledWidth = canvasWidth * scaleFactor;
-//         const scaledHeight = canvasHeight * scaleFactor;
-
-//         // pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-//         pdf.addImage({
-//             imageData: imgData,
-//             format: "UNKNOWN",
-//             x: 0,
-//             y: 0,
-//             width: pdfWidth,
-//             height: pdfHeight,
-//         });
-//         pdf.save("download.pdf");
-//     }
-// };
