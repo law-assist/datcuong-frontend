@@ -37,6 +37,7 @@ export const CLASSIFICATION_MAPPING: { [key: number]: string } = {
     3: "Các từ, cụm từ được thay đổi",
     4: "Bãi bỏ",
     5: "Quy định chi tiết thi hành",
+    6: "Hướng dẫn",
 };
 
 export const CATEGORY_MAPPING: { [key: string]: string } = {

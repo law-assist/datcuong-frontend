@@ -99,8 +99,7 @@ const ContentRef: React.FC<Props> = ({ onClose, content, parent }) => {
                     <span className="body-2 font-semibold !text-primary italic">
                         Nội dung Trích dẫn/Hướng dẫn/Thay thế/Sửa đổi/Bổ sung
                     </span>
-                    <div></div>
-                    <div>
+                    <div className="flex-grow w-full">
                         <ContentRefList content={content} />
                     </div>
                 </div>

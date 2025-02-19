@@ -3,11 +3,8 @@ import { NextAuthOptions } from "next-auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import {
-    handleRefreshToken,
-    handleSignOut,
-    signIn,
-} from "src/app/(auth)/apis/auth.api";
+import { handleSignOut, signIn } from "src/app/(auth)/apis/auth.api";
+import { handleRefreshToken } from "../auth.api";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -26,6 +23,7 @@ export const authOptions: NextAuthOptions = {
                 const { username, password } = credentials;
                 const { user, tokens } = await signIn(username, password);
                 if (user) {
+                    console.log("user", user);
                     return {
                         id: user._id,
                         name: user.fullName,
@@ -35,6 +33,7 @@ export const authOptions: NextAuthOptions = {
                     };
                 }
                 return null;
+                // throw new Error("Invalid credentials");
                 // return await getUserProfile();
             },
         }),
@@ -67,7 +66,7 @@ export const authOptions: NextAuthOptions = {
                     }
                     token.accessToken = refreshedTokens.access_token;
                     token.refreshToken = refreshedTokens.refresh_token;
-                    token.expires = Date.now() + 60 * 55 * 1000;
+                    token.expires = Date.now() + 55 * 60 * 1000; // Extend expiration
                 } catch (error: any) {
                     console.log("error", error.message);
                     await handleSignOut();

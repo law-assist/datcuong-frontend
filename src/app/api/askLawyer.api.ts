@@ -6,7 +6,9 @@ const NODE_ENV = process.env.NODE_ENV;
 const API_HOST =
     NODE_ENV === "production"
         ? process.env.NEXT_SERVER_API_HOST
-        : process.env.API_HOST;
+        : process.env.BACKEND_API_HOST ??
+          process.env.NEXT_PUBLIC_API_HOST ??
+          process.env.API_HOST;
 
 
 export const sendRequest = async (data: any) => {

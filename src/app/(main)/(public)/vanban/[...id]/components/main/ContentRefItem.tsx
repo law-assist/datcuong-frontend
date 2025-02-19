@@ -120,17 +120,17 @@ const ContentRefItem: React.FC<Props> = ({ reference }) => {
     //     });
     // }, [response]);
 
-    let classify = "Trích đẫn";
+    let classify = "Tham khảo";
     if (CLASSIFICATION_MAPPING[response.classification] !== undefined) {
         classify = CLASSIFICATION_MAPPING[response.classification];
     }
-    console.log(classify);
+    console.log(classify, reference);
     // if (response.type === "referring") {
     //     classify = "Tham chiếu";
     // }
 
     return (
-        <div className="rounded border border-gray-400 p-4 flex flex-col gap-2">
+        <div className="rounded border border-gray-400 p-4 flex flex-col gap-2 w-full flex-grow">
             <Link href={`/vanban/${response._id}` as any}>{response.name}</Link>
             <span>
                 <strong>Loại tham chiếu: </strong>

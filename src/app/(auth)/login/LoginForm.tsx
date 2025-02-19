@@ -61,17 +61,15 @@ export default function LoginForm() {
             setLoading(false);
             return;
         } else {
-            console.log(res);
-            debugger;
             api.success({
                 message: "Đăng nhập thành công",
                 placement: "top",
                 showProgress: true,
                 pauseOnHover: false,
             });
-            setLoading(false);
 
             window.location.href = `/${redirectUrl}`;
+            setLoading(false);
             // redirect(`/${redirectUrl}`);
         }
     }

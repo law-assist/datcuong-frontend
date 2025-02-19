@@ -4,6 +4,6 @@ type HomeLayoutProps = {
     children: React.ReactNode;
 };
 
-export default function MainLayout({ children }: HomeLayoutProps) {
+export default function AdminLayout({ children }: HomeLayoutProps) {
     return <PrivateRoute>{children}</PrivateRoute>;
 }

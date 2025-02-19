@@ -1,5 +1,3 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 // import s from "./home.module.scss";
 // import { cn } from "src/libs/utils";
 import Greeting from "./components/Greeting";
@@ -8,14 +6,6 @@ import Link from "next/link";
 import { Button } from "antd";
 
 async function Page() {
-    const session: any = await getServerSession();
-    if (!session) {
-        if (!session?.user) {
-            redirect("/login");
-        }
-    }
-    // redirect("/search");
-
     return (
         <main className="flex-grow flex flex-col w-full">
             <Greeting />

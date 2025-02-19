@@ -30,6 +30,7 @@ const nextConfig = {
     },
     env: {
         API_HOST: process.env.NEXT_PUBLIC_API_HOST,
+        // PUBLIC_HOST: process.env.NEXTAUTH_URL,
     },
     experimental: {
         typedRoutes: true,
