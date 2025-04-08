@@ -1,0 +1,32 @@
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; // Adjust gap if necessary
+}
+
+.tableContent {
+  overflow-x: auto; // Enable horizontal scroll if necessary
+  border: 1px solid #ddd; // Optional: Add a border for better table visibility
+  padding: 1rem; // Optional: Add padding for content
+}
+
+.tableContainer {
+  overflow-x: auto; /* Handle wide tables on small screens */
+}
+
+.tableContent table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableContent th,
+.tableContent td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.tableContent th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}

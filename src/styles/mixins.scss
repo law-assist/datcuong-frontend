@@ -1,0 +1,89 @@
+@mixin btn($textColor, $bgColor) {
+  border-radius: 40px;
+  color: $textColor;
+  background: $bgColor;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding: 12px 24px;
+  border: none;
+
+  &:hover {
+    background: $textColor !important;
+    opacity: 0.85 !important;
+    color: $bgColor !important;
+  }
+}
+@mixin accent-btn {
+  @include btn(theme('colors.neutral.DEFAULT'), theme('colors.accent.600'));
+}
+
+@mixin accent-btn-6 {
+  @include btn(theme('colors.neutral.DEFAULT'), theme('colors.accent.600'));
+  padding: 8px 20px;
+}
+
+@mixin accent-btn-2 {
+  @include btn(theme('colors.accent.600'), theme('colors.accent.200'));
+  font-weight: 500;
+  padding: 8px 20px;
+}
+
+@mixin primary-btn-1 {
+  @include btn(theme('colors.primary.600'), theme('colors.primary.100'));
+  // padding: 8px 20px;
+  font-weight: 500;
+}
+@mixin primary-btn-6 {
+  @include btn(theme('colors.primary.500'), theme('colors.primary.600'));
+  // padding: 8px 20px;
+  font-weight: 500;
+}
+@mixin primary-btn-3 {
+  @include btn(theme('colors.primary.200'), theme('colors.primary.300'));
+  // padding: 8px 20px;
+  font-weight: 500;
+}
+@mixin primary-btn-4 {
+  @include btn(theme('colors.primary.500'), theme('colors.primary.400'));
+  // padding: 8px 20px;
+  font-weight: 500;
+}
+@mixin primary-btn-5 {
+  @include btn(theme('colors.primary.400'), theme('colors.primary.500'));
+  // padding: 8px 20px;
+  font-weight: 500;
+}
+
+@mixin neutral-btn {
+  @include btn(theme('colors.accent.600'), theme('colors.neutral.DEFAULT'));
+}
+@mixin centered-placeholder {
+  border: 1px solid theme('colors.primary.400');
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+
+  outline: none;
+  &::placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: theme('colors.neutral.300');
+    pointer-events: none;
+  }
+  &:focus {
+    outline: none;
+    border-color: theme('colors.primary.400');
+  }
+  &:hover {
+    outline: none;
+    border-color: theme('colors.primary.400');
+  }
+}
+
+@mixin centeredInput {
+  @include centered-placeholder;
+}

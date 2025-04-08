@@ -1,0 +1,6 @@
+{
+    "cSpell.words": ["Dieu", "nextauth"],
+    "jest.runMode": "on-demand",
+    "testing.openTesting": "neverOpen",
+    "testing.automaticallyOpenTestResults": "neverOpen"
+}

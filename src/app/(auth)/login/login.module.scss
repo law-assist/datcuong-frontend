@@ -1,0 +1,30 @@
+@import '/src/styles/mixins.scss';
+
+.inputContainer {
+  :global {
+    .ant-input {
+      // @include centeredInput;
+      border-radius: 24px;
+    }
+
+    .ant-input-affix-wrapper.ant-input-password {
+      border-radius: 24px;
+      border: 1px solid theme('colors.primary.400');
+      .ant-input {
+        // @include centeredInput;
+        border: none;
+      }
+    }
+  }
+}
+
+.formContainer {
+  :global {
+    .ant-btn {
+      @include accent-btn;
+      padding: 14px 20px;
+      height: 52px;
+      font-size: 16px;
+    }
+  }
+}

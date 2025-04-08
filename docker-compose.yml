@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  frontend:
+    ports:
+      - 3000:3000
+    container_name: kanghcmut/lvtn-frontend-app
+    image: kanghcmut/lvtn-frontend-app:latest
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile  
+    env_file:
+      - .env
+    # environment:
+

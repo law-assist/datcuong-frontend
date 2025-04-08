@@ -1,0 +1,8 @@
+@import '/src/styles/mixins.scss';
+
+.auth {
+  background-image: url('../../../public/images/authBg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
