@@ -7,8 +7,8 @@ import { Button } from "antd";
 
 async function Page() {
     return (
-        <main className="flex-grow flex flex-col w-full">
-            <Greeting />
+        <main className="flex-grow flex flex-col w-full pt-5 pb-5">
+            {/* <Greeting /> */}
             <div className=" flex flex-col md:flex-row gap-4 flex-grow pb-2">
                 <div className="bg-white/90 rounded-md flex-grow">
                     <h4 className="p-4 italic">Văn bản pháp luật mới</h4>
@@ -17,13 +17,13 @@ async function Page() {
                 <div className="site flex flex-row md:flex-col md:min-w-52 gap-2 order-first md:order-last justify-end md:justify-start">
                     <span className="flex flex-col gap-2 bg-white/90 p-4 rounded-md">
                         Tìm kiếm nâng cao
-                        <Button className="" type="primary">
+                        <Button className=""  style={{ backgroundColor: "#07357A", color: "white" }}>
                             <Link href="/search">Tìm kiếm</Link>
                         </Button>
                     </span>
                     <span className="flex flex-col gap-2 bg-white/90 p-4 rounded-md">
                         Trợ giúp pháp lý
-                        <Button type="primary">
+                        <Button  style={{ backgroundColor: "#07357A", color: "white" }}>
                             <Link href="/ask">Đến ngay</Link>
                         </Button>
                     </span>

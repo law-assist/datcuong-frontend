@@ -32,7 +32,7 @@ export default function DiagramPage({ params }: CustomPageProps) {
         }
     }
     return (
-        <div className="border border-primary w-full max-w-lg mx-auto p-4 rounded">
+        <div className="border border-primary w-full max-w-4xl mx-auto p-4 rounded">
             <h5 className="text-center text-primary font-bold mb-2 w-full text-lg">
                 Văn bản đang xem
             </h5>
