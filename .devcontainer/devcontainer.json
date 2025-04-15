@@ -1,0 +1,33 @@
+{
+	// Dev container name
+	"name": "DACN-242 frontend dev environment",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	// "image": "mcr.microsoft.com/devcontainers/base:alpine-3.20"
+	// Build Dockerfile for dev container, rebuild when add new tools to dev container
+	"build": {
+		"dockerfile": "Dockerfile",
+		"options": ["--tag=dacn-242-frontend-dev"]
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [3000],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "npm install --legacy-peer-deps",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"burkeholland.simple-react-snippets",
+				"dsznajder.es7-react-js-snippets",
+				"EQuimper.react-native-react-redux",
+				"syler.sass-indented",
+				"eamodio.gitlens",
+				"ecmel.vscode-html-css",
+				"ms-vscode.vscode-typescript-next"
+			]
+		}
+	},
+}
