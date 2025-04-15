@@ -1,19 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button, Input, notification } from "antd";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { Button, Input, notification, Tooltip } from "antd";
 
 import TextError from "src/components/error/TextError";
 import { cn } from "src/libs/utils";
 import { loginSchema } from "src/zod-schemas/login-schema";
 
-import fb from "public/icon/icon-facebook.svg";
-import gg from "public/icon/icon-google.svg";
+import fb from "public/icons/icon-facebook.svg";
+import gg from "public/icons/icon-google.svg";
 
 import { z } from "zod";
 import s from "./login.module.scss";
@@ -22,6 +23,10 @@ type FormData = z.infer<typeof loginSchema>;
 export default function LoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const redirectUrl = searchParams.get("redirect") ?? "home";
+
+    const { data: session } = useSession();
+
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [api, contextHolder] = notification.useNotification();
@@ -33,13 +38,6 @@ export default function LoginForm() {
     } = useForm<FormData>({
         mode: "onBlur",
     });
-    const { data: session } = useSession();
-    console.log(session);
-
-    if (session?.user) {
-        const redirect = searchParams.get("redirect") ?? "/home";
-        router.push(redirect as any);
-    }
 
     async function onFocus() {
         setErrorMessage("");
@@ -52,33 +50,43 @@ export default function LoginForm() {
             password,
             redirect: false,
         });
-        setLoading(false);
         if (!res?.ok) {
             setErrorMessage("Tài khoản hoặc mật khẩu không đúng");
+            api.error({
+                message: "Tài khoản hoặc mật khẩu không đúng",
+                placement: "top",
+                showProgress: true,
+                pauseOnHover: false,
+            });
+            setLoading(false);
             return;
-        }
+        } else {
+            api.success({
+                message: "Đăng nhập thành công",
+                placement: "top",
+                showProgress: true,
+                pauseOnHover: false,
+            });
 
-        api.success({
-            message: "Đăng nhập thành công",
-            placement: "top",
-            showProgress: true,
-            pauseOnHover: false,
-        });
+            window.location.href = `/${redirectUrl}`;
+            setLoading(false);
+            // redirect(`/${redirectUrl}`);
+        }
     }
 
     return (
         <>
             {contextHolder}
-            <div className="mx-auto w-3/4 xl:w-2/3  bg-white my-4">
-                <h2 className="bg-primary text-white text-center py-3 xl:py-6">
+            <div className="mx-auto w-4/5 md:w-1/2 lg:w-3/5  bg-white my-8 rounded-3xl">
+                <h2 className="bg-primary text-white text-center py-3 2xl:py-6">
                     XinChaoVietNam
                 </h2>
-                <div className="border--primary-400 mx-auto border p-4 grid xl:grid-cols-2">
+                <div className="border--primary-400 mx-auto border p-4 grid lg:grid-cols-3">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className={
                             (s.formContainer,
-                            "xl:border-r xl:border-primary xl:pr-5")
+                            "xl:border-r xl:border-primary xl:pr-5 lg:col-span-2")
                         }
                     >
                         <div
@@ -138,7 +146,7 @@ export default function LoginForm() {
                         <TextError error={errorMessage} />
 
                         <Link
-                            href={"/reset-password"}
+                            href={"/reset-password" as any}
                             className="text-blue-500"
                         >
                             Quên mật khẩu ?
@@ -156,15 +164,29 @@ export default function LoginForm() {
                             Đăng nhập
                         </Button>
                     </form>
-                    <div className=" flex flex-col items-center justify-center xl:pl-5">
+                    <div className=" flex flex-col items-center justify-start xl:pl-5">
                         <span>Hoặc đăng nhập bằng</span>
                         <div className="mt-4 flex items-center">
                             <div className="mr-5 w-fit cursor-pointer rounded-full bg-primary-500 p-3">
-                                <Image src={fb} alt="" width={24} height={24} />
+                                <Tooltip title="Facebook">
+                                    <Image
+                                        src={fb}
+                                        alt="Facebook"
+                                        width={24}
+                                        height={24}
+                                    />
+                                </Tooltip>
                             </div>
 
                             <div className="w-fit cursor-pointer rounded-full bg-primary-500 p-3">
-                                <Image src={gg} alt="" width={24} height={24} />
+                                <Tooltip title="Google">
+                                    <Image
+                                        src={gg}
+                                        alt="Google"
+                                        width={24}
+                                        height={24}
+                                    />
+                                </Tooltip>
                             </div>
                         </div>
                     </div>

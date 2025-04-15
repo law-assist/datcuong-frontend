@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Button, Input, message, notification } from "antd";
+import { Button, Input, message, notification, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 
 import { cn } from "src/libs/utils";
@@ -16,8 +16,8 @@ import { SignUpSchema } from "src/zod-schemas/signup-schema";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import fb from "public/icon/icon-facebook.svg";
-import gg from "public/icon/icon-google.svg";
+import fb from "public/icons/icon-facebook.svg";
+import gg from "public/icons/icon-google.svg";
 import { signUpUser } from "../apis/auth.api";
 
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
@@ -44,14 +44,13 @@ export default function SignUpForm() {
             fullName: data.name,
             email: data.email,
             password: data.password,
-            role: "user",
-            phoneNumber: "0123456789",
-            address: "Hanoi",
-            dob: "2021-01-01",
+            // role: "user",
+            phoneNumber: data.phone,
+            // address: "Hanoi",
+            // dob: "2021-01-01",
         };
 
         const res = await signUpUser(dataBody);
-        console.log("res", res);
         if (res.statusCode === 201) {
             api.success({
                 message: "Đăng ký tài khoản thành công",
@@ -60,10 +59,15 @@ export default function SignUpForm() {
                 showProgress: true,
             });
 
-            router.push(`login`);
+            // wait 3s to redirect to login page
+            setTimeout(() => {
+                router.push(`/login` as any);
+            }, 2000);
+
+            // router.push(`/login` as any);
         } else {
             api.error({
-                message: res.message,
+                message: res.message || "Đăng ký tài khoản thất bại",
                 description: "Vui lòng thử lại",
                 duration: 3,
                 showProgress: true,
@@ -75,14 +79,14 @@ export default function SignUpForm() {
     return (
         <>
             {contextHolder}
-            <div className="mx-auto w-3/4 xl:w-2/3  bg-white my-4">
-                <h2 className="bg-primary text-white text-center py-3 xl:py-6">
+            <div className="mx-auto w-4/5 md:w-1/2 lg:w-3/5  bg-white my-4">
+                <h2 className="bg-primary text-white text-center py-3 2xl:py-6">
                     XinChaoVietNam
                 </h2>
-                <div className="border--primary-400 mx-auto border p-4 grid xl:grid-cols-2">
+                <div className="border--primary-400 mx-auto border p-4 grid lg:grid-cols-3">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
-                        className="border--primary-400 xl:border-r xl:border-primary xl:pr-5 flex flex-col gap-2"
+                        className="border--primary-400 xl:border-r xl:border-primary xl:pr-5 flex flex-col gap-2 lg:col-span-2"
                     >
                         <div className={cn(s.main, "flex flex-col gap-2")}>
                             <div
@@ -136,7 +140,7 @@ export default function SignUpForm() {
                                 />
                                 {<Errors error={errors.email} />}
                             </div>
-                            {/* <div
+                            <div
                                 className={cn(
                                     s.inputContainers,
                                     "flex flex-col"
@@ -163,7 +167,7 @@ export default function SignUpForm() {
                                 <span className="h-3 text-red-500">
                                     {<Errors error={errors.phone} />}
                                 </span>
-                            </div> */}
+                            </div>
                             <div
                                 className={cn(
                                     s.inputContainers,
@@ -194,6 +198,12 @@ export default function SignUpForm() {
                                         />
                                     )}
                                 />
+                                <span className="text-md text-gray-500 mt-1">
+                                    <span className="text-red-600"> * </span>
+                                    Mật khẩu phải chứa ít nhất 8 ký tự (ít nhất
+                                    1 chữ cái viết hoa, 1 chữ cái viết thường, 1
+                                    số)
+                                </span>
                                 {<Errors error={errors.password} />}
                             </div>
                             <div
@@ -229,13 +239,13 @@ export default function SignUpForm() {
                                 {<Errors error={errors.confirmPassword} />}
                             </div>
                         </div>
-                        <div className="my-4">
+                        <div className="my-2">
                             <Link
                                 href={`/login`}
-                                className="mt-3 cursor-pointer text-base font-normal text-gray-900 underline underline-offset-4"
+                                className="mb-3 cursor-pointer text-base font-normal text-gray-600 hover:underline underline-offset-4 hover:text-primary text-end justify-end flex flex-row gap-2"
                             >
                                 Quay về trang{" "}
-                                <span className=" text-primary font-medium">
+                                <span className=" text-primary font-medium underline">
                                     Đăng nhập
                                 </span>
                             </Link>
@@ -249,30 +259,34 @@ export default function SignUpForm() {
                             </Button>
                         </div>
                     </form>
-                    <div className="mt-10 flex flex-col items-center justify-center xl:pl-5">
+                    <div className="mt-10 flex flex-col items-center justify-start xl:pl-5">
                         <span>Hoặc đăng nhập bằng</span>
                         <div className="mt-4 flex items-center">
                             <div className="mr-5 w-fit cursor-pointer rounded-full bg-primary-500 p-3">
-                                <Image
-                                    src={fb}
-                                    alt="Facebook"
-                                    width={24}
-                                    height={24}
-                                />
+                                <Tooltip title="Facebook">
+                                    <Image
+                                        src={fb}
+                                        alt="Facebook"
+                                        width={24}
+                                        height={24}
+                                    />
+                                </Tooltip>
                             </div>
 
                             <div className="w-fit cursor-pointer rounded-full bg-primary-500 p-3">
-                                <Image
-                                    src={gg}
-                                    alt="Google"
-                                    width={24}
-                                    height={24}
-                                />
+                                <Tooltip title="Google">
+                                    <Image
+                                        src={gg}
+                                        alt="Google"
+                                        width={24}
+                                        height={24}
+                                    />
+                                </Tooltip>
                             </div>
                         </div>
                     </div>
                 </div>
-                <p className="mb-4 text-center">
+                <p className="mb-4  text-center px-4 py-2">
                     Lưu ý: Nếu bạn là{" "}
                     <strong className=" text-primary">Luật sư</strong> và muốn
                     là{" "}

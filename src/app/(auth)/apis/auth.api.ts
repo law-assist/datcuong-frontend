@@ -1,20 +1,31 @@
 "use server";
-import { setCookie } from "src/libs/set-cookie";
 import axios from "axios";
 import { signOut } from "next-auth/react";
 import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
+import { authOptions } from "src/app/api/auth/[...nextauth]/authOptions";
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://127.0.0.1:5000";
+const NODE_ENV = process.env.NODE_ENV;
+const API_HOST =
+    NODE_ENV === "production"
+        ? process.env.NEXT_SERVER_API_HOST
+        : process.env.BACKEND_API_HOST ??
+          process.env.NEXT_PUBLIC_API_HOST ??
+          process.env.API_HOST;
+
 export const signUpUser = async (signUpInfo: any): Promise<any> => {
     try {
-        const data = await axios.post(`${API_HOST}/auth/register`, signUpInfo, {
+        const res = await axios.post(`${API_HOST}/auth/register`, signUpInfo, {
             headers: {
                 "Content-Type": "application/json",
             },
         });
-        return data.data;
+        return res.data;
     } catch (error: any) {
-        return error.response.data;
+        if (error.response) {
+            return error.response.data;
+        }
+        return null;
     }
 };
 export const signIn = async (username: string, password: string) => {
@@ -40,8 +51,17 @@ export const signIn = async (username: string, password: string) => {
             ? res.data.data.tokens.refreshToken
             : "";
 
-        await cookies().set("access_token", accessToken);
-        await cookies().set("refresh_token", refreshToken);
+        cookies().set("access_token", accessToken, {
+            maxAge: 60 * 60,
+            path: "/",
+        });
+        cookies().set("refresh_token", refreshToken, {
+            // httpOnly: true,
+            // secure: process.env.NODE_ENV === "production",
+            maxAge: 60 * 60 * 24,
+            path: "/",
+            sameSite: "strict",
+        });
 
         return res.data.data;
     } catch (error) {
@@ -66,47 +86,64 @@ export const signIn = async (username: string, password: string) => {
 //     return res.data;
 // };
 
-export const removeTokens = () => {
-    cookies().delete("access_token");
-    cookies().delete("refresh_token");
+export const removeTokens = async () => {
+    await cookies().delete("access_token");
+    await cookies().delete("refresh_token");
 };
 
-export const handleSignOut = () => {
-    removeTokens();
-    signOut();
+export const handleSignOut = async () => {
+    await removeTokens();
+    signOut({ callbackUrl: "/login" });
 };
 
-export const handleRefreshToken = async (refreshToken: string) => {
-    "use server";
-    const res = await axios.post(
-        `${API_HOST}/v1/auth/refresh-token`,
-        { refreshToken },
-        {
+export const handleRefreshToken = async () => {
+    try {
+        const token = cookies().get("refresh_token")?.value;
+        const auth = `Bearer ${token}`;
+        const res = await fetch(`${API_HOST}/auth/refresh-token`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: auth,
             },
+            credentials: "include",
+            cache: "no-cache",
+        });
+        const json = await res.json();
+        if (!res.ok) {
+            throw new Error(json.message);
         }
-    );
-    const accessToken = res.data?.access_token;
-    await setCookie("access_token", accessToken);
-    return res.data;
+
+        const accessToken = json.data?.accessToken;
+        const refreshToken = json.data?.refreshToken;
+        await cookies().set("access_token", accessToken, {
+            maxAge: 60 * 60,
+        });
+        await cookies().set("refresh_token", refreshToken, {
+            // httpOnly: true,
+            // secure: process.env.NODE_ENV === "production",
+            maxAge: 60 * 60 * 24,
+            path: "/",
+            sameSite: "strict",
+        });
+
+        return {
+            access_token: accessToken,
+            refresh_token: refreshToken,
+        };
+    } catch (error: any) {
+        console.log("refresh token err", error.message);
+        return null;
+    }
 };
 
-// pages/dashboard.js
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "src/app/api/auth/[...nextauth]/route";
-
-export async function getServerSideProps(context: any) {
-    const session = await getServerSession(
-        context.req,
-        context.res,
-        authOptions
-    );
+export async function getServerSideProps() {
+    const session = await getServerSession(authOptions);
 
     if (!session) {
         return {
             redirect: {
-                destination: "/api/auth/signin",
+                destination: "/login",
                 permanent: false,
             },
         };

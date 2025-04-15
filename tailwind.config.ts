@@ -12,7 +12,7 @@ const config: Config = {
                 primary: {
                     DEFAULT: "#07357A",
                     100: "#F6FCF1", // not used
-                    200: "#EBF8E0 ", // not used
+                    200: "#EBF8E0", // not used
                     300: "#DAEBCC", // not used
                     400: "#C4DCB1", // not used
                     500: "#A2C287", // not used
@@ -25,7 +25,7 @@ const config: Config = {
                     300: "#8292AA", // not used
                     400: "#384252", // not used
                     500: "#242B35", // not used
-                    600: "#40423F ", // not used
+                    600: "#40423F", // not used
                     main: "#22313F", // not used
                 },
                 natural: {
@@ -85,5 +85,9 @@ const config: Config = {
         },
     },
     plugins: [],
+    future: {
+        // Disable Tailwind's use of modern color functions
+        disableColorOpacityUtilitiesByDefault: true,
+    },
 };
 export default config;

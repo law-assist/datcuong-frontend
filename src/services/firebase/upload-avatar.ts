@@ -2,7 +2,10 @@
 
 // dotenv.config();
 import Cookies from 'js-cookie';
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST;
+const API_HOST =
+    process.env.BACKEND_API_HOST ??
+    process.env.NEXT_PUBLIC_API_HOST ??
+    process.env.API_HOST;
 
 export const uploadImage = async (file: File) => {
   const formData = new FormData();

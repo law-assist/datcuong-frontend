@@ -1,51 +1,45 @@
-//
-"use client";
-import { Input } from "antd";
-import { CaretDownOutlined } from "@ant-design/icons";
-import type { GetProps } from "antd";
+import Link from "next/link";
+import Image from "next/image";
+import fb from "public/icons/facebook.svg";
+import SearchBar from "./SearchBar";
+import HeaderNav from "./HeaderNav";
 
-type SearchProps = GetProps<typeof Input.Search>;
+import { getServerSession } from "next-auth";
+import HeaderDropdown from "./HeaderDropdown";
+import { authOptions } from "src/app/api/auth/[...nextauth]/authOptions";
 
-const { Search } = Input;
-
-function Header() {
-    const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
-        console.log(info?.source, value);
+async function Header() {
+    const session = await getServerSession(authOptions);
 
     return (
         <header>
-            <div className="flex flex-row justify-between items-center px-8 2xl:px-32 py-8 bg-primary">
-                <p className="logo text-white font-bold text-2xl">
-                    XinchaoVietNam
-                </p>
-                <div className="search-bar flex flex-row gap-3">
-                    <div className="w-1/2">
-                        <Search
-                            placeholder="input search text"
-                            onSearch={onSearch}
-                            enterButton
-                        />
+            <div className="flex flex-row gap-2 justify-between items-center px-4 lg:px-8 xl:px-32 pt-2 pb-1 bg-primary">
+                <Link
+                    className="logo text-white font-bold text-2xl"
+                    href={"/home"}
+                >
+                    <p className="hidden lg:block">XinchaoVietNam</p>
+                    <p className="block lg:hidden"> XCVN </p>
+                </Link>
+                <div className="search-bar grid grid-cols-3 gap-3 ">
+                    <div className="col-span-2">
+                        <SearchBar />
                     </div>
                     <div className="account flex flex-row gap-3 items-center">
-                        <div className="avatar">
-                            <img
-                                src="https://via.placeholder.com/150"
+                        <div className="avatar hidden md:block">
+                            <Image
+                                src={session?.user?.image || fb}
                                 alt="avatar"
+                                width={32}
+                                height={32}
                                 className="rounded-full w-8 h-8"
                             />
                         </div>
-                        <p className="text-white">Tài khoản</p>
-                        <CaretDownOutlined
-                            style={{
-                                color: "white",
-                                padding: "0.25rem",
-                            }}
-                            width={32}
-                            height={32}
-                        />
+                        <HeaderDropdown user={session?.user} />
                     </div>
                 </div>
             </div>
+            <HeaderNav></HeaderNav>
         </header>
     );
 }
