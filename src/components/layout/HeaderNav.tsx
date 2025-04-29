@@ -26,7 +26,7 @@ function HeaderNav() {
             <div className="border-t-2 pt-2 border-gray-500"></div>
             <nav className="flex flex-row justify-start gap-3 items-center ">
                 <Link
-                    className={`text-white font-bold hover:text-yellow-600 hover:underline ${
+                    className={`text-white text-2xl font-bold hover:text-yellow-600 hover:underline ${
                         pathname === "/home" ? "text-yellow-400" : ""
                     }`}
                     href={"/home"}
@@ -34,7 +34,7 @@ function HeaderNav() {
                     Trang chủ
                 </Link>
                 <Link
-                    className={`text-white font-bold hover:text-yellow-600 hover:underline ${
+                    className={`text-white text-2xl font-bold hover:text-yellow-600 hover:underline ${
                         pathname === "/search" ? "text-yellow-400" : ""
                     }`}
                     href={"/search"}
@@ -43,7 +43,7 @@ function HeaderNav() {
                 </Link>
                 {user?.role === "lawyer" ? (
                     <Link
-                        className={`text-white font-bold hover:text-yellow-600 hover:underline ${
+                        className={`text-white text-2xl font-bold hover:text-yellow-600 hover:underline ${
                             pathname === "/response" ? "text-yellow-400" : ""
                         }`}
                         href={"/response"}
@@ -52,7 +52,7 @@ function HeaderNav() {
                     </Link>
                 ) : (
                     <Link
-                        className={`text-white font-bold hover:text-yellow-600 hover:underline ${
+                        className={`text-white text-2xl font-bold hover:text-yellow-600 hover:underline ${
                             pathname === "/ask" ? "text-yellow-400" : ""
                         }`}
                         href={"/ask"}
@@ -62,7 +62,7 @@ function HeaderNav() {
                 )}
 
                 <Link
-                    className={`text-white font-bold hover:text-yellow-600 hover:underline ${
+                    className={`text-white text-2xl font-bold hover:text-yellow-600 hover:underline ${
                         pathname === "/about" ? "text-yellow-400" : ""
                     }`}
                     href={"/"}

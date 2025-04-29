@@ -79,11 +79,11 @@ export default function SignUpForm() {
     return (
         <>
             {contextHolder}
-            <div className="mx-auto w-4/5 md:w-1/2 lg:w-3/5  bg-white my-4">
+            <div className="mx-auto w-4/5 md:w-1/2 lg:w-2/5  bg-white my-4">
                 <h2 className="bg-primary text-white text-center py-3 2xl:py-6">
-                    XinChaoVietNam
+                    Law Assistant
                 </h2>
-                <div className="border--primary-400 mx-auto border p-4 grid lg:grid-cols-3">
+                <div className="border--primary-400 mx-auto border p-4 grid">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="border--primary-400 xl:border-r xl:border-primary xl:pr-5 flex flex-col gap-2 lg:col-span-2"
@@ -259,7 +259,7 @@ export default function SignUpForm() {
                             </Button>
                         </div>
                     </form>
-                    <div className="mt-10 flex flex-col items-center justify-start xl:pl-5">
+                    {/* <div className="mt-10 flex flex-col items-center justify-start xl:pl-5">
                         <span>Hoặc đăng nhập bằng</span>
                         <div className="mt-4 flex items-center">
                             <div className="mr-5 w-fit cursor-pointer rounded-full bg-primary-500 p-3">
@@ -284,7 +284,7 @@ export default function SignUpForm() {
                                 </Tooltip>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <p className="mb-4  text-center px-4 py-2">
                     Lưu ý: Nếu bạn là{" "}
@@ -294,7 +294,7 @@ export default function SignUpForm() {
                         Người tư vấn pháp luật
                     </strong>{" "}
                     của{" "}
-                    <strong className=" text-primary">XinchaoVietNam</strong>thì
+                    <strong className=" text-primary">Law Assistant</strong>thì
                     hãy <span className=" text-alerts-red">Liên hệ</span> với
                     chúng tôi nhé!
                 </p>
