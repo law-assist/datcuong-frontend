@@ -4,29 +4,38 @@ import Greeting from "./components/Greeting";
 import SearchList from "../search/components/Search";
 import Link from "next/link";
 import { Button } from "antd";
+import Image from "next/image";
+import hoidapphapluat from "public/images/hoidapphapluat.png"
+import timkiemnangcao from "public/images/timkiemnangcao.png"
 
 async function Page() {
     return (
-        <main className="flex-grow flex flex-col w-full">
-            <Greeting />
+        <main className="flex-grow flex flex-col w-full pt-5 pb-5">
             <div className=" flex flex-col md:flex-row gap-4 flex-grow pb-2">
                 <div className="bg-white/90 rounded-md flex-grow">
                     <h4 className="p-4 italic">Văn bản pháp luật mới</h4>
                     <SearchList />
                 </div>
                 <div className="site flex flex-row md:flex-col md:min-w-52 gap-2 order-first md:order-last justify-end md:justify-start">
-                    <span className="flex flex-col gap-2 bg-white/90 p-4 rounded-md">
-                        Tìm kiếm nâng cao
-                        <Button className="" type="primary">
-                            <Link href="/search">Tìm kiếm</Link>
-                        </Button>
-                    </span>
-                    <span className="flex flex-col gap-2 bg-white/90 p-4 rounded-md">
-                        Trợ giúp pháp lý
-                        <Button type="primary">
-                            <Link href="/ask">Đến ngay</Link>
-                        </Button>
-                    </span>
+                    
+
+                    <a href="/search" >
+                    <Image
+                            src={timkiemnangcao}
+                            alt="Map of Vietnam"
+                            width={256}
+                            height={284} 
+                        />
+                    </a>  
+                    
+                    <a href="/ask" >
+                    <Image
+                            src={hoidapphapluat}
+                            alt="Map of Vietnam"
+                            width={256} 
+                            height={284} 
+                        />
+                    </a>              
                 </div>
             </div>
         </main>

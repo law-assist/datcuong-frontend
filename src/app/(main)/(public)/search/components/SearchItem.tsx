@@ -9,7 +9,7 @@ export const SearchItem: React.FC<SearchItemProps> = ({ law }) => {
     return (
         <Link
             href={`/vanban/${law._id}`}
-            className="flex flex-col lg:grid lg:grid-cols-3 gap-2 py-2 px-4 hover:bg-gray-100/20 cursor-pointer"
+            className="flex flex-col lg:grid lg:grid-cols-3 gap-2 py-2 px-4 hover:bg-gray-100/20 cursor-pointer border-b border-gray-300 mx-5"
         >
             <div className="flex flex-col lg:col-span-2 gap-2">
                 <span className="hover:underline text-xl font-semibold text-primary line-clamp-2 hover:line-clamp-none">
