@@ -20,7 +20,7 @@ function SearchFilter() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
-    const [isFormVisible, setIsFormVisible] = useState<boolean>(true);
+    const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
 
     const q = searchParams.get("q") ?? "";
     const field = searchParams.get("field") ?? "";
@@ -71,8 +71,8 @@ function SearchFilter() {
                 {isFormVisible ? <UpOutlined /> : <DownOutlined />}
             </span>
 
-            {/* {isFormVisible && (
-                <> */}
+            {isFormVisible && (
+                <>
                     <Form
                         form={form}
                         name="law search"
@@ -161,13 +161,13 @@ function SearchFilter() {
                             type="primary"
                             htmlType="submit"
                             className="w-full"
-                            style={{ marginTop: 8, backgroundColor: "#07357A"}}
+                            style={{ marginTop: 8 }}
                         >
                             Tìm kiếm
                         </Button>
                     </Form>
-                {/* </>
-            )} */}
+                </>
+            )}
         </div>
     );
 }

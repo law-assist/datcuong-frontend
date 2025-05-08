@@ -77,11 +77,11 @@ export default function LoginForm() {
     return (
         <>
             {contextHolder}
-            <div className="mx-auto w-4/5 md:w-1/2 lg:w-2/5  bg-white my-8 rounded-3xl">
+            <div className="mx-auto w-4/5 md:w-1/2 lg:w-3/5  bg-white my-8 rounded-3xl">
                 <h2 className="bg-primary text-white text-center py-3 2xl:py-6">
-                Law Assistant
+                    XinChaoVietNam
                 </h2>
-                <div className="border--primary-400 mx-auto border p-4 grid ">
+                <div className="border--primary-400 mx-auto border p-4 grid lg:grid-cols-3">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className={
@@ -164,7 +164,7 @@ export default function LoginForm() {
                             Đăng nhập
                         </Button>
                     </form>
-                    {/* <div className=" flex flex-col items-center justify-start xl:pl-5">
+                    <div className=" flex flex-col items-center justify-start xl:pl-5">
                         <span>Hoặc đăng nhập bằng</span>
                         <div className="mt-4 flex items-center">
                             <div className="mr-5 w-fit cursor-pointer rounded-full bg-primary-500 p-3">
@@ -189,7 +189,7 @@ export default function LoginForm() {
                                 </Tooltip>
                             </div>
                         </div>
-                    </div> */}
+                    </div>
                 </div>
                 <p className=" text-center items-center pb-8">
                     Bạn chưa có tài khoản đăng nhập?{" "}

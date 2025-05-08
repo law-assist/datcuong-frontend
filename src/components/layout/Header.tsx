@@ -18,7 +18,7 @@ async function Header() {
                     className="logo text-white font-bold text-2xl"
                     href={"/home"}
                 >
-                    <p className="hidden lg:block text-5xl">Law Assistant</p>
+                    <p className="hidden lg:block">XinchaoVietNam</p>
                     <p className="block lg:hidden"> XCVN </p>
                 </Link>
                 <div className="search-bar grid grid-cols-3 gap-3 ">

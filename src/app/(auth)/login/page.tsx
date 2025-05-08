@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "src/app/api/auth/[...nextauth]/authOptions";
 
 export const metadata: Metadata = {
-    title: "Law Assistant - Trang đăng nhập",
+    title: "XinchaoVietNam - Trang đăng nhập",
     description: "Trang đăng nhập",
 };
 

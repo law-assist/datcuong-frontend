@@ -69,7 +69,7 @@ function Page() {
                             </strong>{" "}
                             của{" "}
                             <strong className="text-primary">
-                                Law Assistant
+                                XinchaoVietNam
                             </strong>
                         </p>
                         <span className="flex flex-row gap-2 ">
@@ -121,7 +121,7 @@ function Page() {
                             <strong className="text-primary">Thành viên</strong>{" "}
                             của{" "}
                             <strong className="text-primary">
-                                Law Assistant
+                                XinchaoVietNam
                             </strong>
                         </p>
 
