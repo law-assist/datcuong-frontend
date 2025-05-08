@@ -43,6 +43,14 @@ jobs:
         context: ./
         file: ./Dockerfile
         push: true
+        build-args: |
+          "NEXT_PUBLIC_API_HOST=${{ variables.NEXT_PUBLIC_API_HOST }}",
+          "REMOTE_PROTOCOL=${{ variables.REMOTE_PROTOCOL }}",
+          "REMOTE_HOSTNAME=${{ variables.REMOTE_HOSTNAME }}",
+          "REMOTE_PHOTO_MOCK_DATA=${{ variables.REMOTE_PHOTO_MOCK_DATA }}",
+          "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}",
+          "NEXTAUTH_URL=${{ variables.NEXTAUTH_URL }}",
+          "NODE_TLS_REJECT_UNAUTHORIZED=0"
         tags: ${{ secrets.DOCKER_USERNAME }}/law-assist-dacn242-prod
         cache-to: type=local,dest=./tmp/.buildx-cache
         cache-from: type=local,src=./tmp/.buildx-cache
