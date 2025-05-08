@@ -2,7 +2,7 @@ name: Law assist DACN-242 production CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
 
 jobs:
 
