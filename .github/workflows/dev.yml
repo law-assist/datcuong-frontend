@@ -38,9 +38,8 @@ jobs:
       uses: devcontainers/ci@v0.3.1900000328
       id: dev_container_prebuild
       with:
-        imageName: ${{ secrets.DOCKER_USERNAME }}/scp_web_management_dev
-        # cacheTo: ${{ secrets.DOCKER_HUB_USERNAME }}/scp_web_management_dev
-        cacheFrom: ${{ secrets.DOCKER_USERNAME }}/scp_web_management_dev
+        imageName: ${{ secrets.DOCKER_USERNAME }}/law-assist-dacn242-dev
+        cacheFrom: ${{ secrets.DOCKER_USERNAME }}/law-assist-dacn242-dev
         push: always
         runCmd: npm -v
 
