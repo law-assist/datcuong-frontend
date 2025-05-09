@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 node:21-alpine AS base
+FROM node:24-alpine AS base
 
 # FROM node:21-alpine AS base
 # 
@@ -34,7 +34,7 @@ RUN yarn build
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -51,7 +51,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 USER nextjs
 
 EXPOSE 29000
-ENV PORT 29000
+ENV PORT=29000
 
 # ENV PORT 3000
 # ENV HOSTNAME localhost
