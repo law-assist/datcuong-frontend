@@ -1,4 +1,4 @@
-name: Law assist DACN-242 production CI
+name: Law assist frontend production CI
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
       with:
         path: /tmp/.buildx-cache
         key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-key: |
+        restore-keys: |
           ${{ runner.os }}-buildx-
           
     - name: Build and push Docker images
@@ -49,10 +49,10 @@ jobs:
           REMOTE_HOSTNAME=${{ vars.REMOTE_HOSTNAME }}
           REMOTE_PHOTO_MOCK_DATA=${{ vars.REMOTE_PHOTO_MOCK_DATA }}
           NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }}
-          NODE_TLS_REJECT_UNAUTHORIZED=0
+          NODE_TLS_REJECT_UNAUTHORIZED=${{ vars.NODE_TLS_REJECT_UNAUTHORIZED }}
         secrets: |  
           "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}"
-        tags: ${{ secrets.DOCKER_USERNAME }}/law-assist-dacn242-prod
+        tags: ${{ secrets.DOCKER_USERNAME }}/frontend:prod-latest
         cache-to: type=local,dest=./tmp/.buildx-cache
         cache-from: type=local,src=./tmp/.buildx-cache
 
