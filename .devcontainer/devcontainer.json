@@ -1,16 +1,17 @@
 {
 	// Dev container name
-	"name": "DACN-242 frontend dev environment",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	// "image": "mcr.microsoft.com/devcontainers/base:alpine-3.20"
+	"name": "law assist frontend dev environment",
 	// Build Dockerfile for dev container, rebuild when add new tools to dev container
 	"build": {
 		"dockerfile": "Dockerfile",
 		"options": ["--tag=dacn-242-frontend-dev"]
 	},
-
+	// Or use a pre-built image on local dev container, uncomment to pull dev image
+	// If so, DON'T COMMIT THAT CHANGE!!
+	// "image": "lawassist/frontend:dev-latest"
+	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000],
+	"forwardPorts": [29002],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "npm install --legacy-peer-deps",
@@ -29,5 +30,5 @@
 				"ms-vscode.vscode-typescript-next"
 			]
 		}
-	},
+	}
 }

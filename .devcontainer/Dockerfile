@@ -1,4 +1,4 @@
-FROM node:21-alpine AS base
+FROM node:24-alpine AS base
 
 RUN apk add --no-cache libc6-compat
 
@@ -10,6 +10,6 @@ RUN apk add --no-cache bash
 
 # Dev Environment:
     # Alpine linux distro: ✅
-    # Node: ✅ (v.21)
+    # Node: ✅ (v.24)
     # Git: ✅
     # Bash: ✅
