@@ -39,16 +39,17 @@ jobs:
       uses: devcontainers/ci@v0.3.1900000328
       id: dev_container_prebuild
       with:
-        imageName: ${{ secrets.DOCKER_USERNAME }}/frontend:dev-latest
-        cacheFrom: ${{ secrets.DOCKER_USERNAME }}/frontend:dev-latest
+        imageName: ${{ secrets.DOCKER_USERNAME }}/frontend
+        imageTag: dev-latest
+        cacheFrom: ${{ secrets.DOCKER_USERNAME }}/frontend
         env: |
-          NEXT_PUBLIC_API_HOST: ${{ vars.NEXT_PUBLIC_API_HOST }}
-          REMOTE_PROTOCOL: ${{ vars.REMOTE_PROTOCOL }}
-          REMOTE_HOSTNAME: ${{ vars.REMOTE_HOSTNAME }}
-          REMOTE_PHOTO_MOCK_DATA: ${{ vars.REMOTE_PHOTO_MOCK_DATA }}
-          NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET_DEV }}
-          NODE_TLS_REJECT_UNAUTHORIZED: ${{ secrets.NODE_TLS_REJECT_UNAUTHORIZED }}
+          NEXT_PUBLIC_API_HOST=${{ vars.NEXT_PUBLIC_API_HOST }}
+          REMOTE_PROTOCOL=${{ vars.REMOTE_PROTOCOL }}
+          REMOTE_HOSTNAME=${{ vars.REMOTE_HOSTNAME }}
+          REMOTE_PHOTO_MOCK_DATA=${{ vars.REMOTE_PHOTO_MOCK_DATA }}
+          NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }}
+          NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET_DEV }}
+          NODE_TLS_REJECT_UNAUTHORIZED=${{ secrets.NODE_TLS_REJECT_UNAUTHORIZED }}
         push: always
         runCmd: npm -v
 

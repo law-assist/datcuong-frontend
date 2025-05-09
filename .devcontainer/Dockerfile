@@ -8,6 +8,8 @@ RUN apk add --no-cache git
 # Install bash for running cmd in CI actions
 RUN apk add --no-cache bash
 
+ENV PORT=29002
+
 # Dev Environment:
     # Alpine linux distro: ✅
     # Node: ✅ (v.24)
