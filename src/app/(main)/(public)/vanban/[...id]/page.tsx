@@ -52,15 +52,6 @@ export default function Page({ params }: PageProps) {
                 </div>
             ),
         },
-        {
-            label: <span>Văn bản liên quan</span>,
-            key: "4",
-            children: (
-                <div className="p-2 md:p-4">
-                    <p className="text-gray-700">Content for Tab 3</p>
-                </div>
-            ),
-        },
     ];
 
     return (
