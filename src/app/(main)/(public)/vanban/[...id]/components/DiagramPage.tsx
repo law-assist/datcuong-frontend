@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { CustomPageProps } from "src/interfaces";
 import { fetcher } from "src/libs/utils";
 import useSWR from "swr";
@@ -33,9 +32,6 @@ export default function DiagramPage({ params }: CustomPageProps) {
         }
     }
 
-    const lawRelation1 = ["Row 1", "Row 2", "Row 3", "Row4"];
-    const lawRelation2 = ["Row 1", "Row 2", "Row 3", "Row4"];
-    const lawRelation3 = ["Row 1", "Row 2", "Row 3", "Row4"];
 
 
     return (
@@ -112,84 +108,6 @@ export default function DiagramPage({ params }: CustomPageProps) {
                             Đã biết
                         </td>
                     </tr> */}
-                </tbody>
-            </table>
-        </div>
-
-        <div className="border border-gray-800 w-full max-w-4xl mx-auto rounded mt-8">
-            <table className="min-w-full table-auto border border-gray-800 rounded-md overflow-hidden">
-                <thead>
-                    <tr className="bg-gray-200">
-                        <th className="text-center text-black text-lg p-4 text-left font-bold">
-                            Văn bản được sửa đổi, bổ sung, bãi bỏ
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {lawRelation2.map((item, index) => (
-                        <tr
-                            key={index}
-                            className="border-t border-gray-800 hover:underline text-xl font-semibold text-primary line-clamp-2 hover:line-clamp-none"
-                        >
-                            <td className="p-4">
-                                <Link href={`/vanban/${law.id}`}>
-                                    {item}
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-
-        <div className="border border-gray-800 w-full max-w-4xl mx-auto rounded mt-8">
-            <table className="min-w-full table-auto border border-gray-800 rounded-md overflow-hidden">
-                <thead>
-                    <tr className="bg-gray-200">
-                        <th className="text-center text-black text-lg p-4 text-left font-bold">
-                            Văn bản được tham chiếu
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {lawRelation3.map((item, index) => (
-                        <tr
-                            key={index}
-                            className="border-t border-gray-800 hover:underline text-xl font-semibold text-primary line-clamp-2 hover:line-clamp-none"
-                        >
-                            <td className="p-4">
-                                <Link href={`/vanban/${law.id}`}>
-                                    {item}
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-
-        <div className="border border-gray-800 w-full max-w-4xl mx-auto rounded mt-8">
-            <table className="min-w-full table-auto border border-gray-800 rounded-md overflow-hidden">
-                <thead>
-                    <tr className="bg-gray-200">
-                        <th className="text-center text-black text-lg p-4 text-left font-bold">
-                            Văn bản được hướng dẫn thi hành
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {lawRelation1.map((item, index) => (
-                        <tr
-                            key={index}
-                            className="border-t border-gray-800 hover:underline text-xl font-semibold text-primary line-clamp-2 hover:line-clamp-none"
-                        >
-                            <td className="p-4">
-                                <Link href={`/vanban/${law.id}`}>
-                                    {item}
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
                 </tbody>
             </table>
         </div>

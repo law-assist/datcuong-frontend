@@ -24,7 +24,7 @@ function HeaderNav() {
     return (
         <div className="navigation px-4 lg:px-8 xl:px-32 pb-2 bg-primary ">
             <div className="border-t-2 pt-2 border-gray-500"></div>
-            <nav className="flex flex-row justify-start gap-3 items-center ">
+            <nav className="flex flex-row justify-start gap-10 items-center ">
                 <Link
                     className={`text-white text-2xl font-bold hover:text-yellow-600 hover:underline ${
                         pathname === "/home" ? "text-yellow-400" : ""

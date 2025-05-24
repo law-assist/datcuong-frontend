@@ -79,14 +79,14 @@ export default function SignUpForm() {
     return (
         <>
             {contextHolder}
-            <div className="mx-auto w-4/5 md:w-1/2 lg:w-2/5  bg-white my-4">
-                <h2 className="bg-primary text-white text-center py-3 2xl:py-6">
+            <div className="mx-auto w-4/5 md:w-1/2 lg:w-2/5  bg-white my-4 rounded-3xl ">
+                <h2 className="bg-primary text-white text-center py-3 2xl:py-6 rounded-t-3xl">
                     Law Assistant
                 </h2>
-                <div className="border--primary-400 mx-auto border p-4 grid">
+                <div className="border-none mx-auto border p-8 grid">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
-                        className="border--primary-400 xl:border-r xl:border-primary xl:pr-5 flex flex-col gap-2 lg:col-span-2"
+                        className="xl flex flex-col gap-2 lg:col-span-2"
                     >
                         <div className={cn(s.main, "flex flex-col gap-2")}>
                             <div
@@ -294,7 +294,7 @@ export default function SignUpForm() {
                         Người tư vấn pháp luật
                     </strong>{" "}
                     của{" "}
-                    <strong className=" text-primary">Law Assistant</strong>thì
+                    <strong className=" text-primary">Law Assistant </strong>thì
                     hãy <span className=" text-alerts-red">Liên hệ</span> với
                     chúng tôi nhé!
                 </p>

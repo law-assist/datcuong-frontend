@@ -51,7 +51,8 @@ export const authOptions: NextAuthOptions = {
                 token = await {
                     ...user,
                     ...token,
-                    expires: Date.now() + 60 * 55 * 1000,
+                    accessToken: user.accessToken ?? token.accessToken,
+                    expires: Date.now() + 60 * 5 * 1000,
                 };
             }
             const isAccessTokenExpired = Date.now() > token.expires;

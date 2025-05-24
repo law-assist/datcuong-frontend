@@ -11,7 +11,7 @@ jobs:
 
   dev-container-build-push:
 
-    runs-on: self-hosted
+    runs-on: [self-hosted]
 
     steps:
     - name: Checkout
@@ -30,15 +30,21 @@ jobs:
       uses: docker/setup-buildx-action@v3.10.0
       id: buildx
       with:
+        driver-opts: |
+          network=host
+        # buildkitd-config: /home/la-2025/.config/buildkit/buildkitd.toml
+        buildkitd-flags: "--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host --debug"
         use: true
 
-    # - name: Cache Docker image layers
-    #   uses: actions/cache@v4.2.3
-    #   with:
-    #     path: /tmp/.buildx-cache
-    #     key: ${{ runner.os }}-buildx-${{ github.sha }}
-    #     restore-key: |
-    #       ${{ runner.os }}-buildx-
+    - name: Setup Node for devcontainers cli
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Verify node and skopeo setup
+      run: |
+        node -v
+        skopeo -v
 
     - name: Pre-build and push Dev container images
       uses: devcontainers/ci@v0.3.1900000328
