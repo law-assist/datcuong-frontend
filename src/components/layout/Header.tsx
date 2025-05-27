@@ -19,7 +19,7 @@ async function Header() {
                     href={"/home"}
                 >
                     <p className="hidden lg:block text-5xl">Law Assistant</p>
-                    <p className="block lg:hidden"> XCVN </p>
+                    <p className="block lg:hidden"> Law Assistant </p>
                 </Link>
                 <div className="search-bar grid grid-cols-3 gap-3 ">
                     <div className="col-span-2">

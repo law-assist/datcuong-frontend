@@ -78,15 +78,15 @@ export default function LoginForm() {
         <>
             {contextHolder}
             <div className="mx-auto w-4/5 md:w-1/2 lg:w-2/5  bg-white my-8 rounded-3xl">
-                <h2 className="bg-primary text-white text-center py-3 2xl:py-6">
+                <h2 className="bg-primary text-white text-center py-3 2xl:py-6 rounded-t-3xl">
                 Law Assistant
                 </h2>
-                <div className="border--primary-400 mx-auto border p-4 grid ">
+                <div className="border-none mx-auto border p-8 ">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className={
                             (s.formContainer,
-                            "xl:border-r xl:border-primary xl:pr-5 lg:col-span-2")
+                            " xllg:col-span-2")
                         }
                     >
                         <div
@@ -164,38 +164,12 @@ export default function LoginForm() {
                             Đăng nhập
                         </Button>
                     </form>
-                    {/* <div className=" flex flex-col items-center justify-start xl:pl-5">
-                        <span>Hoặc đăng nhập bằng</span>
-                        <div className="mt-4 flex items-center">
-                            <div className="mr-5 w-fit cursor-pointer rounded-full bg-primary-500 p-3">
-                                <Tooltip title="Facebook">
-                                    <Image
-                                        src={fb}
-                                        alt="Facebook"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </Tooltip>
-                            </div>
-
-                            <div className="w-fit cursor-pointer rounded-full bg-primary-500 p-3">
-                                <Tooltip title="Google">
-                                    <Image
-                                        src={gg}
-                                        alt="Google"
-                                        width={24}
-                                        height={24}
-                                    />
-                                </Tooltip>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
                 <p className=" text-center items-center pb-8">
                     Bạn chưa có tài khoản đăng nhập?{" "}
                     <Link
                         href={`/sign-up`}
-                        className="mt-3 cursor-pointer text-base font-medium text-primary-600 underline underline-offset-4"
+                        className="mt-3 cursor-pointer text-base font-medium text-primary underline underline-offset-4"
                     >
                         Đăng ký tại đây!
                     </Link>

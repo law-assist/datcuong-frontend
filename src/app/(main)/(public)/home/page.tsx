@@ -16,7 +16,7 @@ async function Page() {
                     <h4 className="p-4 italic">Văn bản pháp luật mới</h4>
                     <SearchList />
                 </div>
-                <div className="site flex flex-row md:flex-col md:min-w-52 gap-2 order-first md:order-last justify-end md:justify-start">
+                {/* <div className="site flex flex-row md:flex-col md:min-w-52 gap-2 order-first md:order-last justify-end md:justify-start">
                     
 
                     <a href="/search" >
@@ -36,7 +36,7 @@ async function Page() {
                             height={284} 
                         />
                     </a>              
-                </div>
+                </div> */}
             </div>
         </main>
     );
