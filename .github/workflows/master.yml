@@ -62,7 +62,7 @@ jobs:
     - name: Verify CI/CD pipeline
       run: echo ${{ steps.docker_build.outputs.digest }}
 
-    - name: Move cache
-      run: |
-        rm -rf ${{ runner.temp }}/.buildx-cache
-        mv ${{ runner.temp }}/.buildx-cache-new ${{ runner.temp }}/.buildx-cache
+    # - name: Move cache
+    #   run: |
+    #     rm -rf ${{ runner.temp }}/.buildx-cache
+    #     mv ${{ runner.temp }}/.buildx-cache-new ${{ runner.temp }}/.buildx-cache
