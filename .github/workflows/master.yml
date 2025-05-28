@@ -30,7 +30,7 @@ jobs:
     - name: Cache Docker image layers
       uses: actions/cache@v4.2.3
       with:
-        path: /tmp/.buildx-cache
+        path: ${{ runner.temp }}/.buildx-cache
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildx-
@@ -56,8 +56,13 @@ jobs:
         secrets: |  
           "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}"
         tags: ${{ secrets.DOCKER_USERNAME }}/frontend:prod-latest
-        cache-to: type=local,dest=./tmp/.buildx-cache
-        cache-from: type=local,src=./tmp/.buildx-cache
+        cache-to: type=local,dest=${{ runner.temp }}/.buildx-cache
+        cache-from: type=local,src=${{ runner.temp }}/.buildx-cache
 
     - name: Verify CI/CD pipeline
       run: echo ${{ steps.docker_build.outputs.digest }}
+
+    - name: Move cache
+      run: |
+        rm -rf ${{ runner.temp }}/.buildx-cache
+        mv ${{ runner.temp }}/.buildx-cache-new ${{ runner.temp }}/.buildx-cache
