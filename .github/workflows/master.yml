@@ -30,7 +30,7 @@ jobs:
     - name: Cache Docker image layers
       uses: actions/cache@v4.2.3
       with:
-        path: /tmp/.buildx-cache
+        path: ${{ runner.temp }}/.buildx-cache
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildx-
@@ -44,17 +44,25 @@ jobs:
         file: ./.github/workflows/Dockerfile
         push: true
         build-args: |
-          NEXT_PUBLIC_API_HOST=${{ vars.NEXT_PUBLIC_API_HOST }}
+          NEXTAUTH_URL=${{ vars.NEXTAUTH_URL_PROD }}
+          NEXT_SERVER_API_HOST=${{ vars.NEXT_SERVER_API_HOST }}
+          NEXT_PUBLIC_API_HOST=${{ vars.NEXT_PUBLIC_API_HOST_PROD }}
+          API_HOST=${{ vars.NEXT_PUBLIC_API_HOST_PROD }}
+          BACKEND_API_HOST=${{ vars.NEXT_PUBLIC_API_HOST_PROD }}
           REMOTE_PROTOCOL=${{ vars.REMOTE_PROTOCOL }}
           REMOTE_HOSTNAME=${{ vars.REMOTE_HOSTNAME }}
           REMOTE_PHOTO_MOCK_DATA=${{ vars.REMOTE_PHOTO_MOCK_DATA }}
-          NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }}
           NODE_TLS_REJECT_UNAUTHORIZED=${{ vars.NODE_TLS_REJECT_UNAUTHORIZED }}
         secrets: |  
           "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}"
         tags: ${{ secrets.DOCKER_USERNAME }}/frontend:prod-latest
-        cache-to: type=local,dest=./tmp/.buildx-cache
-        cache-from: type=local,src=./tmp/.buildx-cache
+        cache-to: type=local,dest=${{ runner.temp }}/.buildx-cache
+        cache-from: type=local,src=${{ runner.temp }}/.buildx-cache
 
     - name: Verify CI/CD pipeline
       run: echo ${{ steps.docker_build.outputs.digest }}
+
+    - name: Move cache
+      run: |
+        rm -rf ${{ runner.temp }}/.buildx-cache
+        mv ${{ runner.temp }}/.buildx-cache-new ${{ runner.temp }}/.buildx-cache
