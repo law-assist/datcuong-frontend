@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
                     ...user,
                     ...token,
                     accessToken: user.accessToken ?? token.accessToken,
-                    expires: Date.now() + 60 * 5 * 1000,
+                    expires: Date.now() + 60 * 0 * 1000,
                 };
             }
             const isAccessTokenExpired = Date.now() > token.expires;

@@ -4,10 +4,12 @@ import axios from "axios";
 import { getSession } from "next-auth/react";
 
 type User = {
-  id: string;
-  name: string;
+  _id: string;
+  fullName: string;
   email: string;
   role: string;
+  phoneNumber:string;
+  status: string;
 };
 
 function UserManagement() {
@@ -16,6 +18,7 @@ function UserManagement() {
   const usersPerPage = 10;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  
   
 
   // Fetch users from API on component mount
@@ -34,7 +37,7 @@ function UserManagement() {
         setUsers(response.data.data);
         setLoading(false);
       } catch (err) {
-        console.error("Error deleting law:", err);
+        console.error("Error deleting:", err);
         setError("Failed to load users.");
         setLoading(false);
       }
@@ -46,9 +49,37 @@ function UserManagement() {
   const startIndex = (currentPage - 1) * usersPerPage;
   const currentUsers = users.slice(startIndex, startIndex + usersPerPage);
 
-  const handleDelete = (id: string) => {
-    setUsers((prev) => prev.filter((user) => user.id !== id));
-  };
+  const handleDelete = async (id: string) => {
+        if (!confirm("Bạn có chắc muốn xóa người dùng này không?")) return;
+
+        try {
+            const session = await getSession();
+            const accessToken = session?.user?.accessToken;
+            console.log(id);
+
+            if (!accessToken) {
+                alert("Phiên đăng nhập đã hết hạn.");
+            return;
+            }
+
+            const res = await fetch(`http://localhost:5000/user/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                });
+
+            if (!res.ok) {
+                throw new Error("Delete failed");
+            }
+
+            window.location.reload();
+
+        } catch (error) {
+            console.error("Error deleting law:", error);
+            alert("Đã xảy ra lỗi khi xóa người dùng");
+        }
+    };
 
   return (
     <div className="p-4">
@@ -58,7 +89,9 @@ function UserManagement() {
             <tr>
               <th className="px-4 py-2">Họ và tên</th>
               <th className="px-4 py-2">Email</th>
+              <th className="px-4 py-2">Số điện thoại</th>
               <th className="px-4 py-2">Vai trò</th>
+              <th className="px-4 py-2">Status</th>
               <th className="px-4 py-2">Hành động</th>
             </tr>
           </thead>
@@ -69,13 +102,15 @@ function UserManagement() {
               <tr><td colSpan={4} className="px-4 py-2 text-red-600 text-center">{error}</td></tr>
             ) : currentUsers.length > 0 ? (
               currentUsers.map((user) => (
-                <tr key={user.id} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-2">{user.name || "—"}</td>
+                <tr key={user._id} className="border-t hover:bg-gray-50">
+                  <td className="px-4 py-2">{user.fullName }</td>
                   <td className="px-4 py-2">{user.email}</td>
+                  <td className="px-4 py-2">{user.phoneNumber}</td>
                   <td className="px-4 py-2">{user.role}</td>
+                  <td className="px-4 py-2">{user.status}</td>
                   <td className="px-4 py-2">
                     <button
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => handleDelete(user._id)}
                       className="text-red-600 hover:underline"
                     >
                       <DeleteOutlined />
