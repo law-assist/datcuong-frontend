@@ -17,6 +17,14 @@ type Request = {
   createAt:string;
 };
 
+const NODE_ENV = process.env.NODE_ENV;
+const API_HOST =
+    NODE_ENV === "production"
+        ? process.env.NEXT_SERVER_API_HOST
+        : process.env.BACKEND_API_HOST ??
+          process.env.NEXT_PUBLIC_API_HOST ??
+          process.env.API_HOST;
+
 function RequestManagement() {
 
     const [request, setRequest] = useState<Request[]>([]);
@@ -33,7 +41,7 @@ function RequestManagement() {
             const accessToken = session?.user?.accessToken;
             console.log(session);
             setLoading(true);
-            const response = await axios.get("http://localhost:5000/request/all", {
+            const response = await axios.get(`${API_HOST}/request/all`, {
               headers: {
                 Authorization: `Bearer ${accessToken}`, 
               },
@@ -110,9 +118,9 @@ function RequestManagement() {
         //     console.log("Reject request with id:", id);
         //   };
           
-        const handleConnect = (id: number) => {
-            console.log("Connect lawyer for request id:", id);
-        };
+        // const handleConnect = (id: number) => {
+        //     console.log("Connect lawyer for request id:", id);
+        // };
         
 
         const handleReject = async (id: string) => {
@@ -128,7 +136,7 @@ function RequestManagement() {
             return;
             }
 
-            const res = await fetch(`http://localhost:5000/request/${id}`, {
+            const res = await fetch(`${API_HOST}/request/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,

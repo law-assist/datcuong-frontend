@@ -2,24 +2,33 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getSession } from "next-auth/react";
+import AddUserModal from "./AddUserModal";
 
 type User = {
   _id: string;
   fullName: string;
   email: string;
   role: string;
-  phoneNumber:string;
+  phoneNumber: string;
   status: string;
 };
+
+const NODE_ENV = process.env.NODE_ENV;
+const API_HOST =
+    NODE_ENV === "production"
+        ? process.env.NEXT_SERVER_API_HOST
+        : process.env.BACKEND_API_HOST ??
+          process.env.NEXT_PUBLIC_API_HOST ??
+          process.env.API_HOST;
 
 function UserManagement() {
   const [users, setUsers] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  
-  
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const usersPerPage = 10;
 
   // Fetch users from API on component mount
   useEffect(() => {
@@ -27,17 +36,16 @@ function UserManagement() {
       try {
         const session = await getSession();
         const accessToken = session?.user?.accessToken;
-        console.log(session);
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/user/all", {
+        const response = await axios.get(`${API_HOST}/user/all`, {
           headers: {
-            Authorization: `Bearer ${accessToken}`, 
+            Authorization: `Bearer ${accessToken}`,
           },
         });
         setUsers(response.data.data);
         setLoading(false);
       } catch (err) {
-        console.error("Error deleting:", err);
+        console.error("Error fetching users:", err);
         setError("Failed to load users.");
         setLoading(false);
       }
@@ -45,44 +53,66 @@ function UserManagement() {
     fetchUsers();
   }, []);
 
+  const handleAddUser = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleUserAdded = (newUser: User) => {
+    setUsers([...users, newUser]);
+    setIsModalVisible(false);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Bạn có chắc muốn xóa người dùng này không?")) return;
+
+    try {
+      const session = await getSession();
+      const accessToken = session?.user?.accessToken;
+
+      if (!accessToken) {
+        alert("Phiên đăng nhập đã hết hạn.");
+        return;
+      }
+
+      const res = await fetch(`${API_HOST}/user/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Delete failed");
+      }
+
+      setUsers(users.filter((user) => user._id !== id));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Đã xảy ra lỗi khi xóa người dùng");
+    }
+  };
+
   const totalPages = Math.ceil(users.length / usersPerPage);
   const startIndex = (currentPage - 1) * usersPerPage;
   const currentUsers = users.slice(startIndex, startIndex + usersPerPage);
 
-  const handleDelete = async (id: string) => {
-        if (!confirm("Bạn có chắc muốn xóa người dùng này không?")) return;
-
-        try {
-            const session = await getSession();
-            const accessToken = session?.user?.accessToken;
-            console.log(id);
-
-            if (!accessToken) {
-                alert("Phiên đăng nhập đã hết hạn.");
-            return;
-            }
-
-            const res = await fetch(`http://localhost:5000/user/${id}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                });
-
-            if (!res.ok) {
-                throw new Error("Delete failed");
-            }
-
-            window.location.reload();
-
-        } catch (error) {
-            console.error("Error deleting law:", error);
-            alert("Đã xảy ra lỗi khi xóa người dùng");
-        }
-    };
-
   return (
     <div className="p-4">
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={handleAddUser}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Thêm người dùng
+        </button>
+      </div>
+
+      <AddUserModal
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        onUserAdded={handleUserAdded}
+      />
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 rounded-md shadow">
           <thead className="bg-gray-100 text-left text-gray-700">
@@ -97,13 +127,21 @@ function UserManagement() {
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={4} className="px-4 py-2 text-center">Đang tải...</td></tr>
+              <tr>
+                <td colSpan={6} className="px-4 py-2 text-center">
+                  Đang tải...
+                </td>
+              </tr>
             ) : error ? (
-              <tr><td colSpan={4} className="px-4 py-2 text-red-600 text-center">{error}</td></tr>
+              <tr>
+                <td colSpan={6} className="px-4 py-2 text-red-600 text-center">
+                  {error}
+                </td>
+              </tr>
             ) : currentUsers.length > 0 ? (
               currentUsers.map((user) => (
                 <tr key={user._id} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-2">{user.fullName }</td>
+                  <td className="px-4 py-2">{user.fullName}</td>
                   <td className="px-4 py-2">{user.email}</td>
                   <td className="px-4 py-2">{user.phoneNumber}</td>
                   <td className="px-4 py-2">{user.role}</td>
@@ -119,7 +157,11 @@ function UserManagement() {
                 </tr>
               ))
             ) : (
-              <tr><td colSpan={4} className="px-4 py-2 text-center">Không có người dùng.</td></tr>
+              <tr>
+                <td colSpan={6} className="px-4 py-2 text-center">
+                  Không có người dùng.
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

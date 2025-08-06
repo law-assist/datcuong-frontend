@@ -11,6 +11,15 @@ import { DeleteOutlined } from "@ant-design/icons";
 import Loading from "src/app/loading";
 import { getSession } from "next-auth/react";
 
+
+const NODE_ENV = process.env.NODE_ENV;
+const API_HOST =
+    NODE_ENV === "production"
+        ? process.env.NEXT_SERVER_API_HOST
+        : process.env.BACKEND_API_HOST ??
+          process.env.NEXT_PUBLIC_API_HOST ??
+          process.env.API_HOST;
+
 const LawManagement = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -95,7 +104,7 @@ const LawManagement = () => {
             return;
             }
 
-            const res = await fetch(`http://localhost:5000/law/${id}`, {
+            const res = await fetch(`${API_HOST}/law/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
