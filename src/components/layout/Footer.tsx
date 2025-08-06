@@ -40,7 +40,7 @@ async function Footer() {
                 </div>
             </div>
             <div className="contact flex flex-row justify-between text-gray-100 border-b-2 border-gray-100 mx-8 2xl:mx-32 pb-2 pt-4">
-                <p className=" text-gray-100">@XinChaoVietNam 2024</p>
+                <p className=" text-gray-100">@Law Assistant</p>
                 <div className="flex flex-row gap-2 xl:gap-5">
                     <span>Về Chúng Tôi</span>
                     <span>Liên Hệ</span>
