@@ -65,9 +65,9 @@ function HeaderNav() {
                     className={`text-white text-2xl font-bold hover:text-yellow-600 hover:underline ${
                         pathname === "/about" ? "text-yellow-400" : ""
                     }`}
-                    href={"/"}
+                    href={"/chatbot"}
                 >
-                    Giới thiệu
+                    Trợ lý AI
                 </Link>
             </nav>
         </div>

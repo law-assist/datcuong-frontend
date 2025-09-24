@@ -10,6 +10,7 @@ import { SearchItem } from "src/app/(main)/(public)/search/components/SearchItem
 import { DeleteOutlined } from "@ant-design/icons";
 import Loading from "src/app/loading";
 import { getSession } from "next-auth/react";
+import AddLawModal from "./AddLawModal";
 
 
 const NODE_ENV = process.env.NODE_ENV;
@@ -33,6 +34,7 @@ const LawManagement = () => {
     const year = searchParams.get("year") ?? "";
 
     const [size, setSize] = useState(10);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const query = {
         name: q.trim(),
@@ -91,6 +93,18 @@ const LawManagement = () => {
         );
     }
 
+    const handleAddLaw = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleLawAdded = (newLaw: any) => {
+        mutate(`/law/search?${params.toString()}`, (currentData: any) => ({
+        ...currentData,
+        laws: [newLaw, ...(currentData?.laws || [])],
+        }), false);
+        setIsModalVisible(false);
+    };
+
     const onDelete = async (id: string) => {
         if (!confirm("Bạn có chắc muốn xóa văn bản này không?")) return;
 
@@ -126,6 +140,19 @@ const LawManagement = () => {
     return (
         <div className="p-4">
         <div className="flex flex-col gap-2">
+            <div className="flex justify-end mb-4">
+                <button
+                onClick={handleAddLaw}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                Thêm văn bản pháp luật
+                </button>
+            </div>
+            <AddLawModal
+                visible={isModalVisible}
+                onCancel={() => setIsModalVisible(false)}
+                onLawAdded={handleLawAdded}
+            />
             <div className="flex flex-col gap-3 flex-grow">
                 {response.laws.map((law: any) => (
                 <div

@@ -46,7 +46,7 @@ function Page() {
     }
 
     return (
-        <div className=" bg-violet-100 flex flex-grow flex-col items-center gap-2 py-2 my-2 rounded-xl w-full">
+        <div className=" bg-[#ccd4e5] flex flex-grow flex-col items-center gap-2 py-2 my-2 rounded-xl w-full">
             <span className="text-2xl font-semibold w-full md:w-5/6 lg:w-2/3 xl:w-1/2">
                 Tài khoản của bạn
             </span>

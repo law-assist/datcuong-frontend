@@ -11,7 +11,7 @@ export default function MainLayout({ children }: HomeLayoutProps) {
         <PrivateRoute>
             <main className="flex flex-col min-h-screen">
                 <Header />
-                <div className="relative flex-grow flex bg-violet-100/50">
+                <div className="relative flex-grow flex bg-[#ccd4e5]">
                     {children}
                 </div>
                 <Footer />
