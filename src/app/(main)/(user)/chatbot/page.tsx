@@ -1,6 +1,17 @@
 'use client';
 
+import axios from 'axios';
+import { getSession } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
+
+
+const NODE_ENV = process.env.NODE_ENV;
+const API_HOST =
+  NODE_ENV === "production"
+    ? process.env.NEXT_SERVER_API_HOST
+    : process.env.BACKEND_API_HOST ??
+      process.env.NEXT_PUBLIC_API_HOST ??
+      process.env.API_HOST;
 
 interface PageProps {
   params: { user_id: string; chat_id: string };
@@ -92,8 +103,41 @@ export default function Page({ params }: PageProps) {
         console.error(err);
         } finally {
         setLoading(false);
+        }}
+    const handleNewChat = async () => {
+    try {
+      const session = await getSession();
+      const accessToken = session?.user?.accessToken;
+      const userID = session?.user?._id;
+      console.log('User ID:', userID);
+      console.log('User ID:', API_HOST);
+
+      if (!userID || !accessToken) {
+        throw new Error('User ID or access token is missing');
+      }
+
+      const response = await axios.patch(
+        `${API_HOST}/user/updateMaxChatHistory/${userID}`,
+        {},
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
-    };
+      );
+
+      console.log('Max chat history incremented:', response.data);
+      setMessages([]);
+      setError(null);
+    } catch (err) {
+        console.error("Error increase", err);
+        setError("Failed to add new chat.");
+        setLoading(false);
+    }
+  };
+    
 
 return (
     <div className="flex pt-5 pb-10 pl-20 pr-20 h-screen w-full">
@@ -102,9 +146,11 @@ return (
             <div className="p-4 border-b border-gray-700">
             <h1 className="text-xl font-bold">Chatbot</h1>
             </div>
-            <button className="m-4 bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded">
-            + New Chat
-            </button>
+            <button className="m-4 bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded"
+                onClick={handleNewChat}
+                >
+                + New Chat
+        </button>
             <div className="flex-1 overflow-y-auto px-2">
             {/* <div className="p-2 text-base hover:bg-gray-800 rounded cursor-pointer">
                 Chat History 1
