@@ -144,7 +144,7 @@ function AddUserModal({ visible, onCancel, onUserAdded }: AddUserModalProps) {
           <Select placeholder="Chọn vai trò">
             <Select.Option value="admin">Admin</Select.Option>
             <Select.Option value="user">User</Select.Option>
-            <Select.Option value="user">Lawyer</Select.Option>
+            <Select.Option value="lawyer">Lawyer</Select.Option>
           </Select>
         </Form.Item>
       </Form>

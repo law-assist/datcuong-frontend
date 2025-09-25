@@ -1,330 +1,151 @@
+
 'use client';
 
-import axios from 'axios';
-import { getSession } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
-
+import { getSession } from 'next-auth/react';
+import ChatSidebar from './component/ChatSidebar';
+import ChatArea from './component/ChatArea';
+import { getMaxChatHistory, getChatHistory, sendMessage } from './utils/api';
+import { Message } from './utils/types';
 
 const NODE_ENV = process.env.NODE_ENV;
 const API_HOST =
-  NODE_ENV === "production"
-    ? process.env.NEXT_SERVER_API_HOST
+  NODE_ENV === 'production'
+    ? process.env.NEXT_SERVER_API_HOST ?? 'https://your-production-api.com'
     : process.env.BACKEND_API_HOST ??
       process.env.NEXT_PUBLIC_API_HOST ??
-      process.env.API_HOST;
+      process.env.API_HOST ??
+      'http://localhost:29003';
 
-interface PageProps {
-  params: { user_id: string; chat_id: string };
-}
+export default function Page() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedChatId, setSelectedChatId] = useState<string>('1');
+  const [maxChatHistory, setMaxChatHistory] = useState<number>(0);
 
-interface Message {
-  id: number;
-  text: string;
-  sender: 'user' | 'bot';
-}
-
-export default function Page({ params }: PageProps) {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [input, setInput] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchChatHistory = async () => {
+  // Fetch maxChatHistory and chat history on page load
+  useEffect(() => {
+    const initializeChat = async () => {
+      try {
         setLoading(true);
-        try {
-            const response = await fetch(
-            `http://localhost:8000/agents/chat-history`,
-            {
-                method: 'GET',
-                headers: {
-                accept: 'application/json',
-                },
-            }
-            );
-            if (!response.ok) throw new Error('Failed to fetch chat history');
-            const data = await response.json();
-            setMessages(
-            data.map((msg: any, index: number) => ({
-                id: index + 1,
-                text: msg.text,
-                sender: msg.sender === 'user' ? 'user' : 'bot',
-            }))
-            );
-        } catch (err) {
-            setError('Error fetching chat history');
-            console.error(err);
-        } finally {
-            setLoading(false);
+        setError(null);
+
+        const session = await getSession();
+        const userID = session?.user?._id;
+        const accessToken = session?.user?.accessToken;
+        console.log('Session:', { userID, accessToken: accessToken ? 'Set' : 'Not set' });
+
+        if (!userID || !accessToken) {
+          throw new Error('User ID or access token missing');
         }
-        };
 
-        fetchChatHistory();
-    }, [params.user_id, params.chat_id]);
+        if (!API_HOST) {
+          throw new Error('API_HOST is not defined');
+        }
 
-    const handleSendMessage = async () => {
-        if (input.trim() === '') return;
+        // Fetch maxChatHistory
+        const maxChatHistoryValue = await getMaxChatHistory(userID, accessToken);
+        setMaxChatHistory(maxChatHistoryValue);
+        const latestChatId = maxChatHistoryValue > 0 ? String(maxChatHistoryValue) : '1';
+        setSelectedChatId(latestChatId);
 
-        const newMessage: Message = {
+        // Fetch chat history for latestChatId
+        const chatHistory = await getChatHistory(userID, latestChatId, accessToken);
+        const formattedMessages = chatHistory.map((msg: { human?: string; ai?: string }, index: number) => ({
+          id: index + 1,
+          text: msg.human || msg.ai || '',
+          sender: msg.human ? 'user' as const : 'bot' as const,
+        }));
+        setMessages(formattedMessages.length > 0 ? formattedMessages : [
+          { id: 1, text: 'Xin chào! Tôi có thể giúp gì cho bạn?', sender: 'bot' },
+        ]);
+      } catch (err: Error | any) {
+        const errorMessage =
+          err.response?.data?.detail || err.response?.data?.message || err.message || 'Unknown error';
+        setError(`Failed to initialize chat: ${errorMessage}`);
+        console.error('Error initializing chat:', err, 'Response:', err.response?.data);
+        setMessages([{ id: 1, text: 'Xin chào! Tôi có thể giúp gì cho bạn?', sender: 'bot' }]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeChat();
+  }, []);
+
+  const handleSendMessage = async (input: string) => {
+    try {
+      if (input.trim() === '') return;
+      setLoading(true);
+      setError(null);
+
+      const session = await getSession();
+      const userID = session?.user?._id;
+      const accessToken = session?.user?.accessToken;
+      console.log('Session:', { userID, accessToken: accessToken ? 'Set' : 'Not set' });
+      console.log('URL:', `${API_HOST}/chatbot/question-answering`);
+
+      if (!userID || !accessToken) {
+        throw new Error('User ID or access token missing');
+      }
+
+      if (!API_HOST) {
+        throw new Error('API_HOST is not defined');
+      }
+
+      const newMessage: Message = {
         id: messages.length + 1,
         text: input,
         sender: 'user',
-        };
-        setMessages([...messages, newMessage]);
-        setInput('');
-        setLoading(true);
+      };
+      setMessages((prev) => [...prev, newMessage]);
+      setInput('');
 
-        try {
-        const response = await fetch('http://localhost:8000/agents/question-answering', {
-            method: 'POST',
-            headers: {
-            accept: 'application/json',
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-            query: input,
-            user_id: params.user_id,
-            chat_id: params.chat_id,
-            }),
-        });
+      const botAnswer = await sendMessage(userID, selectedChatId, input, accessToken);
+      console.log('Bot Answer:', botAnswer);
 
-        if (!response.ok) throw new Error('Failed to send message');
-        const data = await response.json();
-        setMessages((prev) => [
-            ...prev,
-            {
-            id: prev.length + 1,
-            text: data.answer || 'This is a test response.',
-            sender: 'bot',
-            },
-        ]);
-        } catch (err) {
-        setError('Error sending message');
-        console.error(err);
-        } finally {
-        setLoading(false);
-        }}
-    const handleNewChat = async () => {
-    try {
-      const session = await getSession();
-      const accessToken = session?.user?.accessToken;
-      const userID = session?.user?._id;
-      console.log('User ID:', userID);
-      console.log('User ID:', API_HOST);
-
-      if (!userID || !accessToken) {
-        throw new Error('User ID or access token is missing');
-      }
-
-      const response = await axios.patch(
-        `${API_HOST}/user/updateMaxChatHistory/${userID}`,
-        {},
+      setMessages((prev) => [
+        ...prev,
         {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      console.log('Max chat history incremented:', response.data);
-      setMessages([]);
-      setError(null);
-    } catch (err) {
-        console.error("Error increase", err);
-        setError("Failed to add new chat.");
-        setLoading(false);
+          id: prev.length + 1,
+          text: botAnswer,
+          sender: 'bot',
+        },
+      ]);
+    } catch (err: Error | any) {
+      const errorMessage =
+        err.response?.data?.detail || err.response?.data?.message || err.message || 'Unknown error';
+      setError(`Error sending message: ${errorMessage}`);
+      console.error('Error in handleSendMessage:', err, 'Response:', err.response?.data);
+    } finally {
+      setLoading(false);
     }
   };
-    
 
-return (
+  return (
     <div className="flex pt-5 pb-10 pl-20 pr-20 h-screen w-full">
-      {/* chat history */}
-        <div className="w-64 bg-gray-900 text-white flex flex-col rounded-l-2xl">
-            <div className="p-4 border-b border-gray-700">
-            <h1 className="text-xl font-bold">Chatbot</h1>
-            </div>
-            <button className="m-4 bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded"
-                onClick={handleNewChat}
-                >
-                + New Chat
-        </button>
-            <div className="flex-1 overflow-y-auto px-2">
-            {/* <div className="p-2 text-base hover:bg-gray-800 rounded cursor-pointer">
-                Chat History 1
-            </div>
-            <div className="p-2 text-base hover:bg-gray-800 rounded cursor-pointer">
-                Chat History 2
-            </div> */}
-            </div>
-            <div className="p-6 border-t border-gray-700 text-large text-gray-400">
-            User name
-            </div>
-        </div>
-
-      {/* Chat Area */}
-        <div className="flex-1 flex flex-col bg-white rounded-r-2xl">
-            <div className="flex-1 p-6 overflow-y-auto space-y-4 rounded-r-2xl">
-            {loading && <div className="text-center text-gray-500">Loading...</div>}
-            {error && <div className="text-center text-red-500">{error}</div>}
-            {messages.map((message) => (
-                <div
-                key={message.id}
-                className={`flex ${
-                    message.sender === 'user' ? 'justify-end' : 'justify-start'
-                }`}
-                >
-                <div
-                    className={`max-w-xl px-4 py-3 rounded-2xl shadow-sm ${
-                    message.sender === 'user'
-                        ? 'bg-blue-600 text-white rounded-br-none'
-                        : 'bg-gray-200 text-gray-900 rounded-bl-none'
-                    }`}
-                >
-                    {message.text}
-                </div>
-                </div>
-            ))}
-            </div>
-
-            {/* Input */}
-            <div className="p-3 border-t border-gray-200 bg-white rounded-r-2xl">
-            <div className="flex items-center gap-2">
-                <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Message to AI assistant..."
-                disabled={loading}
-                />
-                <button
-                onClick={handleSendMessage}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
-                disabled={loading}
-                >
-                Send1231234324
-                </button>
-            </div>
-            </div>
-        </div>
+      <ChatSidebar
+        maxChatHistory={maxChatHistory}
+        setMaxChatHistory={setMaxChatHistory}
+        selectedChatId={selectedChatId}
+        setSelectedChatId={setSelectedChatId}
+        setMessages={setMessages}
+        loading={loading}
+        setLoading={setLoading}
+        setError={setError}
+      />
+      <ChatArea
+        messages={messages}
+        input={input}
+        setInput={setInput}
+        loading={loading}
+        error={error}
+        setError={setError}
+        selectedChatId={selectedChatId}
+        handleSendMessage={handleSendMessage}
+      />
     </div>
   );
 }
-
-
-
-// 'use client';
-
-// import React, { useState } from 'react';
-
-// interface PageProps {
-//   params: { [key: string]: string };
-// }
-
-// interface Message {
-//   id: number;
-//   text: string;
-//   sender: 'user' | 'bot';
-// }
-
-// export default function Page({ params }: PageProps) {
-//     const [messages, setMessages] = useState<Message[]>([
-//         { id: 1, text: 'Hello! How can I assist you today?', sender: 'bot' },
-//     ]);
-//     const [input, setInput] = useState<string>('');
-
-//     const handleSendMessage = () => {
-//         if (input.trim() === '') return;
-//         const newMessage: Message = {
-//         id: messages.length + 1,
-//         text: input,
-//         sender: 'user',
-//         };
-//         setMessages([...messages, newMessage]);
-//         setInput('');
-//         setTimeout(() => {
-//         setMessages((prev) => [
-//             ...prev,
-//             {
-//             id: prev.length + 1,
-//             text: 'This is a test response.',
-//             sender: 'bot',
-//             },
-//         ]);
-//         }, 500);
-//     };
-
-// return (
-//         // list chat area
-//         <div className="flex pt-5 pb-10 pl-20 pr-20 h-screen  w-full "> 
-//             <div className="w-64 bg-gray-900 text-white flex flex-col rounded-l-2xl">
-//                 <div className="p-4 border-b border-gray-700">
-//                     <h1 className="text-xl font-bold">Chatbot</h1>
-//                 </div>
-//                 <button className="m-4 bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded">
-//                     + New Chat
-//                 </button>
-//                 <div className="flex-1 overflow-y-auto px-2">
-//                     <div className="p-2 text-base hover:bg-gray-800 rounded cursor-pointer">
-//                         Chat History 1
-//                     </div>
-//                     <div className="p-2 text-base hover:bg-gray-800 rounded cursor-pointer">
-//                         Chat History 2
-//                     </div>
-//                 </div>
-//                 <div className="p-6 border-t border-gray-700 text-large text-gray-400">
-//                     User name
-//                 </div>
-//         </div>
-
-//         {/* chat area */}
-//         <div className="flex-1 flex flex-col bg-white rounded-r-2xl">
-
-//             <div className="flex-1 p-6 overflow-y-auto space-y-4 rounded-r-2xl">
-//                 {messages.map((message) => (
-//                 <div
-//                     key={message.id}
-//                     className={`flex ${
-//                         message.sender === 'user' ? 'justify-end' : 'justify-start'
-//                     }`}
-//                 >
-//                     <div
-//                         className={`max-w-xl px-4 py-3 rounded-r-2xl shadow-sm ${
-//                         message.sender === 'user'
-//                             ? 'bg-blue-600 text-white rounded-br-none'
-//                             : 'bg-gray-200 text-gray-900 rounded-bl-none'
-//                         }`}
-//                     >
-//                         {message.text}
-//                 </div>
-//                 </div>
-//                 ))}
-//             </div>
-
-//             {/* Input */}
-//             <div className="p-3 border-t border-gray-200 bg-white rounded-r-2xl">
-//                 <div className="flex items-center gap-2">
-//                     <input
-//                         type="text"
-//                         value={input}
-//                         onChange={(e) => setInput(e.target.value)}
-//                         onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-//                         className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                         placeholder="Message to AI assistant..."
-//                     />
-//                     <button
-//                         onClick={handleSendMessage}
-//                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
-//                     >
-//                         Send
-//                     </button>
-//                 </div>
-//             </div>
-//             </div>
-//         </div>
-// );
-// }
